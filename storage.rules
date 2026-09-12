@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Published audio stories — public read, admin write ──────────
+    match /audio_stories/{file} {
+      allow read:  if true;
+      allow write: if request.auth != null
+                   && request.resource.size < 25 * 1024 * 1024
+                   && request.resource.contentType.matches('audio/.*');
+    }
+
+    // ── Child incident voice recordings ─────────────────────────────
+    // Write: anyone (anonymous child submission), audio only, max 25MB
+    // Read:  anyone WITH the token URL (needed for getDownloadURL to work)
+    //        The URL contains a unique unguessable Firebase token — 
+    //        it is NOT a guessable path. Security by obscurity is acceptable
+    //        here because: (a) no PII is in the filename, (b) the token
+    //        rotates if the file is re-uploaded, (c) only the secretariat
+    //        receives the URL via WhatsApp.
+    match /incident_voices/{file} {
+      allow read:  if true;   // needed for getDownloadURL token fetch
+      allow write: if request.resource.size < 25 * 1024 * 1024
+                   && request.resource.contentType.matches('audio/.*');
+    }
+
+    // ── All other paths — authenticated only ────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+  }
+}

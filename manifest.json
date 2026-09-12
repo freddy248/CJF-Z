@@ -1,0 +1,28 @@
+{
+  "name": "CJF Children's Corner",
+  "short_name": "CJF Kids",
+  "description": "Know your rights. Get help. Child Justice Forum Zambia.",
+  "start_url": "./childrens-corner.html",
+  "display": "standalone",
+  "background_color": "#1e3f7a",
+  "theme_color": "#2E59A8",
+  "orientation": "any",
+  "lang": "en",
+  "icons": [
+    { "src": "./images/cjf-logo-colour.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./images/cjf-logo-colour.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "categories": ["education", "government"],
+  "shortcuts": [
+    {
+      "name": "Emergency Help",
+      "url": "./childrens-corner.html#emergency",
+      "description": "Emergency helplines for children"
+    },
+    {
+      "name": "Your Rights",
+      "url": "./childrens-corner.html#rights",
+      "description": "Learn your rights as a child in Zambia"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110">
+  <!-- GIZ brand: white background, blue square logo mark, wordmark -->
+  <!-- Blue square background block -->
+  <rect x="10" y="22" width="38" height="38" rx="3" fill="#009BD4"/>
+  <!-- White G letterform simplified -->
+  <text x="29" y="49" font-family="Arial Black, sans-serif" font-size="26" font-weight="900" fill="white" text-anchor="middle">G</text>
+  <!-- GIZ wordmark -->
+  <text x="55" y="43" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="#009BD4" dominant-baseline="middle">GIZ</text>
+  <!-- Tagline -->
+  <text x="10" y="72" font-family="Arial, sans-serif" font-size="7.5" fill="#555" font-weight="400">Deutsche Gesellschaft für</text>
+  <text x="10" y="82" font-family="Arial, sans-serif" font-size="7.5" fill="#555">Internationale Zusammenarbeit</text>
+</svg>
