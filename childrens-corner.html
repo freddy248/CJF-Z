@@ -3801,5 +3801,12 @@ function wsSelect(r, c, cell) {
 }
 
 </script>
+<!-- Sticky Games/Quiz Jump Bar -->
+<div id="sticky-jump-bar" style="position:fixed;bottom:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#1e3f7a,#2E59A8);padding:10px 16px;display:flex;gap:10px;justify-content:center;align-items:center;box-shadow:0 -4px 20px rgba(0,0,0,.3)">
+  <span style="color:rgba(255,255,255,.7);font-size:12px;font-weight:700;font-family:Nunito,sans-serif;white-space:nowrap">Jump to:</span>
+  <button onclick="document.getElementById('games-section').scrollIntoView({behavior:'smooth'});document.getElementById('sticky-jump-bar').style.display='none'" style="background:linear-gradient(135deg,#FFD54F,#FFA000);color:#1a1a2e;border:none;border-radius:20px;padding:8px 18px;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer">🎮 Games</button>
+  <button onclick="document.getElementById('quiz-section').scrollIntoView({behavior:'smooth'});document.getElementById('sticky-jump-bar').style.display='none'" style="background:white;color:#1e3f7a;border:none;border-radius:20px;padding:8px 18px;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer">🧠 Quiz</button>
+  <button onclick="document.getElementById('sticky-jump-bar').style.display='none'" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:20px;padding:8px 12px;font-family:Nunito,sans-serif;font-weight:700;font-size:13px;cursor:pointer">✕</button>
+</div>
 </body>
 </html>
