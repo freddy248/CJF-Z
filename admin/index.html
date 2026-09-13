@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; default-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebasestorage.googleapis.com https://www.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://firebasestorage.googleapis.com; media-src 'self' blob: https://firebasestorage.googleapis.com; font-src 'self' data:;"/>
-  <meta name="referrer" content="strict-origin-when-cross-origin"/>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CJF Admin Panel</title>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <!-- Firebase SDK — primary CDN (gstatic) with jsDelivr fallback -->
@@ -737,7 +736,7 @@
           </div>
           <p style="font-size:13px;color:var(--mid);margin-bottom:20px">Manage who can access the CJF Admin Panel. Add new administrators, suspend accounts, or remove access entirely.</p>
           <div class="card" style="margin-bottom:20px;background:#fff8e1;border:1px solid #ffe082">
-            <p style="font-size:13px;color:#5d4037;margin:0">⚠️ <strong>Note:</strong> Users are registered in Firebase Authentication. Generate a temporary password and share it securely. The user logs in at <strong>cjf-zambia.vercel.app/admin</strong> with those credentials. Only the <strong>Super Admin</strong> can add, suspend, reinstate or remove users and clear the activity log.</p>
+            <p style="font-size:13px;color:#5d4037;margin:0">⚠️ <strong>Note:</strong> Users are registered in Firebase Authentication. Generate a temporary password and share it securely. The user logs in at <strong>cjf-z.vercel.app/admin</strong> with those credentials. Only the <strong>Super Admin</strong> can add, suspend, reinstate or remove users and clear the activity log.</p>
           </div>
           <div id="users-table-wrap">
             <table class="tbl" style="width:100%">
@@ -1807,7 +1806,7 @@ function buildCredentialMessage(){
   var name  = document.getElementById('user-name').value.trim()||'New User';
   var email = document.getElementById('user-email').value.trim();
   var pw    = document.getElementById('user-pw').value;
-  return 'Hello '+name+',\n\nYou have been granted access to the CJF Admin Panel.\n\nYour login details are:\n🌐 URL: https://cjf-zambia.vercel.app/admin\n📧 Email: '+email+'\n🔑 Password: '+pw+'\n\n⚠️ Please change your password after your first login.\n\nChild Justice Forum Zambia';
+  return 'Hello '+name+',\n\nYou have been granted access to the CJF Admin Panel.\n\nYour login details are:\n🌐 URL: https://cjf-z.vercel.app/admin\n📧 Email: '+email+'\n🔑 Password: '+pw+'\n\n⚠️ Please change your password after your first login.\n\nChild Justice Forum Zambia';
 }
 
 function sendViaWhatsApp(){
@@ -1826,7 +1825,7 @@ function copyCredentials(){
 function copyCredentials(){
   var email=document.getElementById('user-email').value;
   var pw=document.getElementById('user-pw').value;
-  var text='CJF Admin Login Details\nURL: https://cjf-zambia.vercel.app/admin\nEmail: '+email+'\nPassword: '+pw+'\n\nPlease change your password after first login.';
+  var text='CJF Admin Login Details\nURL: https://cjf-z.vercel.app/admin\nEmail: '+email+'\nPassword: '+pw+'\n\nPlease change your password after first login.';
   navigator.clipboard.writeText(text).then(function(){ toast('Credentials copied to clipboard!','ok'); }).catch(function(){ toast('Copy failed — please copy manually','err'); });
 }
 
@@ -2012,7 +2011,7 @@ async function resetUserPassword(email){
       +'A password reset link has been sent to your email: '+email+'\n\n'
       +'📧 Check your inbox (and spam folder) for an email from noreply@cjf-zambia.firebaseapp.com\n'
       +'🔗 Click the link in that email to set a new password\n'
-      +'🌐 Then log in at: https://cjf-zambia.vercel.app/admin\n\n'
+      +'🌐 Then log in at: https://cjf-z.vercel.app/admin\n\n'
       +'If you do not receive the email within 5 minutes, contact the CJF Secretariat.\n\n'
       +'Child Justice Forum Zambia';
 
@@ -2845,7 +2844,7 @@ async function deleteAllVoices() {
       </div>
       <div id="user-copy-area" style="display:none;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:14px;margin-top:4px">
         <p style="font-size:12px;color:#2e7d32;margin:0 0 10px 0;font-weight:700">✅ Credentials ready to send:</p>
-        <p style="font-size:12px;color:#1a1a1a;margin:0">🌐 <strong>https://cjf-zambia.vercel.app/admin</strong></p>
+        <p style="font-size:12px;color:#1a1a1a;margin:0">🌐 <strong>https://cjf-z.vercel.app/admin</strong></p>
         <p style="font-size:12px;color:#1a1a1a;margin:4px 0 0">📧 Email: <strong id="user-copy-email"></strong></p>
         <p style="font-size:12px;color:#1a1a1a;margin:4px 0 0">🔑 Password: <strong id="user-copy-pw"></strong></p>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
