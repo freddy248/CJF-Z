@@ -533,12 +533,12 @@
     <button class="lang-btn" onclick="setLang('nya',this)">🇿🇲 Chinyanja</button>
   </div>
   <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:0 20px">
-    <a href="#games-section" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FFD54F,#FFA000);color:#1a1a2e;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;text-decoration:none;box-shadow:0 4px 15px rgba(255,213,79,.4)">
+    <button onclick="document.getElementById('games-section').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FFD54F,#FFA000);color:#1a1a2e;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;border:none;cursor:pointer;box-shadow:0 4px 15px rgba(255,213,79,.4)">
       🎮 Play Fun Games
-    </a>
-    <a href="#quiz-section" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#42A5F5,#1565C0);color:white;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;text-decoration:none;box-shadow:0 4px 15px rgba(66,165,245,.4)">
+    </button>
+    <button onclick="document.getElementById('quiz-section').scrollIntoView({behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#42A5F5,#1565C0);color:white;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;border:none;cursor:pointer;box-shadow:0 4px 15px rgba(66,165,245,.4)">
       🧠 Test My Knowledge
-    </a>
+    </button>
   </div>
   <svg class="cc-wave" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:24px">
     <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8f9fc"/>
@@ -1285,7 +1285,7 @@
 
 
 <!-- ══ CHILD-FRIENDLY GAMES ══ -->
-<section id="games-section" id="cjf-games" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
+<section id="games-section" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
   <div style="max-width:1100px;margin:0 auto">
     <div style="text-align:center;margin-bottom:36px">
       <div style="font-size:48px;margin-bottom:10px">🎮</div>
