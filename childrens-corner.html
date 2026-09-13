@@ -532,7 +532,15 @@
     <button class="lang-btn" onclick="setLang('bem',this)">🇿🇲 Ichibemba</button>
     <button class="lang-btn" onclick="setLang('nya',this)">🇿🇲 Chinyanja</button>
   </div>
-  <svg class="cc-wave" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+  <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:0 20px">
+    <a href="#games-section" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FFD54F,#FFA000);color:#1a1a2e;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;text-decoration:none;box-shadow:0 4px 15px rgba(255,213,79,.4)">
+      🎮 Play Fun Games
+    </a>
+    <a href="#quiz-section" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#42A5F5,#1565C0);color:white;padding:13px 26px;border-radius:30px;font-family:Nunito,sans-serif;font-weight:900;font-size:16px;text-decoration:none;box-shadow:0 4px 15px rgba(66,165,245,.4)">
+      🧠 Test My Knowledge
+    </a>
+  </div>
+  <svg class="cc-wave" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:24px">
     <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f8f9fc"/>
   </svg>
 </section>
@@ -913,12 +921,12 @@
 </section>
 
 <!-- ══ QUIZ ══ -->
-<section class="cc-section" style="background:#f8f9fc">
+<section id="quiz-section" class="cc-section" style="background:#f8f9fc">
   <div class="cc-section-inner">
     <div class="quiz-card">
       <h3 id="quiz-title">🧠 Test Your Knowledge!</h3>
-      <p id="quiz-desc">Do you know your rights? Try this quick quiz and find out.</p>
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:0 0 8px">👆 Select an answer to move to the next question</p>
+      <p id="quiz-desc">Do you know your rights? Try all 15 questions and find out!</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:0 0 8px">👆 Select an answer to move on — 15 questions total!</p>
       <div id="quizArea">
         <div class="quiz-q" id="quiz-q1">
           <div class="qtext" id="q1-text">1. If you are arrested, who must the police contact first?</div>
@@ -1024,6 +1032,61 @@
             <div class="quiz-opt" id="q10-d" onclick="answer(this,'wrong',10)">Wait and see if it happens again</div>
           </div>
           <div class="quiz-feedback" id="fb10"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q11" style="display:none">
+          <div class="qtext" id="q11-text">11. A child cannot be sent to prison if they are under what age?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q11-a" onclick="answer(this,'wrong',11)">14 years old</div>
+            <div class="quiz-opt" id="q11-b" onclick="answer(this,'wrong',11)">18 years old</div>
+            <div class="quiz-opt" id="q11-c" onclick="answer(this,'correct',11)">16 years old</div>
+            <div class="quiz-opt" id="q11-d" onclick="answer(this,'wrong',11)">12 years old</div>
+          </div>
+          <div class="quiz-feedback" id="fb11"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q12" style="display:none">
+          <div class="qtext" id="q12-text">12. When police arrest a child, who must be present or informed immediately?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q12-a" onclick="answer(this,'wrong',12)">The child's teacher</div>
+            <div class="quiz-opt" id="q12-b" onclick="answer(this,'wrong',12)">The local councillor</div>
+            <div class="quiz-opt" id="q12-c" onclick="answer(this,'correct',12)">A parent, guardian, or Child Welfare Inspector</div>
+            <div class="quiz-opt" id="q12-d" onclick="answer(this,'wrong',12)">The school headmaster</div>
+          </div>
+          <div class="quiz-feedback" id="fb12"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q13" style="display:none">
+          <div class="qtext" id="q13-text">13. Can a child ever be given the death penalty in Zambia?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q13-a" onclick="answer(this,'wrong',13)">Yes, for very serious crimes</div>
+            <div class="quiz-opt" id="q13-b" onclick="answer(this,'wrong',13)">Yes, if the judge decides so</div>
+            <div class="quiz-opt" id="q13-c" onclick="answer(this,'wrong',13)">Only if they are 17 or older</div>
+            <div class="quiz-opt" id="q13-d" onclick="answer(this,'correct',13)">Never — the law completely forbids the death penalty for children</div>
+          </div>
+          <div class="quiz-feedback" id="fb13"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q14" style="display:none">
+          <div class="qtext" id="q14-text">14. A child has the right to leisure and recreation. What does this mean?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q14-a" onclick="answer(this,'wrong',14)">Children can skip school whenever they want</div>
+            <div class="quiz-opt" id="q14-b" onclick="answer(this,'correct',14)">Children have the right to rest, play, and take part in sports, arts, and cultural activities</div>
+            <div class="quiz-opt" id="q14-c" onclick="answer(this,'wrong',14)">Only children in rich families can play</div>
+            <div class="quiz-opt" id="q14-d" onclick="answer(this,'wrong',14)">Playing is only allowed on weekends</div>
+          </div>
+          <div class="quiz-feedback" id="fb14"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q15" style="display:none">
+          <div class="qtext" id="q15-text">15. If a police officer wants to search you, what must happen?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q15-a" onclick="answer(this,'wrong',15)">The search can happen any time with no rules</div>
+            <div class="quiz-opt" id="q15-b" onclick="answer(this,'wrong',15)">You can be searched by any officer</div>
+            <div class="quiz-opt" id="q15-c" onclick="answer(this,'correct',15)">You must be searched by an officer of the same sex, with respect, in the presence of a Child Welfare Inspector</div>
+            <div class="quiz-opt" id="q15-d" onclick="answer(this,'wrong',15)">The search must happen at school</div>
+          </div>
+          <div class="quiz-feedback" id="fb15"></div>
         </div>
 
       </div>
@@ -1222,7 +1285,7 @@
 
 
 <!-- ══ CHILD-FRIENDLY GAMES ══ -->
-<section id="cjf-games" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
+<section id="games-section" id="cjf-games" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
   <div style="max-width:1100px;margin:0 auto">
     <div style="text-align:center;margin-bottom:36px">
       <div style="font-size:48px;margin-bottom:10px">🎮</div>
@@ -1627,11 +1690,11 @@ function answer(el, result, qNum) {
   }
   // Auto-advance to next question after 1.8s (q1–q4)
   // On last question show "🏆 See My Score" button
-  if (quizStep < 10) {
+  if (quizStep < 15) {
     setTimeout(() => {
       quizStep++;
-      const next = document.getElementById('quiz-q' + quizStep);
-      if (next) { next.style.display = 'block'; next.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+      const nxt = document.getElementById('quiz-q' + quizStep);
+      if (nxt) { nxt.style.display = 'block'; nxt.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
     }, 1800);
   } else {
     const scoreBtn = document.createElement('button');
@@ -1665,7 +1728,7 @@ function restartQuiz() {
   // Remove any leftover next button
   const oldBtn = document.getElementById('quiz-next-btn');
   if (oldBtn) oldBtn.remove();
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 15; i++) {
     const q = document.getElementById('quiz-q' + i);
     q.style.display = i === 1 ? 'block' : 'none';
     q.querySelectorAll('.quiz-opt').forEach(o => { o.className = 'quiz-opt'; o.style.pointerEvents = ''; });
@@ -3468,6 +3531,39 @@ const WG_ROUNDS = [
     ],
     feedback: { right: '✅ Correct! Threatening a witness is a crime called witness intimidation. Report it immediately to the police or Social Welfare Officer.', wrong: '❌ This is witness intimidation — a serious crime. Tell a trusted adult, the Social Welfare Officer, or the police immediately.' }
   },
+  { scene:'🤫',
+    situation:'Before court, a relative tells you to change part of your story to protect the accused.',
+    question:'What is the right thing to do?',
+    choices:[
+      {text:'Change your story — family comes first', correct:false},
+      {text:'Stay silent and say you forgot everything', correct:false},
+      {text:'Tell the Prosecutor or Social Welfare Officer that someone is pressuring you', correct:true},
+      {text:'Agree now but change in court', correct:false},
+    ],
+    feedback:{right:'✅ Correct! Always tell the Prosecutor if anyone pressures you to change your story. You are protected by law.',wrong:'❌ Tell the Prosecutor immediately. Pressuring a witness is a crime. You are protected — be honest.'}
+  },
+  { scene:'📱',
+    situation:'The lawyer keeps asking you the same question over and over in different ways. You already gave your answer.',
+    question:'What should you do?',
+    choices:[
+      {text:'Change your answer to stop the questioning', correct:false},
+      {text:'Keep giving the same truthful answer — say "I already answered that"', correct:true},
+      {text:'Panic and agree with the lawyer', correct:false},
+      {text:'Refuse to answer any more questions', correct:false},
+    ],
+    feedback:{right:'✅ Perfect! Stick to your truth. You can calmly say "I already answered that question." Never change the truth under pressure.',wrong:'❌ Never change your truth under pressure. Repeat your answer calmly — that is exactly what a good witness does.'}
+  },
+  { scene:'💙',
+    situation:'After giving your testimony, you feel sad and confused about everything that happened.',
+    question:'Who can help you after being a witness?',
+    choices:[
+      {text:'Nobody — you must handle it alone', correct:false},
+      {text:'Only your friends at school', correct:false},
+      {text:'A Social Welfare Officer, counsellor, or trusted adult — support is your right', correct:true},
+      {text:'The accused person', correct:false},
+    ],
+    feedback:{right:'✅ Exactly! Child witnesses are entitled to counselling and support. You never have to carry this alone.',wrong:'❌ You are entitled to support. A Social Welfare Officer or counsellor can help you process your feelings. Reach out.'}
+  },
 ];
 
 let _wgInit = false, _wgRound = 0, _wgScore = 0, _wgAnswered = false;
@@ -3482,7 +3578,7 @@ function wgInit() {
 function wgRender() {
   const r = WG_ROUNDS[_wgRound];
   _wgAnswered = false;
-  document.getElementById('wg-round').textContent  = _wgRound + 1;
+  document.getElementById('wg-round').textContent  = (_wgRound + 1) + ' of ' + WG_ROUNDS.length;
   document.getElementById('wg-score').textContent  = _wgScore;
   document.getElementById('wg-scene').textContent  = r.scene;
   document.getElementById('wg-situation').textContent = r.situation;
