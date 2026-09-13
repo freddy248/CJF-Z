@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; default-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebasestorage.googleapis.com https://www.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://firebasestorage.googleapis.com; media-src 'self' blob: https://firebasestorage.googleapis.com; font-src 'self' data:;"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CJF Admin Panel</title>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -147,7 +149,7 @@
     .scard h3{font-size:15px;font-weight:800;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
     @media(max-width:768px){.sb{transform:translateX(-100%);transition:transform .3s}.sb.mo{transform:translateX(0)}.main{margin-left:0}.srow{grid-template-columns:1fr 1fr}.drawer{width:100vw}}
   
-    /* ── Emoji Picker ── */
+    /* Emoji Picker */
     .emoji-cat-btn {
       background: #EBF1FA; border: 1.5px solid #dde4f0; color: #2E59A8;
       border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700;
@@ -369,7 +371,6 @@
         </div>
       </div>
 
-
       <!-- ══════════════════════════════════════════════
            IMPACT STORIES PANEL
            Collection: impact_stories
@@ -506,7 +507,6 @@
         </div>
       </div>
 
-
       <!-- ══════════════════════════════════════════════
            INCIDENT REPORTS PANEL
            Collection: incident_reports
@@ -543,7 +543,6 @@
           </table>
         </div>
       </div>
-
 
       <!-- ══════════════════════════════════════════════
            AUDIO STORIES PANEL
@@ -665,7 +664,6 @@
           </div>
         </div>
       </div>
-
 
       <div id="p-set" style="display:none">
         <div class="scard"><h3>📍 Contact &amp; Location</h3>
@@ -965,7 +963,6 @@
 <script>
 var db,auth,stor,allN=[],allR=[],eNid=null,eRid=null;
 
-
 function togglePwVis() {
   const inp = document.getElementById('loginPassword');
   const btn = document.getElementById('pw-toggle');
@@ -1144,7 +1141,7 @@ function editN(id){
   document.getElementById('nd-imgres').style.display='none';
   document.getElementById('ndov').classList.add('open');
 }
-// ── News image upload ──
+// News image upload
 function nd_imgPreview(url){
   var p=document.getElementById('nd-imgpreview'), i=document.getElementById('nd-imgprevimg');
   if(url){ i.src=url; p.style.display='block'; } else { p.style.display='none'; }
@@ -1302,7 +1299,7 @@ async function doUpload(f){
 }
 
 // SETTINGS
-// ── WhatsApp settings live preview ──
+// WhatsApp settings live preview
 function updateWaPreview(){
   var num = document.getElementById('s-wa').value.trim().replace(/[^0-9]/g,'');
   var msg = document.getElementById('s-wa-msg').value.trim() || 'Hello, I would like to enquire about the Child Justice Forum Zambia.';
@@ -1361,9 +1358,7 @@ function go(p){
 function closeDr(id){document.getElementById(id).classList.remove('open');}
 function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast on '+(t==='ok'?'ok':t==='err'?'err':'');clearTimeout(el._t);el._t=setTimeout(()=>el.className='toast',3000);}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDr('ndov');closeDr('rdov');}});
-// ══════════════════════════════════════
 //  MEMORIES
-// ══════════════════════════════════════
 let allM=[], eMid=null;
 
 async function loadMem(){
@@ -1477,10 +1472,7 @@ async function togMem(id,pub){
   try{await db.collection('memories').doc(id).update({published:pub});toast(pub?'Photo visible':'Photo hidden','ok');await loadMem();}
   catch(e){toast('Update failed','err');}
 }
-
-// ══════════════════════════════════════
 //  ANNOUNCEMENTS
-// ══════════════════════════════════════
 let allAnn=[], eAid=null;
 
 async function loadAnn(){
@@ -1609,13 +1601,7 @@ async function togAnn(id,active){
   }catch(e){toast('Update failed','err');}
 }
 
-
-
-/* ══════════════════════════════════════════
-   USER MANAGEMENT & ACTIVITY LOG
-══════════════════════════════════════════ */
-
-// ── Activity Log Helper ──
+// Activity Log Helper
 async function logActivity(action, section, detail){
   var db=window.db; if(!db) return;
   try{
@@ -1633,11 +1619,11 @@ async function logActivity(action, section, detail){
   } catch(e){ console.warn('Log failed:', e.message); }
 }
 
-// ── Patch existing save functions to log ──
+// Patch existing save functions to log
 var _origSaveNews = typeof saveNews === 'function' ? saveNews : null;
 var _origSaveMem  = typeof saveMem  === 'function' ? saveMem  : null;
 
-// ── Load Activity Log ──
+// Load Activity Log
 var logAllEntries = [], logFiltered = [], logPage = 0, LOG_PAGE_SIZE = 50;
 
 async function loadLog(){
@@ -1735,7 +1721,7 @@ function exportLog(){
   a.click();
 }
 
-// ── USER MANAGEMENT ──
+// USER MANAGEMENT
 var allUsers = [];
 
 async function loadUsers(){
@@ -1798,8 +1784,8 @@ function renderUsers(){
   }).join('');
 }
 
-// ── SUPER ADMIN email — first account created in Firebase ──
-var SUPER_ADMIN_EMAIL = 'cjf-admin@judiciaryzambia.com'; // Change this to the actual super admin email
+// SUPER ADMIN email — first account created in Firebase
+var SUPER_ADMIN_EMAIL = 'cjf-z@judiciaryzambia.com';
 // The super admin is the FIRST account created in Firebase Authentication
 
 function isSuperAdmin(){
@@ -1891,7 +1877,7 @@ async function saveUser(sendWA){
   if(!name||!email){ toast('Name and email required','err'); return; }
   var db=window.db; if(!db){ toast('Firebase not connected','err'); return; }
 
-  // ── EDIT MODE ──
+  // EDIT MODE
   if(isEdit){
     try{
       var updateData = { name:name, role:role, whatsapp:waNum, updatedAt:new Date().toISOString() };
@@ -1905,7 +1891,7 @@ async function saveUser(sendWA){
     return;
   }
 
-  // ── ADD NEW USER via Firebase REST API ──
+  // ADD NEW USER via Firebase REST API
   // Uses the REST API directly so the super admin session is NEVER touched
   if(!pw||pw.length<8){ toast('Generate a password first (min 8 characters)','err'); return; }
 
@@ -2000,8 +1986,7 @@ async function removeUser(id, email){
   } catch(e){ toast('Error: '+e.message,'err'); }
 }
 
-
-// ── Reset user password: send Firebase reset email + show manual option ──
+// Reset user password: send Firebase reset email + show manual option
 async function resetUserPassword(email){
   if(!isSuperAdmin()){ toast('Only the Super Administrator can reset passwords.','err'); return; }
 
@@ -2069,7 +2054,7 @@ async function permanentDeleteUser(id, email){
     await loadUsers();
   } catch(e){ toast('Error: '+e.message,'err'); }
 }
-// ── Load data when switching to users/log sections ──
+// Load data when switching to users/log sections
 // go() is already patched above to show sec-users and sec-log
 // We just need to trigger data loading after the section is shown
 document.addEventListener('click', function(e){
@@ -2100,7 +2085,7 @@ document.addEventListener('click', function(e){
   }
 });
 
-// ── Log login event — only runs after Firebase fully initialized ──
+// Log login event — only runs after Firebase fully initialized
 (function(){
   var attempts = 0;
   var loginLogTimer = setInterval(function(){
@@ -2118,11 +2103,7 @@ document.addEventListener('click', function(e){
     } else if(attempts > 50){ clearInterval(loginLogTimer); }
   }, 200);
 })();
-
-
-// ══════════════════════════════════════════════════════════════════
 //  AUDIO STORIES ADMIN — Full CRUD + Firebase Storage Upload
-// ══════════════════════════════════════════════════════════════════
 let _astAudioFile  = null;
 let _astAudioUrl   = '';
 let _astEditId     = null;
@@ -2335,11 +2316,7 @@ function loadAudioStories() {
 }
 
 // Audio Stories loaded via go() function above
-
-
-// ══════════════════════════════════════════════════════════════════
 //  IMPACT STORIES ADMIN — Full CRUD with Firestore
-// ══════════════════════════════════════════════════════════════════
 
 function setIstGrad(g) {
   const input = document.getElementById('ist-gradient');
@@ -2506,11 +2483,7 @@ function loadImpactStories() {
         Error: ${e.message}</td></tr>`;
     });
 }
-
-
-// ══════════════════════════════════════════════════════════════════
 //  EMOJI PICKER — smart search + category filter
-// ══════════════════════════════════════════════════════════════════
 const EMOJI_DATA = [
   // Justice & Law
   { e:'⚖️',  k:['justice','law','court','balance','scale','legal','magistrate','judge'] },
@@ -2697,11 +2670,7 @@ openIstModal = function(id) {
     if (preview && current) preview.textContent = current;
   }, 50);
 };
-
-
-// ══════════════════════════════════════════════════════════════════
 //  INCIDENT REPORTS — view, play, delete
-// ══════════════════════════════════════════════════════════════════
 const SIT_LABELS = {
   arrested:'Arrested', detained:'Detained', 'rights-violated':'Rights violated',
   court:'Going to court', danger:'In danger', other:'Other'
