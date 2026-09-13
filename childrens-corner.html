@@ -433,6 +433,28 @@
       #audio-stories { padding: 32px 20px !important; }
     }
 
+
+    /* ── Games Section ── */
+    .game-tab {
+      background: rgba(255,255,255,.15); color: white; border: 2px solid rgba(255,255,255,.3);
+      border-radius: 24px; padding: 10px 22px; font-family: 'Nunito', sans-serif;
+      font-weight: 800; font-size: 14px; cursor: pointer; transition: all .2s;
+    }
+    .game-tab:hover { background: rgba(255,255,255,.25); }
+    .game-tab.active-tab { background: #FFD54F; color: #1a1a2e; border-color: #FFD54F; }
+    .match-card { aspect-ratio:1; perspective:600px; cursor:pointer; }
+    .match-card-inner { width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.4s ease;border-radius:14px; }
+    .match-card.flipped .match-card-inner,
+    .match-card.matched .match-card-inner { transform:rotateY(180deg); }
+    .match-card-front,.match-card-back { position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:8px;box-sizing:border-box;text-align:center; }
+    .match-card-front { background:linear-gradient(135deg,#1e3f7a,#2E59A8);font-size:28px; }
+    .match-card-back { background:white;transform:rotateY(180deg);font-size:11px;font-weight:700;color:#1e3f7a;line-height:1.3; }
+    .match-card.matched .match-card-back { background:#E8F5E9;color:#2e7d32; }
+    .maze-choice { background:#EBF1FA;border:2px solid #dde4f0;color:#1e3f7a;border-radius:12px;padding:12px 16px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-align:left;transition:all .2s;line-height:1.5;width:100%; }
+    .maze-choice:hover:not(:disabled) { background:#d4e3f5;border-color:#2E59A8; }
+    .maze-choice.correct { background:#E8F5E9;border-color:#2e7d32;color:#2e7d32; }
+    .maze-choice.wrong { background:#FFEBEE;border-color:#C62828;color:#C62828; }
+    @media(max-width:600px) { #match-grid{grid-template-columns:repeat(4,1fr);gap:6px;} .match-card-back{font-size:9px;} }
   </style>
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 </head>
@@ -948,6 +970,62 @@
           </div>
           <div class="quiz-feedback" id="fb5"></div>
         </div>
+
+        <div class="quiz-q" id="quiz-q6" style="display:none">
+          <div class="qtext" id="q6-text">6. When was the Children's Code Act signed into law in Zambia?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q6-a" onclick="answer(this,'wrong',6)">11th August 2020</div>
+            <div class="quiz-opt" id="q6-b" onclick="answer(this,'correct',6)">11th August 2022</div>
+            <div class="quiz-opt" id="q6-c" onclick="answer(this,'wrong',6)">11th August 2024</div>
+            <div class="quiz-opt" id="q6-d" onclick="answer(this,'wrong',6)">11th August 2019</div>
+          </div>
+          <div class="quiz-feedback" id="fb6"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q7" style="display:none">
+          <div class="qtext" id="q7-text">7. What is child labour?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q7-a" onclick="answer(this,'wrong',7)">Helping your parents cook and clean at home</div>
+            <div class="quiz-opt" id="q7-b" onclick="answer(this,'wrong',7)">Doing school homework every day</div>
+            <div class="quiz-opt" id="q7-c" onclick="answer(this,'correct',7)">Work that keeps children from school, harms their health, or puts them in danger</div>
+            <div class="quiz-opt" id="q7-d" onclick="answer(this,'wrong',7)">Participating in sports activities</div>
+          </div>
+          <div class="quiz-feedback" id="fb7"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q8" style="display:none">
+          <div class="qtext" id="q8-text">8. If you are a witness in court, who can sit with you to support you?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q8-a" onclick="answer(this,'wrong',8)">Nobody — you must sit alone</div>
+            <div class="quiz-opt" id="q8-b" onclick="answer(this,'correct',8)">A trusted adult, parent, guardian, or support person</div>
+            <div class="quiz-opt" id="q8-c" onclick="answer(this,'wrong',8)">Only the judge's assistant</div>
+            <div class="quiz-opt" id="q8-d" onclick="answer(this,'wrong',8)">The accused person's lawyer</div>
+          </div>
+          <div class="quiz-feedback" id="fb8"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q9" style="display:none">
+          <div class="qtext" id="q9-text">9. What is diversion in the justice system?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q9-a" onclick="answer(this,'wrong',9)">Being sent to prison immediately</div>
+            <div class="quiz-opt" id="q9-b" onclick="answer(this,'wrong',9)">Paying a large fine to the court</div>
+            <div class="quiz-opt" id="q9-c" onclick="answer(this,'wrong',9)">Running away from the police</div>
+            <div class="quiz-opt" id="q9-d" onclick="answer(this,'correct',9)">Counselling and community service instead of court, to help children learn and improve</div>
+          </div>
+          <div class="quiz-feedback" id="fb9"></div>
+        </div>
+
+        <div class="quiz-q" id="quiz-q10" style="display:none">
+          <div class="qtext" id="q10-text">10. What should you do if you see a child being harmed or abused?</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" id="q10-a" onclick="answer(this,'wrong',10)">Keep quiet and do nothing</div>
+            <div class="quiz-opt" id="q10-b" onclick="answer(this,'wrong',10)">Laugh at the child</div>
+            <div class="quiz-opt" id="q10-c" onclick="answer(this,'correct',10)">Tell a trusted adult, teacher, Social Welfare Officer, or call Childline 116</div>
+            <div class="quiz-opt" id="q10-d" onclick="answer(this,'wrong',10)">Wait and see if it happens again</div>
+          </div>
+          <div class="quiz-feedback" id="fb10"></div>
+        </div>
+
       </div>
       <div class="quiz-score" id="quizScore"></div>
       <div class="quiz-score-msg" id="quizMsg"></div>
@@ -1140,6 +1218,123 @@
     </div>
   </div>
 </section>
+</section>
+
+
+<!-- ══ CHILD-FRIENDLY GAMES ══ -->
+<section id="cjf-games" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="font-size:48px;margin-bottom:10px">🎮</div>
+      <h2 style="font-family:'Nunito',sans-serif;font-size:clamp(26px,4vw,38px);font-weight:900;color:white;margin:0 0 10px">Fun &amp; Learn Games</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.7);max-width:500px;margin:0 auto">Play games to learn about your rights! Based on the Children's Code Act of Zambia.</p>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;margin-bottom:32px;flex-wrap:wrap">
+      <button onclick="showGame('match')" id="tab-match" class="game-tab active-tab">🃏 Rights Match</button>
+      <button onclick="showGame('maze')" id="tab-maze" class="game-tab">🗺️ Help Me Choose</button>
+      <button onclick="showGame('witness')" id="tab-witness" class="game-tab">⚖️ Court Ready</button>
+      <button onclick="showGame('wordsearch')" id="tab-wordsearch" class="game-tab">🔍 Word Hunt</button>
+    </div>
+
+    <!-- GAME 1: Rights Match Memory Game -->
+    <div id="game-match">
+      <div style="text-align:center;margin-bottom:20px">
+        <h3 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin:0 0 6px">🃏 Rights Match</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.7);margin:0 0 14px">Flip the cards and match each right with what it means. Find all 8 pairs!</p>
+        <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap">
+          <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Pairs: <span id="match-pairs">0</span>/8</div>
+          <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Moves: <span id="match-moves">0</span></div>
+          <button onclick="initMatchGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ New Game</button>
+        </div>
+      </div>
+      <div id="match-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:720px;margin:0 auto"></div>
+      <div id="match-win" style="display:none;text-align:center;padding:30px;background:rgba(255,255,255,.1);border-radius:20px;margin-top:20px">
+        <div style="font-size:56px;margin-bottom:10px">🏆</div>
+        <h3 style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;color:#FFD54F;margin:0 0 8px">You Did It!</h3>
+        <p style="color:white;font-size:15px;margin:0 0 16px">You matched all 8 rights in <span id="match-final-moves">0</span> moves!</p>
+        <button onclick="initMatchGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
+      </div>
+    </div>
+
+    <!-- GAME 2: Help Me Choose scenario game -->
+    <div id="game-maze" style="display:none">
+      <div style="text-align:center;margin-bottom:20px">
+        <h3 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin:0 0 6px">🗺️ Help Me Choose</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.7);margin:0">Read the situation and choose the right action. What would YOU do?</p>
+      </div>
+      <div id="maze-card" style="background:white;border-radius:20px;padding:28px;max-width:640px;margin:0 auto">
+        <div id="maze-progress" style="display:flex;gap:6px;margin-bottom:18px;justify-content:center"></div>
+        <div id="maze-scene" style="font-size:48px;text-align:center;margin-bottom:14px"></div>
+        <h4 id="maze-title" style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#1e3f7a;text-align:center;margin:0 0 10px"></h4>
+        <p id="maze-story" style="font-size:14px;color:#3a4a5c;line-height:1.75;margin:0 0 20px;text-align:center"></p>
+        <div id="maze-choices" style="display:flex;flex-direction:column;gap:10px"></div>
+        <div id="maze-feedback" style="display:none;margin-top:16px;padding:14px 16px;border-radius:12px">
+          <p id="maze-feedback-text" style="margin:0 0 12px;font-size:14px;font-weight:700;line-height:1.65"></p>
+          <button id="maze-next-btn" onclick="mazeNext()" style="background:#2E59A8;color:white;border:none;border-radius:20px;padding:10px 22px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;width:100%">Next Scenario →</button>
+        </div>
+      </div>
+      <div id="maze-complete" style="display:none;text-align:center;padding:30px;background:rgba(255,255,255,.1);border-radius:20px;margin-top:20px;max-width:640px;margin-left:auto;margin-right:auto">
+        <div style="font-size:56px;margin-bottom:10px">⭐</div>
+        <h3 style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;color:#FFD54F;margin:0 0 8px">Well Done!</h3>
+        <p style="color:white;font-size:15px;margin:0 0 6px">Your score: <strong id="maze-score-display" style="color:#FFD54F;font-size:22px">0/8</strong></p>
+        <p id="maze-rank" style="color:rgba(255,255,255,.8);font-size:14px;margin:0 0 18px"></p>
+        <button onclick="initMazeGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- GAME 3: Court Ready! — witness preparation game -->
+    <div id="game-witness" style="display:none">
+      <div style="text-align:center;margin-bottom:20px">
+        <h3 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin:0 0 6px">⚖️ Court Ready!</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.75)">You've been called as a witness. Make the right choices to help the Judge hear the truth!</p>
+      </div>
+      <div id="witness-game-area" style="max-width:600px;margin:0 auto">
+        <div id="witness-score-bar" style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px;font-weight:700;color:rgba(255,255,255,.8)">
+          <span>⚖️ Round <span id="wg-round">1</span> of 6</span>
+          <span>⭐ Score: <span id="wg-score">0</span></span>
+        </div>
+        <div id="witness-card" style="background:rgba(255,255,255,.1);border-radius:16px;padding:24px;border:2px solid rgba(255,255,255,.2)">
+          <div id="wg-scene" style="font-size:40px;text-align:center;margin-bottom:12px"></div>
+          <p id="wg-situation" style="font-size:16px;font-weight:700;color:white;text-align:center;margin-bottom:8px"></p>
+          <p id="wg-question" style="font-size:14px;color:rgba(255,255,255,.8);text-align:center;margin-bottom:20px"></p>
+          <div id="wg-choices" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+          <div id="wg-feedback" style="display:none;margin-top:16px;padding:14px;border-radius:10px;text-align:center;font-weight:700;font-size:14px"></div>
+          <button id="wg-next" onclick="wgNext()" style="display:none;margin-top:14px;width:100%;background:#FFD54F;color:#1a1a2e;border:none;border-radius:30px;padding:12px;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Next →</button>
+        </div>
+        <div id="witness-result" style="display:none;text-align:center;padding:20px">
+          <div style="font-size:56px;margin-bottom:10px" id="wg-trophy"></div>
+          <h3 style="font-family:'Nunito',sans-serif;color:#FFD54F;font-size:24px;margin-bottom:8px" id="wg-result-title"></h3>
+          <p style="color:rgba(255,255,255,.8);font-size:15px;margin-bottom:20px" id="wg-result-msg"></p>
+          <button onclick="wgRestart()" style="background:#2E59A8;color:white;border:none;border-radius:30px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Play Again 🔄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME 4: Rights Word Hunt -->
+    <div id="game-wordsearch" style="display:none">
+      <div style="text-align:center;margin-bottom:16px">
+        <h3 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin:0 0 6px">🔍 Rights Word Hunt</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.75)">Find all the hidden words about your rights! Tap the first and last letter of each word.</p>
+      </div>
+      <div style="max-width:560px;margin:0 auto">
+        <div id="ws-words-left" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px" id="ws-word-list"></div>
+        <div id="ws-grid-wrap" style="background:rgba(255,255,255,.1);border-radius:16px;padding:12px;border:2px solid rgba(255,255,255,.2);overflow-x:auto">
+          <div id="ws-grid" style="display:inline-grid;gap:2px;user-select:none"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:14px;font-weight:700;color:rgba(255,255,255,.8)">
+          <span>Found: <span id="ws-found">0</span>/<span id="ws-total">0</span></span>
+          <button onclick="wsInit()" style="background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer">New Grid 🔄</button>
+        </div>
+        <div id="ws-complete" style="display:none;text-align:center;margin-top:16px;padding:16px;background:rgba(255,213,79,.15);border-radius:12px;border:2px solid #FFD54F">
+          <div style="font-size:40px">🏆</div>
+          <p style="color:#FFD54F;font-weight:900;font-size:18px;margin:8px 0">You found them all!</p>
+          <p style="color:rgba(255,255,255,.75);font-size:13px">You know your rights — keep learning!</p>
+          <button onclick="wsInit()" style="margin-top:10px;background:#FFD54F;color:#1a1a2e;border:none;border-radius:30px;padding:10px 24px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Play Again 🎉</button>
+        </div>
+      </div>
+    </div>
 </section>
 
 <!-- ══ FRIENDLY CTA ══ -->
@@ -1432,7 +1627,7 @@ function answer(el, result, qNum) {
   }
   // Auto-advance to next question after 1.8s (q1–q4)
   // On last question show "🏆 See My Score" button
-  if (quizStep < 5) {
+  if (quizStep < 10) {
     setTimeout(() => {
       quizStep++;
       const next = document.getElementById('quiz-q' + quizStep);
@@ -1457,9 +1652,9 @@ function showQuizResult() {
     bem: ['Pitilila ukushibika — imulandu yobe yacindama! 📚', 'Wacita bwino! Kabula ma kaadi ya mulandu. 💪', 'Wacita bwino sana! Ushibike imulandu yobe! 🌟'],
   };
   const set = msgs[lang] || msgs.en;
-  document.getElementById('quizScore').textContent = quizScore + '/5';
+  document.getElementById('quizScore').textContent = quizScore + '/10';
   document.getElementById('quizScore').style.display = 'block';
-  const msgIdx = quizScore <= 1 ? 0 : quizScore <= 3 ? 1 : 2;
+  const msgIdx = quizScore <= 3 ? 0 : quizScore <= 6 ? 1 : 2;
   document.getElementById('quizMsg').textContent = set[msgIdx];
   document.getElementById('quizMsg').style.display = 'block';
   document.getElementById('quizRestart').style.display = 'inline-block';
@@ -1470,7 +1665,7 @@ function restartQuiz() {
   // Remove any leftover next button
   const oldBtn = document.getElementById('quiz-next-btn');
   if (oldBtn) oldBtn.remove();
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     const q = document.getElementById('quiz-q' + i);
     q.style.display = i === 1 ? 'block' : 'none';
     q.querySelectorAll('.quiz-opt').forEach(o => { o.className = 'quiz-opt'; o.style.pointerEvents = ''; });
@@ -2931,7 +3126,7 @@ async function submitCtaReport() {
   if (waNum) {
     const msg = [
       '*CJF ANONYMOUS REPORT*',
-      "*Via: Children's Corner — Remember You Are Not Alone*",
+      "*Via: Childrens Corner — Remember You Are Not Alone*",
       '',
       '*Situation:* ' + (sitLabels[sitEl.value] || 'Not specified'),
       payload.extra ? '*Message:* ' + payload.extra : '',
@@ -2951,6 +3146,562 @@ async function submitCtaReport() {
     if (!b.id?.includes('success')) b.style.display = 'none';
   });
   document.getElementById('cta-success').style.display = 'block';
+}
+
+
+// GAME 1: RIGHTS MATCH — Memory card matching game
+const MATCH_PAIRS = [
+  { icon: '📚', right: 'Right to Education', meaning: 'Every child must be able to go to school' },
+  { icon: '🛡️', right: 'Right to Protection', meaning: 'Safe from abuse, harm and exploitation' },
+  { icon: '🏥', right: 'Right to Health Care', meaning: 'Access to medicine and medical help' },
+  { icon: '👨‍👩‍👧', right: 'Parental Care', meaning: 'Parents must provide food, safety and love' },
+  { icon: '⚖️', right: 'Fair Trial Rights', meaning: 'A lawyer must be provided for children in court' },
+  { icon: '🌱', right: 'Diversion', meaning: 'First-time offenders get counselling not prison' },
+  { icon: '🗣️', right: 'Right to Be Heard', meaning: 'Your voice matters in decisions about you' },
+  { icon: '🚫', right: 'No Child Marriage', meaning: 'Marriage under 18 is illegal in Zambia' },
+];
+
+let matchFlipped = [], matchMatched = 0, matchMoves = 0, matchLocked = false;
+
+function initMatchGame() {
+  matchFlipped = []; matchMatched = 0; matchMoves = 0; matchLocked = false;
+  const pEl = document.getElementById('match-pairs');
+  const mEl = document.getElementById('match-moves');
+  const wEl = document.getElementById('match-win');
+  if(pEl) pEl.textContent = '0';
+  if(mEl) mEl.textContent = '0';
+  if(wEl) wEl.style.display = 'none';
+
+  const cards = [];
+  MATCH_PAIRS.forEach((pair, idx) => {
+    cards.push({ type: 'icon',    display: pair.icon + '<br>' + pair.right, pairId: idx });
+    cards.push({ type: 'meaning', display: pair.meaning,                     pairId: idx });
+  });
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+
+  const grid = document.getElementById('match-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  cards.forEach((card) => {
+    const div = document.createElement('div');
+    div.className = 'match-card';
+    div.dataset.pairId = card.pairId;
+    div.dataset.type = card.type;
+    div.innerHTML = '<div class="match-card-inner"><div class="match-card-front">❓</div><div class="match-card-back">' + card.display + '</div></div>';
+    div.addEventListener('click', () => matchFlip(div));
+    grid.appendChild(div);
+  });
+}
+
+function matchFlip(card) {
+  if (matchLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  matchFlipped.push(card);
+  if (matchFlipped.length === 2) {
+    matchLocked = true;
+    matchMoves++;
+    const mEl = document.getElementById('match-moves');
+    if(mEl) mEl.textContent = matchMoves;
+    const [a, b] = matchFlipped;
+    if (a.dataset.pairId === b.dataset.pairId && a.dataset.type !== b.dataset.type) {
+      setTimeout(() => {
+        a.classList.add('matched'); b.classList.add('matched');
+        matchFlipped = []; matchLocked = false;
+        matchMatched++;
+        const pEl = document.getElementById('match-pairs');
+        if(pEl) pEl.textContent = matchMatched;
+        if (matchMatched === 8) {
+          const fEl = document.getElementById('match-final-moves');
+          const wEl = document.getElementById('match-win');
+          if(fEl) fEl.textContent = matchMoves;
+          if(wEl) wEl.style.display = 'block';
+        }
+      }, 500);
+    } else {
+      setTimeout(() => {
+        a.classList.remove('flipped'); b.classList.remove('flipped');
+        matchFlipped = []; matchLocked = false;
+      }, 1000);
+    }
+  }
+}
+
+// GAME 2: HELP ME CHOOSE — Scenario path game
+const MAZE_SCENARIOS = [
+  { scene:'👮', title:'The Arrest',
+    story:'A police officer arrests Mwila, aged 15. The officer wants to put Mwila in a cell with adult prisoners. Mwila does not know what to do.',
+    choices:[
+      {text:'Stay quiet and go into the adult cell', correct:false, feedback:'Mwila should speak up! The law says children must always be kept separately from adult prisoners.'},
+      {text:'Say: "I am a child. The law requires I am kept separately from adults."', correct:true, feedback:'Correct! Under the Children Code Act, children must always be held in a separate place from adult prisoners.'},
+      {text:'Try to escape from the police station', correct:false, feedback:'Running away is not the answer. Mwila should assert their legal rights calmly and clearly.'},
+    ]},
+  { scene:'📚', title:"Thandiwe Marriage",
+    story:'Thandiwe is 16 years old. Her family says she must get married because they have no money for school fees. Thandiwe wants to stay in school.',
+    choices:[
+      {text:'Accept the marriage — family comes first', correct:false, feedback:'Child marriage is illegal in Zambia! Thandiwe has the right to education and to be protected from early marriage.'},
+      {text:'Tell a trusted teacher, Social Welfare Officer, or call Childline 116', correct:true, feedback:'Correct! Child marriage is illegal under the Children Code Act. Education and support are the answer.'},
+      {text:'Run away from home', correct:false, feedback:'Running away puts Thandiwe at greater risk. Call Childline 116 — it is free and available 24/7.'},
+    ]},
+  { scene:'🗣️', title:'Being a Witness',
+    story:'Chanda saw something happen to another child. The police want Chanda to come to court as a witness. Chanda is very scared.',
+    choices:[
+      {text:'Refuse to go to court at all', correct:false, feedback:"Chanda testimony could protect other children. Child witnesses have rights — including having a support person present."},
+      {text:'Go to court and ask for a trusted adult to sit with them for support', correct:true, feedback:'Correct! Child witnesses have the right to have a parent or trusted adult present in court. You are not alone.'},
+      {text:'Make up a different story to avoid trouble', correct:false, feedback:'Telling the truth is very important. Chanda should ask for support, not change the story.'},
+    ]},
+  { scene:'🌱', title:'First-Time Mistake',
+    story:'Bwalya, 14, took something from a shop without paying. It was the first time. The police have been called. What should happen next?',
+    choices:[
+      {text:'Bwalya should go straight to prison', correct:false, feedback:'The law in Zambia does not send first-time child offenders straight to prison. There is a better solution.'},
+      {text:'Bwalya qualifies for diversion — counselling and community service', correct:true, feedback:'Correct! Diversion means Bwalya gets counselling and does community service instead of going to court, with no criminal record.'},
+      {text:"Bwalyas parents should pay a fine and the matter ends", correct:false, feedback:'A Social Welfare Officer must assess the situation and the correct legal process must be followed.'},
+    ]},
+  { scene:'🚨', title:'Child Labour',
+    story:'Mutale, 12, is working at a construction site every day and cannot go to school. A neighbour sees this.',
+    choices:[
+      {text:'It is fine — Mutale is helping the family earn money', correct:false, feedback:'This is child labour! Work that keeps Mutale from school and puts them at risk is illegal under the Children Code Act.'},
+      {text:'Report it to a Social Welfare Officer or Childline 116', correct:true, feedback:'Correct! Child labour — work that keeps children from school or puts them in danger — is illegal in Zambia and must be reported.'},
+      {text:'Tell Mutale to find a safer job instead', correct:false, feedback:'A 12-year-old should not be working in a way that affects schooling. This must be reported to the authorities.'},
+    ]},
+  { scene:'🏠', title:'Unsafe at Home',
+    story:'Nchimunya is being hurt at home by a family member and is scared. No one knows.',
+    choices:[
+      {text:'Keep quiet — family matters should stay private', correct:false, feedback:'No! Abuse is never okay. Staying silent allows the abuse to continue. Nchimunya deserves protection.'},
+      {text:'Tell a teacher, Social Welfare Officer, or call Childline 116', correct:true, feedback:'Correct! Social Welfare Officers and Childline 116 are there to protect children from harm. Call 116 — it is free.'},
+      {text:'Handle it alone — no one will help', correct:false, feedback:"Thats not true! Zambia has laws and officers specifically to protect children. Childline 116 is free and available 24/7."},
+    ]},
+  { scene:'⚖️', title:'The Lawyer',
+    story:'Kunda, 13, is in the Childrens Court. The family has no money for a lawyer. What should happen?',
+    choices:[
+      {text:'Kunda must represent themselves — no lawyer needed', correct:false, feedback:'Children have the right to legal representation and cannot be left without a lawyer in court.'},
+      {text:'The court must provide a Legal Aid lawyer for Kunda at no cost', correct:true, feedback:'Correct! Every child in conflict with the law has the right to a free lawyer from the Legal Aid Board under the Children Code Act.'},
+      {text:'The case must be cancelled if no lawyer is available', correct:false, feedback:'The case continues, but the court is legally required to ensure Kunda has Legal Aid representation.'},
+    ]},
+  { scene:'📞', title:'Emergency Call',
+    story:'Sonia sees someone trying to force a child into a car against their will. She thinks the child is being trafficked.',
+    choices:[
+      {text:'Take a photo and post it on social media', correct:false, feedback:'Social media is too slow! This is an emergency. Call 116 or 999 immediately to get police involved right away.'},
+      {text:'Do nothing — it is too dangerous to get involved', correct:false, feedback:'Sonia does not need to physically intervene but should immediately call for help. Doing nothing puts the child at serious risk.'},
+      {text:'Immediately call Childline 116 or emergency services 999', correct:true, feedback:'Correct! Call 116 or 999 immediately! Trafficking is a serious crime. Every second counts.'},
+    ]},
+];
+
+let mazeStep = 0, mazeScore = 0, mazeAnswered = false;
+
+function initMazeGame() {
+  mazeStep = 0; mazeScore = 0; mazeAnswered = false;
+  const comp = document.getElementById('maze-complete');
+  const card = document.getElementById('maze-card');
+  if(comp) comp.style.display = 'none';
+  if(card) card.style.display = 'block';
+  renderMazeStep();
+}
+
+function renderMazeStep() {
+  const s = MAZE_SCENARIOS[mazeStep];
+  if(!s) return;
+  mazeAnswered = false;
+  const prog = document.getElementById('maze-progress');
+  if(prog) prog.innerHTML = MAZE_SCENARIOS.map((_,i) =>
+    '<div style="width:10px;height:10px;border-radius:50%;background:' +
+    (i < mazeStep ? '#2e7d32' : i === mazeStep ? '#FFD54F' : 'rgba(46,89,168,.3)') + '"></div>'
+  ).join('');
+  const se = document.getElementById('maze-scene');
+  const ti = document.getElementById('maze-title');
+  const st = document.getElementById('maze-story');
+  const fb = document.getElementById('maze-feedback');
+  if(se) se.textContent = s.scene;
+  if(ti) ti.textContent = s.title;
+  if(st) st.textContent = s.story;
+  if(fb) fb.style.display = 'none';
+
+  const ch = document.getElementById('maze-choices');
+  if(!ch) return;
+  ch.innerHTML = '';
+  const shuffled = [...s.choices].sort(() => Math.random() - 0.5);
+  shuffled.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'maze-choice';
+    btn.textContent = choice.text;
+    btn.onclick = () => mazePick(btn, choice, shuffled);
+    ch.appendChild(btn);
+  });
+}
+
+function mazePick(btn, choice, allChoices) {
+  if (mazeAnswered) return;
+  mazeAnswered = true;
+  document.querySelectorAll('.maze-choice').forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
+  btn.style.opacity = '1';
+  if (choice.correct) { btn.classList.add('correct'); mazeScore++; }
+  else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.maze-choice').forEach((b,i) => {
+      if (allChoices[i] && allChoices[i].correct) b.classList.add('correct');
+    });
+  }
+  const fb   = document.getElementById('maze-feedback');
+  const fbTx = document.getElementById('maze-feedback-text');
+  const nbtn = document.getElementById('maze-next-btn');
+  if(fb)   { fb.style.display = 'block'; fb.style.background = choice.correct ? '#E8F5E9' : '#FFF3E0'; }
+  if(fbTx) { fbTx.style.color = choice.correct ? '#2e7d32' : '#e65100'; fbTx.textContent = choice.feedback; }
+  if(nbtn)   nbtn.textContent = mazeStep >= MAZE_SCENARIOS.length - 1 ? '🏆 See My Score' : 'Next Scenario →';
+}
+
+function mazeNext() {
+  mazeStep++;
+  if (mazeStep >= MAZE_SCENARIOS.length) {
+    const card = document.getElementById('maze-card');
+    const comp = document.getElementById('maze-complete');
+    const sd   = document.getElementById('maze-score-display');
+    const rk   = document.getElementById('maze-rank');
+    if(card) card.style.display = 'none';
+    if(comp) comp.style.display = 'block';
+    if(sd)   sd.textContent = mazeScore + '/' + MAZE_SCENARIOS.length;
+    const ranks = [
+      'Keep learning! Review the materials and try again.',
+      'Good effort! You know some rights. Keep learning!',
+      'Great job! You know your rights well.',
+      'Outstanding! You are a Child Rights Champion! 🏆'
+    ];
+    if(rk) rk.textContent = ranks[mazeScore <= 2 ? 0 : mazeScore <= 4 ? 1 : mazeScore <= 6 ? 2 : 3];
+  } else { renderMazeStep(); }
+}
+
+function showGame(game) {
+  ['match','maze','witness','wordsearch'].forEach(g => {
+    const el = document.getElementById('game-' + g);
+    if (el) el.style.display = g === game ? 'block' : 'none';
+  });
+  document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active-tab'));
+  const tab = document.getElementById('tab-' + game);
+  if (tab) tab.classList.add('active-tab');
+  if (game === 'witness'    && !_wgInit) wgInit();
+  if (game === 'wordsearch' && !_wsInit) wsInit();
+}
+
+window.addEventListener('load', () => setTimeout(() => {
+  initMatchGame();
+  initMazeGame();
+}, 600));
+
+
+
+// ══════════════════════════════════════════════════════════════
+//  GAME 3: COURT READY! — Witness preparation scenario game
+//  Based on "Being a Witness in Court" PDF
+// ══════════════════════════════════════════════════════════════
+
+const WG_ROUNDS = [
+  {
+    scene: '📬',
+    situation: 'You just received a letter to appear in court as a witness.',
+    question: 'What should you do first?',
+    choices: [
+      { text: 'Ignore it — maybe they will forget', correct: false },
+      { text: 'Tell a trusted adult and prepare to go', correct: true },
+      { text: 'Run away from home', correct: false },
+      { text: 'Tell the accused what you plan to say', correct: false },
+    ],
+    feedback: { right: '✅ Correct! Telling a trusted adult and preparing is exactly right. The Social Worker and Prosecutor will help you.', wrong: '❌ Always respond to a court letter. Tell a trusted adult right away so they can support you.' }
+  },
+  {
+    scene: '🏛️',
+    situation: 'You arrive at court. The accused person is in the same room and you feel scared.',
+    question: 'What can you ask for?',
+    choices: [
+      { text: 'To leave immediately', correct: false },
+      { text: 'To use the witness room with a TV link so you testify separately', correct: true },
+      { text: 'To sit right next to the accused', correct: false },
+      { text: 'To fight the accused in court', correct: false },
+    ],
+    feedback: { right: '✅ Yes! You have the right to a witness room with a TV link so you never have to face the accused directly.', wrong: '❌ You have the right to a safe space. A witness room with a TV link lets you speak without facing the accused.' }
+  },
+  {
+    scene: '👩‍⚖️',
+    situation: 'The Judge asks you a question but you do not understand what it means.',
+    question: 'What is the right thing to say?',
+    choices: [
+      { text: 'Make something up so you do not look stupid', correct: false },
+      { text: 'Stay silent and say nothing', correct: false },
+      { text: '"I do not understand. Can you ask me that in a different way?"', correct: true },
+      { text: 'Agree with whatever the lawyer says', correct: false },
+    ],
+    feedback: { right: '✅ Perfect! It is always okay to say you do not understand. Asking for a clearer question is the right thing to do.', wrong: '❌ Never make up answers. Its completely fine to say "I do not understand" — the Judge will ask differently.' }
+  },
+  {
+    scene: '🎤',
+    situation: 'The prosecutor asks you what you saw on the day of the incident.',
+    question: 'How should you answer?',
+    choices: [
+      { text: 'Tell the Judge exactly what you saw, clearly and truthfully', correct: true },
+      { text: 'Add extra details to make the story more interesting', correct: false },
+      { text: 'Say what you think the prosecutor wants to hear', correct: false },
+      { text: 'Change your story to protect your friend', correct: false },
+    ],
+    feedback: { right: '✅ Excellent! Your only job as a witness is to tell the truth about what you actually saw. Nothing more, nothing less.', wrong: '❌ A witness must tell the truth exactly. Adding to your story or changing it is called perjury and is a crime.' }
+  },
+  {
+    scene: '⚖️',
+    situation: 'After the trial, the Judge says the accused is "not guilty". You feel upset — you thought they were guilty.',
+    question: 'What does "not guilty" mean for you as a witness?',
+    choices: [
+      { text: 'You did a bad job and the Judge did not believe you', correct: false },
+      { text: 'You should have lied to get the right result', correct: false },
+      { text: 'Your job was to tell the truth — you did your part, the Judge heard all the evidence', correct: true },
+      { text: 'You must appeal immediately', correct: false },
+    ],
+    feedback: { right: '✅ Exactly right. Your only responsibility was to tell the truth. The Judge heard all witnesses. Not guilty does NOT mean you were not believed.', wrong: '❌ Your job as a witness is only to tell the truth. The outcome is the Judges decision based on all the evidence — not your fault.' }
+  },
+  {
+    scene: '🛡️',
+    situation: 'Someone outside court asks you what you said to the Judge. They say they will hurt you if you told the truth.',
+    question: 'What should you do?',
+    choices: [
+      { text: 'Keep quiet and hope they leave you alone', correct: false },
+      { text: 'Change your story next time to protect yourself', correct: false },
+      { text: 'Immediately tell a trusted adult, Social Welfare Officer, or police — this is witness intimidation', correct: true },
+      { text: 'Confront the person yourself', correct: false },
+    ],
+    feedback: { right: '✅ Correct! Threatening a witness is a crime called witness intimidation. Report it immediately to the police or Social Welfare Officer.', wrong: '❌ This is witness intimidation — a serious crime. Tell a trusted adult, the Social Welfare Officer, or the police immediately.' }
+  },
+];
+
+let _wgInit = false, _wgRound = 0, _wgScore = 0, _wgAnswered = false;
+
+function wgInit() {
+  _wgInit = true; _wgRound = 0; _wgScore = 0;
+  document.getElementById('witness-result').style.display = 'none';
+  document.getElementById('witness-card').style.display = 'block';
+  wgRender();
+}
+
+function wgRender() {
+  const r = WG_ROUNDS[_wgRound];
+  _wgAnswered = false;
+  document.getElementById('wg-round').textContent  = _wgRound + 1;
+  document.getElementById('wg-score').textContent  = _wgScore;
+  document.getElementById('wg-scene').textContent  = r.scene;
+  document.getElementById('wg-situation').textContent = r.situation;
+  document.getElementById('wg-question').textContent  = r.question;
+  const fb = document.getElementById('wg-feedback');
+  fb.style.display = 'none';
+  document.getElementById('wg-next').style.display = 'none';
+  const ch = document.getElementById('wg-choices');
+  ch.innerHTML = '';
+  // Shuffle choices
+  const shuffled = [...r.choices].sort(() => Math.random() - 0.5);
+  shuffled.forEach(c => {
+    const btn = document.createElement('button');
+    btn.textContent = c.text;
+    btn.style.cssText = 'padding:10px 12px;border-radius:10px;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:white;font-family:Nunito,sans-serif;font-weight:700;font-size:13px;cursor:pointer;text-align:left;transition:all .15s';
+    btn.onmouseover = () => { if(!_wgAnswered) btn.style.background = 'rgba(255,255,255,.2)'; };
+    btn.onmouseout  = () => { if(!_wgAnswered) btn.style.background = 'rgba(255,255,255,.1)'; };
+    btn.onclick = () => {
+      if (_wgAnswered) return;
+      _wgAnswered = true;
+      if (c.correct) {
+        _wgScore++;
+        btn.style.background = 'rgba(46,125,50,.7)';
+        btn.style.borderColor = '#66BB6A';
+        fb.style.background = 'rgba(46,125,50,.3)';
+        fb.style.color = '#A5D6A7';
+        fb.textContent = r.feedback.right;
+      } else {
+        btn.style.background = 'rgba(198,40,40,.6)';
+        btn.style.borderColor = '#EF9A9A';
+        fb.style.background = 'rgba(198,40,40,.3)';
+        fb.style.color = '#FFCDD2';
+        fb.textContent = r.feedback.wrong;
+        // Highlight correct
+        ch.querySelectorAll('button').forEach((b, i) => {
+          if (shuffled[i].correct) { b.style.background='rgba(46,125,50,.5)'; b.style.borderColor='#66BB6A'; }
+        });
+      }
+      document.getElementById('wg-score').textContent = _wgScore;
+      fb.style.display = 'block';
+      document.getElementById('wg-next').style.display = 'block';
+      document.getElementById('wg-next').textContent = _wgRound < WG_ROUNDS.length - 1 ? 'Next Situation →' : '🏆 See My Result';
+    };
+    ch.appendChild(btn);
+  });
+}
+
+function wgNext() {
+  _wgRound++;
+  if (_wgRound >= WG_ROUNDS.length) {
+    wgShowResult(); return;
+  }
+  wgRender();
+}
+
+function wgShowResult() {
+  document.getElementById('witness-card').style.display = 'none';
+  document.getElementById('witness-result').style.display = 'block';
+  const pct = _wgScore / WG_ROUNDS.length;
+  const t = document.getElementById('wg-trophy');
+  const ti = document.getElementById('wg-result-title');
+  const m  = document.getElementById('wg-result-msg');
+  if (pct === 1) {
+    t.textContent = '🏆'; ti.textContent = 'Outstanding Witness!';
+    m.textContent = 'You got ' + _wgScore + '/6! You know exactly how to behave in court. You would make an excellent witness for justice.';
+  } else if (pct >= 0.67) {
+    t.textContent = '⭐'; ti.textContent = 'Good Work!';
+    m.textContent = 'You got ' + _wgScore + '/6! You know most of the rules. Review the ones you missed and you will be fully ready.';
+  } else {
+    t.textContent = '📚'; ti.textContent = 'Keep Learning!';
+    m.textContent = 'You got ' + _wgScore + '/6. Dont worry — keep reading your rights and play again. You will get there!';
+  }
+}
+
+function wgRestart() {
+  document.getElementById('witness-result').style.display = 'none';
+  document.getElementById('witness-card').style.display = 'block';
+  _wgRound = 0; _wgScore = 0;
+  wgRender();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  GAME 4: RIGHTS WORD HUNT — Word search using rights terms
+//  Words from Children Code Act and Rights materials
+// ══════════════════════════════════════════════════════════════
+
+const WS_WORDS = [
+  { word: 'DIVERSION',  clue: 'Second chance instead of court' },
+  { word: 'RIGHTS',     clue: 'Things the law protects for you' },
+  { word: 'WITNESS',    clue: 'Someone who tells what they saw' },
+  { word: 'COURT',      clue: 'Where justice is decided' },
+  { word: 'LAWYER',     clue: 'Helps you in legal matters' },
+  { word: 'CHILD',      clue: 'Anyone under 18 years old' },
+  { word: 'JUSTICE',    clue: 'Fairness under the law' },
+  { word: 'EDUCATION',  clue: 'Right to go to school' },
+  { word: 'POLICE',     clue: 'Keep law and order' },
+  { word: 'TRUTH',      clue: 'What a witness must tell' },
+  { word: 'WELFARE',    clue: 'Social ___ Officer helps children' },
+  { word: 'BAIL',       clue: 'Release while awaiting trial' },
+];
+
+const WS_COLS = 14, WS_ROWS = 14;
+const WS_COLOURS = ['#FFD54F','#81D4FA','#A5D6A7','#F48FB1','#CE93D8','#FFAB91','#80CBC4','#FFF59D'];
+let _wsGrid = [], _wsPlaced = [], _wsFound = [], _wsSelStart = null, _wsInit = false;
+
+function wsInit() {
+  _wsInit   = true;
+  _wsFound  = [];
+  _wsSelStart = null;
+  // Pick 7 random words
+  const picked = [...WS_WORDS].sort(() => Math.random() - 0.5).slice(0, 7);
+  _wsPlaced = [];
+  _wsGrid   = Array.from({length: WS_ROWS}, () => Array(WS_COLS).fill(''));
+  // Try to place each word
+  const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+  picked.forEach((w, wi) => {
+    let placed = false;
+    for (let tries = 0; tries < 200 && !placed; tries++) {
+      const [dr, dc] = dirs[Math.floor(Math.random() * 4)]; // horizontal or vertical only
+      const r0 = Math.floor(Math.random() * WS_ROWS);
+      const c0 = Math.floor(Math.random() * WS_COLS);
+      const cells = [];
+      let ok = true;
+      for (let i = 0; i < w.word.length; i++) {
+        const r = r0 + dr*i, c = c0 + dc*i;
+        if (r<0||r>=WS_ROWS||c<0||c>=WS_COLS) { ok=false; break; }
+        if (_wsGrid[r][c] !== '' && _wsGrid[r][c] !== w.word[i]) { ok=false; break; }
+        cells.push([r,c]);
+      }
+      if (ok) {
+        cells.forEach(([r,c],i) => _wsGrid[r][c] = w.word[i]);
+        _wsPlaced.push({ word: w.word, clue: w.clue, cells, colour: WS_COLOURS[wi] });
+        placed = true;
+      }
+    }
+  });
+  // Fill blanks with random letters
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for (let r=0;r<WS_ROWS;r++) for (let c=0;c<WS_COLS;c++)
+    if (!_wsGrid[r][c]) _wsGrid[r][c] = letters[Math.floor(Math.random()*26)];
+  wsRender();
+}
+
+function wsRender() {
+  // Render word list
+  const wl = document.getElementById('ws-word-list') || document.getElementById('ws-words-left');
+  if (wl) {
+    wl.innerHTML = _wsPlaced.map(p =>
+      '<span id="ww-'+p.word+'" style="padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;font-family:Nunito,sans-serif;background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.25)">'
+      + p.word + ' <small style="font-weight:400;opacity:.7">— ' + p.clue + '</small></span>'
+    ).join('');
+  }
+  const total = document.getElementById('ws-total');
+  const found = document.getElementById('ws-found');
+  const comp  = document.getElementById('ws-complete');
+  if (total) total.textContent = _wsPlaced.length;
+  if (found) found.textContent = 0;
+  if (comp)  comp.style.display = 'none';
+
+  const grid = document.getElementById('ws-grid');
+  if (!grid) return;
+  const cellSize = Math.min(32, Math.floor((window.innerWidth - 80) / WS_COLS));
+  grid.style.gridTemplateColumns = 'repeat(' + WS_COLS + ', ' + cellSize + 'px)';
+  grid.innerHTML = '';
+  for (let r=0;r<WS_ROWS;r++) for (let c=0;c<WS_COLS;c++) {
+    const cell = document.createElement('div');
+    cell.style.cssText = 'width:'+cellSize+'px;height:'+cellSize+'px;display:flex;align-items:center;justify-content:center;font-family:Nunito,sans-serif;font-weight:800;font-size:'+(cellSize<28?10:12)+'px;color:white;border-radius:4px;cursor:pointer;background:rgba(255,255,255,.08);transition:background .12s';
+    cell.textContent = _wsGrid[r][c];
+    cell.dataset.r = r; cell.dataset.c = c;
+    cell.onmousedown = () => wsSelect(r, c, cell);
+    cell.ontouchstart = (e) => { e.preventDefault(); wsSelect(r,c,cell); };
+    grid.appendChild(cell);
+  }
+}
+
+function wsSelect(r, c, cell) {
+  if (_wsSelStart === null) {
+    _wsSelStart = {r, c, cell};
+    cell.style.background = 'rgba(255,255,255,.35)';
+  } else {
+    // Check if this forms a straight line from start
+    const dr = r - _wsSelStart.r, dc = c - _wsSelStart.c;
+    const len = Math.max(Math.abs(dr), Math.abs(dc));
+    if (len === 0) { _wsSelStart = null; return; }
+    // Only horizontal or vertical
+    if (dr !== 0 && dc !== 0) {
+      _wsSelStart.cell.style.background = 'rgba(255,255,255,.08)';
+      _wsSelStart = null; return;
+    }
+    const stepR = dr === 0 ? 0 : dr/Math.abs(dr);
+    const stepC = dc === 0 ? 0 : dc/Math.abs(dc);
+    const selected = [];
+    for (let i=0; i<=len; i++) selected.push([_wsSelStart.r + stepR*i, _wsSelStart.c + stepC*i]);
+    const word = selected.map(([rr,cc]) => _wsGrid[rr][cc]).join('');
+    const revWord = word.split('').reverse().join('');
+    // Check against placed words
+    let match = _wsPlaced.find(p => p.word === word || p.word === revWord);
+    if (match && !_wsFound.includes(match.word)) {
+      _wsFound.push(match.word);
+      // Colour the cells
+      selected.forEach(([rr,cc]) => {
+        const el = document.querySelector('[data-r="'+rr+'"][data-c="'+cc+'"]');
+        if (el) { el.style.background = match.colour; el.style.color = '#1a1a2e'; }
+      });
+      // Strike through word in list
+      const ww = document.getElementById('ww-'+match.word);
+      if (ww) { ww.style.textDecoration = 'line-through'; ww.style.opacity = '.5'; ww.style.background = match.colour + '33'; }
+      const foundEl = document.getElementById('ws-found');
+      if (foundEl) foundEl.textContent = _wsFound.length;
+      if (_wsFound.length === _wsPlaced.length) {
+        setTimeout(() => { const c2 = document.getElementById('ws-complete'); if(c2) c2.style.display='block'; }, 400);
+      }
+    } else {
+      // No match — flash red then reset
+      _wsSelStart.cell.style.background = 'rgba(198,40,40,.4)';
+      setTimeout(() => { _wsSelStart && (_wsSelStart.cell.style.background = 'rgba(255,255,255,.08)'); }, 300);
+    }
+    _wsSelStart = null;
+  }
 }
 
 </script>
