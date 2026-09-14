@@ -3,7 +3,7 @@
 //  Brand: #2E59A8 Primary Blue | #FFD54F Gold
 //  Strategy: Cache-first for shell, network-first for data
 
-const CACHE_NAME = 'cjf-cc-v1';
+const CACHE_NAME = 'cjf-cc-v3';
 const SHELL_URLS = [
   '/childrens-corner',          // Vercel cleanUrls=true strips .html
   '/css/styles.css',
