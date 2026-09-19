@@ -2,6 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Real stories of children helped by the Child Justice Forum Zambia network — diversion programmes, legal aid, social welfare support, and child-friendly courts across Zambia."/>
+  <meta name="keywords" content="CJF zambia impact, child justice stories zambia, diversion programme zambia, children helped zambia"/>
+  <meta name="author" content="Child Justice Forum Zambia"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://cjf-z.judiciaryzambia.com/impact-stories"/>
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn previews) -->
+  <meta property="og:type" content="article"/>
+  <meta property="og:title" content="Impact Stories – Children Helped by the CJF Network | CJF Zambia"/>
+  <meta property="og:description" content="Real stories of children helped by the Child Justice Forum Zambia network — diversion programmes, legal aid, social welfare support, and child-friendly courts across Zambia."/>
+  <meta property="og:url" content="https://cjf-z.judiciaryzambia.com/impact-stories"/>
+  <meta property="og:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:site_name" content="Child Justice Forum Zambia"/>
+  <meta property="og:locale" content="en_ZM"/>
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Impact Stories – Children Helped by the CJF Network | CJF Zambia"/>
+  <meta name="twitter:description" content="Real stories of children helped by the Child Justice Forum Zambia network — diversion programmes, legal aid, social welfare support, and child-friendly courts across Zambia."/>
+  <meta name="twitter:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+
+  <!-- Geo Tags (helps local search in Zambia) -->
+  <meta name="geo.region" content="ZM"/>
+  <meta name="geo.placename" content="Lusaka, Zambia"/>
+  <meta name="geo.position" content="-15.416667;28.283333"/>
+  <meta name="ICBM" content="-15.416667, 28.283333"/>
   <title>Impact Stories – Child Justice Forum Zambia</title>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/styles.css"/>
@@ -601,13 +630,11 @@
           published.forEach(d => grid.appendChild(buildAsIsCard(d)));
         })
         .catch(err => {
-          console.error('[CJF] loadAsIsStories error:', err.message);
           if (err.code === 'permission-denied' || (err.message && err.message.includes('400'))) {
-            console.warn('[CJF] Deploy firestore.rules: firebase deploy --only firestore:rules');
           }
           fallback();
         });
-    } catch(e) { console.error('[CJF] loadAsIsStories init:', e.message); fallback(); }
+    } catch(e) { fallback(); }
 
     function fallback() {
       document.getElementById('asis-loading').style.display = 'none';
@@ -705,10 +732,7 @@ function loadImpactStoryCards() {
   const grid    = document.getElementById('ist-grid');
   const staticG = document.getElementById('ist-static');
 
-  console.log('[CJF IST] Starting loadImpactStoryCards...');
-
   if (typeof firebase === 'undefined' || typeof CJF_FIREBASE_CONFIG === 'undefined') {
-    console.warn('[CJF IST] Firebase not ready — showing static cards');
     if (staticG) staticG.style.display = 'grid';
     return;
   }
@@ -717,15 +741,12 @@ function loadImpactStoryCards() {
     // Get or create Firebase app
     let app;
     try { app = firebase.app(); } catch(e) { app = firebase.initializeApp(CJF_FIREBASE_CONFIG); }
-    console.log('[CJF IST] Firebase app OK, querying impact_stories...');
 
     // Use the app instance directly to avoid multiple Firestore instances
     const db = firebase.firestore(app);
     db.collection('impact_stories').get()
       .then(snap => {
-        console.log('[CJF IST] Firestore returned', snap.size, 'docs');
-        snap.docs.forEach(d => console.log('[CJF IST] doc:', d.id, 'published:', d.data().published));
-
+        
         const published = snap.docs
           .map(d => Object.assign({id: d.id}, d.data()))
           .filter(d => d.published === true)
@@ -735,10 +756,7 @@ function loadImpactStoryCards() {
             return tb - ta;
           });
 
-        console.log('[CJF IST] Published stories:', published.length);
-
         if (published.length === 0) {
-          console.log('[CJF IST] No published stories — keeping static cards');
           if (staticG) staticG.style.display = 'grid';
           return;
         }
@@ -750,14 +768,11 @@ function loadImpactStoryCards() {
         grid.style.marginBottom = '24px';
         // Keep static cards visible below dynamic ones
         if (staticG) staticG.style.display = 'grid';
-        console.log('[CJF IST] Dynamic cards rendered:', published.length);
       })
       .catch(err => {
-        console.error('[CJF IST] Firestore query error:', err.code, err.message);
         if (staticG) staticG.style.display = 'grid';
       });
   } catch(e) {
-    console.error('[CJF IST] Init error:', e.message);
     if (staticG) staticG.style.display = 'grid';
   }
 }
