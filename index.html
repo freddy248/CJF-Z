@@ -3,6 +3,35 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Child Justice Forum Zambia coordinates child-friendly justice across all 10 provinces. Legal aid, diversion programmes, child-friendly courts, and emergency helplines — Childline 116."/>
+  <meta name="keywords" content="child justice zambia, children rights zambia, CJF zambia, childline 116, diversion programme zambia, child friendly court, legal aid zambia, judiciary zambia"/>
+  <meta name="author" content="Child Justice Forum Zambia"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://cjf-z.judiciaryzambia.com/"/>
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn previews) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Child Justice Forum Zambia – Every Child Deserves Fair Justice"/>
+  <meta property="og:description" content="Child Justice Forum Zambia coordinates child-friendly justice across all 10 provinces. Legal aid, diversion programmes, child-friendly courts, and emergency helplines — Childline 116."/>
+  <meta property="og:url" content="https://cjf-z.judiciaryzambia.com/"/>
+  <meta property="og:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:site_name" content="Child Justice Forum Zambia"/>
+  <meta property="og:locale" content="en_ZM"/>
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Child Justice Forum Zambia – Every Child Deserves Fair Justice"/>
+  <meta name="twitter:description" content="Child Justice Forum Zambia coordinates child-friendly justice across all 10 provinces. Legal aid, diversion programmes, child-friendly courts, and emergency helplines — Childline 116."/>
+  <meta name="twitter:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+
+  <!-- Geo Tags (helps local search in Zambia) -->
+  <meta name="geo.region" content="ZM"/>
+  <meta name="geo.placename" content="Lusaka, Zambia"/>
+  <meta name="geo.position" content="-15.416667;28.283333"/>
+  <meta name="ICBM" content="-15.416667, 28.283333"/>
   <title>Child Justice Forum Zambia – Every Child Deserves Fair Justice</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="stylesheet" href="css/enhancements.css"/>
@@ -153,13 +182,7 @@
     .btn-dark{background:#1e3f7a;color:white;padding:14px 32px;border-radius:50px;font-weight:800;font-size:15px;text-decoration:none;display:inline-block;transition:all .25s;margin:0 6px}
     .btn-dark:hover{background:#162d5c;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.2)}
     .btn-light{background:rgba(255,255,255,.5);color:#1e3f7a;border:2px solid rgba(30,63,122,.25);padding:14px 32px;border-radius:50px;font-weight:800;font-size:15px;text-decoration:none;display:inline-block;transition:all .25s;margin:0 6px}
-    .btn-light:hover{background:white;transform:translateY(-2px)}
-
-
-    /* ══════════════════════════════════════════════
-       CINEMATIC MEMORIES SLIDESHOW
-    ══════════════════════════════════════════════ */
-    .mem-cinema{
+    .btn-light:hover{background:white;transform:translateY(-2px)}.mem-cinema{
       position:relative; height:560px; overflow:hidden;
       display:flex; align-items:center; justify-content:flex-start;
     }
@@ -273,12 +296,7 @@
       animation:spin .8s linear infinite;
     }
     .mc-loading p{ color:rgba(255,255,255,.5); font-size:13px; }
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* ══════════════════════════════════════════════
-       NEWS & EVENTS — pulsing dark section
-    ══════════════════════════════════════════════ */
-    .news-flash-section{
+    @keyframes spin{to{transform:rotate(360deg)}}.news-flash-section{
       position:relative; padding:80px 40px;
       background:#0a193a; overflow:hidden;
     }
@@ -362,7 +380,6 @@
       .nf-cards{ grid-template-columns:1fr; }
       .news-flash-section{ padding:52px 20px; }
     }
-
 
     /* ══ MEMORIES CINEMATIC SECTION (below hero) ══ */
     .mem-cinema{ position:relative; height:500px; overflow:hidden; display:flex; align-items:center; }
@@ -507,7 +524,6 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
     <button onclick="declineCookies()" style="background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25);padding:9px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;font-family:'Jost',sans-serif">Decline</button>
   </div>
 </div>
-
 
 <!-- KPI MODALS (kept — they add value) -->
 <div class="modal-overlay" id="modal-districts" onclick="closeModal('modal-districts')">
@@ -714,8 +730,6 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
   </div>
 </section>
 
-
-
 <!-- ═══ NEWS & EVENTS — pulsing dark section with Firestore images ═══ -->
 <section class="news-flash-section" id="newsFlash">
   <div class="nf-bg-pulses">
@@ -821,11 +835,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 <script src="js/announcement.js"></script>
 <script src="js/main.js"></script>
 <script src="js/enhancements.js"></script>
-<script>
-/* ════════════════════════════════════════════════
-   HOME PAGE — Hero slideshow + News Cards
-════════════════════════════════════════════════ */
-(function(){
+<script>(function(){
   var DEMO = []; // Stock images removed — only real admin-uploaded memories appear
   function formatDate(d){ if(!d)return''; try{return new Date(d).toLocaleDateString('en-GB',{month:'short',year:'numeric'});}catch(e){return String(d).slice(0,7);} }
 
