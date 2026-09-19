@@ -370,10 +370,7 @@
         </div>
       </div>
 
-      <!-- ══════════════════════════════════════════════
-           IMPACT STORIES PANEL
-           Collection: impact_stories
-      ══════════════════════════════════════════════ -->
+      
       <div id="p-ist" style="display:none">
         <div class="th" style="margin-bottom:18px">
           <h2 style="font-size:20px;font-weight:700">📖 Impact Stories</h2>
@@ -506,11 +503,7 @@
         </div>
       </div>
 
-      <!-- ══════════════════════════════════════════════
-           INCIDENT REPORTS PANEL
-           Collection: incident_reports
-           Storage:    incident_voices/
-      ══════════════════════════════════════════════ -->
+      
       <div id="p-rep" style="display:none">
         <div class="th" style="margin-bottom:18px">
           <h2 style="font-size:20px;font-weight:700">📥 Incident Reports</h2>
@@ -543,12 +536,7 @@
         </div>
       </div>
 
-      <!-- ══════════════════════════════════════════════
-           AUDIO STORIES PANEL
-           Collection: audio_stories
-           Fields: title, description, province, ageLabel,
-                   programme, type, audioUrl, published, createdAt
-      ══════════════════════════════════════════════ -->
+      
       <div id="p-ast" style="display:none">
         <div class="th" style="margin-bottom:18px">
           <h2 style="font-size:20px;font-weight:700">🎙️ Audio Stories</h2>
@@ -2277,7 +2265,7 @@ async function delAst(id, title) {
 }
 
 function loadAudioStories() {
-  if (!window.db) { console.warn('[CJF] Firebase not ready — db not initialised'); return; }
+  if (!window.db) { return; }
   const tbl    = document.getElementById('ast-tbl');
   const tbody  = document.getElementById('ast-tbody');
   const empty  = document.getElementById('ast-empty');
@@ -2441,7 +2429,7 @@ async function delIst(id, quote) {
 }
 
 function loadImpactStories() {
-  if (!window.db) { console.warn('[CJF] Firebase not ready — db not initialised'); return; }
+  if (!window.db) { return; }
   const tbl   = document.getElementById('ist-tbl');
   const tbody = document.getElementById('ist-tbody');
   const empty = document.getElementById('ist-empty');
