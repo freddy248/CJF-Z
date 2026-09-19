@@ -3,6 +3,35 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Know your rights as a child in Zambia. Learn what happens if you are arrested, how to get a lawyer, and how to report abuse — anonymously, for free, in English, Ichibemba, and Chinyanja."/>
+  <meta name="keywords" content="children rights zambia, child rights zambia, know your rights zambia, childline 116, CJF zambia children, arrested child zambia, diversion zambia"/>
+  <meta name="author" content="Child Justice Forum Zambia"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://cjf-z.judiciaryzambia.com/childrens-corner"/>
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn previews) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Children's Corner – Know Your Rights | Child Justice Forum Zambia"/>
+  <meta property="og:description" content="Know your rights as a child in Zambia. Learn what happens if you are arrested, how to get a lawyer, and how to report abuse — anonymously, for free, in English, Ichibemba, and Chinyanja."/>
+  <meta property="og:url" content="https://cjf-z.judiciaryzambia.com/childrens-corner"/>
+  <meta property="og:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:site_name" content="Child Justice Forum Zambia"/>
+  <meta property="og:locale" content="en_ZM"/>
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Children's Corner – Know Your Rights | Child Justice Forum Zambia"/>
+  <meta name="twitter:description" content="Know your rights as a child in Zambia. Learn what happens if you are arrested, how to get a lawyer, and how to report abuse — anonymously, for free, in English, Ichibemba, and Chinyanja."/>
+  <meta name="twitter:image" content="https://cjf-z.judiciaryzambia.com/images/cjf-logo-colour.png"/>
+
+  <!-- Geo Tags (helps local search in Zambia) -->
+  <meta name="geo.region" content="ZM"/>
+  <meta name="geo.placename" content="Lusaka, Zambia"/>
+  <meta name="geo.position" content="-15.416667;28.283333"/>
+  <meta name="ICBM" content="-15.416667, 28.283333"/>
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.firebasestorage.googleapis.com;
     script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net;
@@ -20,7 +49,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="CJF Children&#x27;s Corner"/>
-  <meta name="description" content="Know your rights as a child in Zambia. Get help from the Child Justice Forum. Available in English, Ichibemba, and Chinyanja."/>
   <title>Children's Corner – Child Justice Forum Zambia</title>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/styles.css"/>
@@ -434,8 +462,7 @@
       #audio-stories { padding: 32px 20px !important; }
     }
 
-
-    /* ── Games Section ── */
+    /* Games Section */
     .game-tab {
       background: rgba(255,255,255,.15); color: white; border: 2px solid rgba(255,255,255,.3);
       border-radius: 24px; padding: 10px 22px; font-family: 'Nunito', sans-serif;
@@ -1151,21 +1178,6 @@
   <audio id="story-audio" style="display:none" preload="none"></audio>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-  ┌─────────────────────────────────────────────────────┐
-  │  FEATURE 1: TEXT-TO-SPEECH                          │
-  │  Brand: #2E59A8 primary, #FFD54F gold accent        │
-  │  Uses Web Speech API — zero dependencies            │
-  └─────────────────────────────────────────────────────┘
-══════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════
-  ┌─────────────────────────────────────────────────────┐
-  │  FEATURE 2: ANONYMOUS INCIDENT REPORT FORM          │
-  │  Child-friendly, no login, Firebase Firestore       │
-  │  Offline-queued with IndexedDB fallback             │
-  └─────────────────────────────────────────────────────┘
-══════════════════════════════════════════════════════════ -->
 <!-- ══ WHO CAN HELP ══ -->
 <section class="cc-section" style="background:#F0F4FB">
 <section id="kids-materials" style="padding:36px 0;background:linear-gradient(135deg,#FCE4EC 0%,#FFF9C4 50%,#E8F5E9 100%)">
@@ -1284,7 +1296,6 @@
 </section>
 </section>
 
-
 <!-- ══ CHILD-FRIENDLY GAMES ══ -->
 <section id="games-section" style="background:linear-gradient(135deg,#1e3f7a 0%,#2E59A8 100%);padding:50px 40px">
   <div style="max-width:1100px;margin:0 auto">
@@ -1346,7 +1357,6 @@
       </div>
     </div>
   </div>
-
 
     <!-- GAME 3: Court Ready! — witness preparation game -->
     <div id="game-witness" style="display:none">
@@ -2019,13 +2029,12 @@ if ('serviceWorker' in navigator &&
     !location.hostname.includes('claude.ai')) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')  // absolute path for Vercel cleanUrls
-      .then(reg => console.log('[CJF SW] Registered:', reg.scope))
+      .then(reg => { /* registered */ })
       .catch(err => {
         // 404 = sw.js not yet uploaded to Vercel — safe to ignore
         if (err.message && err.message.includes('404')) {
-          console.info('[CJF SW] sw.js not found — upload sw.js to your repo root to enable offline mode');
+          console.info('Offline mode: upload sw.js to repo root to enable.');
         } else {
-          console.warn('[CJF SW] Registration failed:', err.message);
         }
       });
   });
@@ -2111,7 +2120,7 @@ window._ttsSpeak = function(text, btn) {
     if (idx >= 0) {
       utt.voice = voices[idx];
     } else {
-      console.warn('[CJF TTS] No voice matched keyword "' + kw + '". Available:', voices.map(v=>v.name).join(', '));
+      /* no voice match — browser default used */
     }
   } else if (prefs.voiceIdx >= 0 && voices[prefs.voiceIdx]) {
     utt.voice = voices[prefs.voiceIdx];
@@ -2347,7 +2356,6 @@ async function _startRecording() {
       if (_recStream) { _recStream.getTracks().forEach(t => t.stop()); _recStream = null; }
 
       if (_audioChunks.length === 0) {
-        console.warn('[CJF Rec] No audio chunks collected');
         const btn2 = document.getElementById('rec-btn');
         btn2.className = 'rec-btn idle';
         document.getElementById('rec-btn-label').textContent = 'Tap to Record';
@@ -2358,7 +2366,6 @@ async function _startRecording() {
       const blob = new Blob(_audioChunks, { type: usedMime });
       _recBlob   = blob;
       if (blob.size < 5000) {
-        console.warn('[CJF Rec] Warning: blob is very small — mic may have been silent or recording too short');
       }
 
       // Revoke any previous object URL to free memory
@@ -2409,7 +2416,6 @@ async function _startRecording() {
       : 'Microphone not available. Please type your message instead.';
     alert(msg);
     switchInputTab('type');
-    console.error('[CJF Rec] getUserMedia error:', err.name, err.message);
   }
 }
 
@@ -2495,15 +2501,12 @@ async function submitReport() {
                   : 'webm';
         const path = 'incident_voices/' + Date.now() + '.' + ext;
         const ref  = storage.ref(path);
-        console.log('[CJF Voice] Uploading recording...');
         const snap = await ref.put(_recBlob, { contentType: _recBlob.type || 'audio/webm' });
-        console.log('[CJF Voice] Put complete, bytes:', snap.bytesTransferred);
         voiceUrl = await ref.getDownloadURL();
         payload.voiceUrl = voiceUrl;
 
       }
     } catch (storageErr) {
-      console.error('[CJF Voice] Storage upload FAILED:');
       console.error('  Error code:', storageErr.code);
       console.error('  Error message:', storageErr.message);
       console.error('  Server response:', storageErr.serverResponse);
@@ -2514,7 +2517,6 @@ async function submitReport() {
     if (!voiceUrl && _recBlob) {
       const sizekb = Math.round(_recBlob.size / 1024);
       voiceUrl = '[Recording captured: ' + sizekb + 'KB — Storage rules may need updating. See admin guide.]';
-      console.warn('[CJF Voice] Using fallback note — deploy storage.rules to enable uploads');
     }
   }
 
@@ -2529,7 +2531,6 @@ async function submitReport() {
 
     }
   } catch (fbErr) {
-    console.warn('[CJF Report] Firestore failed:', fbErr.message);
   }
 
   // Step C: Send to secretariat WhatsApp
@@ -2585,7 +2586,6 @@ async function submitReport() {
         return;
       }
     } catch (idbErr) {
-      console.warn('[CJF Report] IndexedDB failed:', idbErr.message);
     }
   }
 
@@ -2709,9 +2709,7 @@ function loadTTSPrefs() {
           );
           if (idx >= 0) {
             window._ttsPrefs.voiceIdx = idx;
-            console.log('[CJF TTS] Voice matched:', voices[idx].name);
           } else {
-            console.warn('[CJF TTS] No match for "' + kw + '" — will try again at speak time');
           }
         };
         applyVoice();
@@ -2818,12 +2816,10 @@ function loadAudioStories() {
           published.forEach(d => grid.appendChild(buildStoryCard(d)));
         })
         .catch(err => {
-          console.error('[CJF] loadAudioStories error:', err.message);
           document.getElementById('as-loading').style.display = 'none';
           document.getElementById('as-placeholder').style.display = 'grid';
         });
     } catch(e) {
-      console.error('[CJF] loadAudioStories init error:', e.message);
       document.getElementById('as-loading').style.display = 'none';
       document.getElementById('as-placeholder').style.display = 'grid';
     }
@@ -3164,7 +3160,7 @@ async function submitCtaReport() {
         await ref.put(_ctaRecBlob, { contentType: _ctaRecBlob.type });
         voiceUrl = await ref.getDownloadURL();
       }
-    } catch(e) { console.warn('[CJF CTA Voice]', e.message); }
+    } catch(e) { }
   }
 
   const payload = {
@@ -3183,7 +3179,7 @@ async function submitCtaReport() {
       try { firebase.app(); } catch(e) { firebase.initializeApp(CJF_FIREBASE_CONFIG); }
       await firebase.firestore().collection('incident_reports').add(payload);
     }
-  } catch(e) { console.warn('[CJF CTA Report]', e.message); }
+  } catch(e) { }
 
   // Send WhatsApp
   const waNum = window.CJF_WHATSAPP || '';
@@ -3211,7 +3207,6 @@ async function submitCtaReport() {
   });
   document.getElementById('cta-success').style.display = 'block';
 }
-
 
 // GAME 1: RIGHTS MATCH — Memory card matching game
 const MATCH_PAIRS = [
@@ -3451,13 +3446,8 @@ window.addEventListener('load', () => setTimeout(() => {
   initMatchGame();
   initMazeGame();
 }, 600));
-
-
-
-// ══════════════════════════════════════════════════════════════
 //  GAME 3: COURT READY! — Witness preparation scenario game
 //  Based on "Being a Witness in Court" PDF
-// ══════════════════════════════════════════════════════════════
 
 const WG_ROUNDS = [
   {
@@ -3660,11 +3650,8 @@ function wgRestart() {
   _wgRound = 0; _wgScore = 0;
   wgRender();
 }
-
-// ══════════════════════════════════════════════════════════════
 //  GAME 4: RIGHTS WORD HUNT — Word search using rights terms
 //  Words from Children Code Act and Rights materials
-// ══════════════════════════════════════════════════════════════
 
 const WS_WORDS = [
   { word: 'DIVERSION',  clue: 'Second chance instead of court' },
