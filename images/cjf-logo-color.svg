@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <g transform="translate(100,100)">
+
+    <!-- WHITE FILLED gear ring background (the full cog shape) -->
+    <circle cx="0" cy="0" r="94" fill="white"/>
+
+    <!-- BLUE gear teeth — 20 teeth -->
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(18)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(36)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(54)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(72)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(90)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(108)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(126)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(144)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(162)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(180)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(198)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(216)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(234)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(252)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(270)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(288)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(306)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(324)"/>
+    <rect x="-6" y="-96" width="12" height="20" rx="3" fill="#2d59a8" transform="rotate(342)"/>
+
+    <!-- BLUE outer ring band -->
+    <circle cx="0" cy="0" r="84" fill="none" stroke="#2d59a8" stroke-width="16"/>
+
+    <!-- WHITE inner circle — fills the center, covering the blue ring -->
+    <circle cx="0" cy="0" r="74" fill="white"/>
+
+    <!-- BLUE inner circle border line -->
+    <circle cx="0" cy="0" r="73" fill="none" stroke="#2d59a8" stroke-width="2"/>
+
+    <!-- BLUE SCALES OF JUSTICE -->
+    <!-- pole -->
+    <rect x="-2" y="-58" width="4" height="76" fill="#2d59a8"/>
+    <!-- finial cap -->
+    <rect x="-10" y="-62" width="20" height="6" rx="3" fill="#2d59a8"/>
+    <!-- beam -->
+    <rect x="-50" y="-42" width="100" height="4" rx="2" fill="#2d59a8"/>
+    <!-- left string -->
+    <line x1="-35" y1="-38" x2="-38" y2="-20" stroke="#2d59a8" stroke-width="2"/>
+    <!-- right string -->
+    <line x1="35" y1="-38" x2="38" y2="-20" stroke="#2d59a8" stroke-width="2"/>
+    <!-- left pan -->
+    <line x1="-50" y1="-20" x2="-26" y2="-20" stroke="#2d59a8" stroke-width="2"/>
+    <path d="M-50,-20 Q-38,-11 -26,-20" fill="none" stroke="#2d59a8" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- right pan -->
+    <line x1="26" y1="-20" x2="50" y2="-20" stroke="#2d59a8" stroke-width="2"/>
+    <path d="M26,-20 Q38,-11 50,-20" fill="none" stroke="#2d59a8" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- BLUE LEFT CHILD (boy) — left arm raised -->
+    <circle cx="-15" cy="10" r="7.5" fill="#2d59a8"/>
+    <rect x="-19" y="18" width="8" height="16" rx="3" fill="#2d59a8"/>
+    <line x1="-19" y1="21" x2="-29" y2="11" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-11" y1="21" x2="-4" y2="27" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-17" y1="34" x2="-20" y2="50" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-13" y1="34" x2="-10" y2="50" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- BLUE RIGHT CHILD (girl with skirt) — right arm raised -->
+    <circle cx="15" cy="10" r="7.5" fill="#2d59a8"/>
+    <rect x="11" y="18" width="8" height="12" rx="3" fill="#2d59a8"/>
+    <path d="M7,30 L11,18 L19,18 L23,30 Z" fill="#2d59a8"/>
+    <line x1="11" y1="21" x2="4" y2="27" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="19" y1="21" x2="29" y2="11" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="13" y1="30" x2="10" y2="50" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="17" y1="30" x2="20" y2="50" stroke="#2d59a8" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Ground line -->
+    <rect x="-32" y="50" width="64" height="3" rx="1.5" fill="#2d59a8"/>
+
+    <!-- CHILD JUSTICE FORUM text -->
+    <text x="0" y="67" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#2d59a8" letter-spacing="0.8">CHILD JUSTICE FORUM</text>
+
+  </g>
+</svg>

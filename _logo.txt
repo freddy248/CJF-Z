@@ -1,0 +1,22 @@
+<!-- CJF LOGO SVG INLINE (use in all pages) -->
+<svg class="logo-emblem" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g fill="white"><path d="M60 8 L63 2 L57 2 Z"/><path d="M60 112 L57 118 L63 118 Z"/><path d="M8 60 L2 57 L2 63 Z"/><path d="M112 60 L118 63 L118 57 Z"/><path d="M24 16 L19 12 L16 17 Z"/><path d="M96 104 L101 108 L104 103 Z"/><path d="M16 24 L12 19 L17 16 Z"/><path d="M104 96 L108 101 L103 104 Z"/><path d="M96 16 L101 12 L104 17 Z"/><path d="M24 104 L19 108 L16 103 Z"/><path d="M104 24 L108 19 L103 16 Z"/><path d="M16 96 L12 101 L17 104 Z"/><path d="M14 42 L7 41 L8 47 Z"/><path d="M106 78 L113 79 L112 73 Z"/><path d="M14 78 L7 79 L8 73 Z"/><path d="M106 42 L113 41 L112 47 Z"/><path d="M42 14 L41 7 L47 8 Z"/><path d="M78 106 L79 113 L73 112 Z"/><path d="M78 14 L79 7 L73 8 Z"/><path d="M42 106 L41 113 L47 112 Z"/></g>
+  <circle cx="60" cy="60" r="48" fill="white"/><circle cx="60" cy="60" r="44" fill="#2d59a8"/><circle cx="60" cy="60" r="40" fill="white"/>
+  <rect x="59" y="22" width="2" height="52" fill="#2d59a8" rx="1"/>
+  <rect x="34" y="30" width="52" height="2.5" fill="#2d59a8" rx="1.25"/>
+  <line x1="36" y1="32.5" x2="34" y2="46" stroke="#2d59a8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="36" y1="32.5" x2="38" y2="46" stroke="#2d59a8" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M31 46 Q34 50 37 46" stroke="#2d59a8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <line x1="84" y1="32.5" x2="82" y2="46" stroke="#2d59a8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="84" y1="32.5" x2="86" y2="46" stroke="#2d59a8" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M79 46 Q82 50 85 46" stroke="#2d59a8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <rect x="53" y="72" width="14" height="2" fill="#2d59a8" rx="1"/>
+  <circle cx="47" cy="62" r="4" fill="#2d59a8"/>
+  <path d="M43 68 Q44 80 47 80 Q50 80 51 68 Z" fill="#2d59a8"/>
+  <path d="M40 70 Q42 72 44 70" stroke="#2d59a8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M50 70 Q52 72 54 70" stroke="#2d59a8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="73" cy="63" r="3.5" fill="#2d59a8"/>
+  <path d="M70 69 Q71 79 73 79 Q75 79 76 69 Z" fill="#2d59a8"/>
+  <path d="M70 69 L67 65 M76 69 L79 65" stroke="#2d59a8" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="60" y="93" text-anchor="middle" font-family="'Jost',Arial,sans-serif" font-size="7" font-weight="700" letter-spacing="1.5" fill="#2d59a8">CHILD JUSTICE FORUM</text>
+</svg>
