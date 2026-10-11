@@ -733,20 +733,6 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 
 <!-- ═══ NEWS & EVENTS — pulsing dark section with Firestore images ═══ -->
 <section class="news-flash-section" id="newsFlash">
-  <!-- Scrolling Ticker -->
-  <div class="news-ticker-wrap">
-    <div class="ticker-label">📰 Latest</div>
-    <div class="ticker-track" id="newsTicker">
-      <span class="ticker-item" onclick="openNewsModal('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNewsModal('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNewsModal('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across Zambia</span>
-      <!-- duplicated for seamless loop -->
-      <span class="ticker-item" onclick="openNewsModal('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNewsModal('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNewsModal('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across Zambia</span>
-    </div>
-  </div>
-
   <div class="nf-bg-pulses">
     <div class="nf-pulse nf-pulse-1"></div>
     <div class="nf-pulse nf-pulse-2"></div>
@@ -754,88 +740,47 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
   </div>
   <div class="nf-inner">
     <div class="nf-header reveal">
-      <div class="section-tag light">Updates</div>
+      <div class="section-tag light">Latest from CJF</div>
       <h2 class="nf-title">News &amp; Events</h2>
-      <p style="color:rgba(255,255,255,.55);font-size:15px;margin-top:8px">Stay informed on the latest developments, training workshops, and campaigns from the Child Justice Forum</p>
     </div>
     <div class="nf-cards" id="nfCards">
-      <!-- Child Justice Week — HAS ACTIVITIES -->
-      <div class="nf-card" onclick="openNewsModal('cjw')">
-        <div class="nf-card-img-wrap"><div class="nf-card-img-placeholder">🏅</div></div>
+      <!-- Static fallback cards — replaced by Firestore data if available -->
+      <a href="news.html" class="nf-card">
+        <div class="nf-card-img-wrap"><div class="nf-card-img-placeholder">📢</div></div>
         <div class="nf-card-body">
           <div class="nf-card-date">Mar 2026</div>
           <div class="nf-card-tag">Event</div>
           <h3>Child Justice Week 2026</h3>
           <p>A national awareness week bringing communities and institutions together around child justice reform.</p>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto">
-            <span class="nf-card-link">Read more →</span>
-            <span class="nf-act-btn" onclick="event.stopPropagation();openNewsModal('cjw','activities')">🎯 Activities</span>
-          </div>
+          <span class="nf-card-link">Read more →</span>
         </div>
-      </div>
-      <!-- Magistrates Training -->
-      <div class="nf-card" onclick="openNewsModal('magi')">
+      </a>
+      <a href="news.html" class="nf-card">
         <div class="nf-card-img-wrap"><div class="nf-card-img-placeholder">🏛️</div></div>
         <div class="nf-card-body">
           <div class="nf-card-date">Feb 2026</div>
           <div class="nf-card-tag">Training</div>
           <h3>Magistrates Training Workshop</h3>
           <p>CJF conducts specialised training for magistrates on child-sensitive court procedures and the Children's Code Act.</p>
-          <span class="nf-card-link" style="margin-top:auto;display:block">Read more →</span>
+          <span class="nf-card-link">Read more →</span>
         </div>
-      </div>
-      <!-- Diversion Programme -->
-      <div class="nf-card" onclick="openNewsModal('div')">
+      </a>
+      <a href="news.html" class="nf-card">
         <div class="nf-card-img-wrap"><div class="nf-card-img-placeholder">🔄</div></div>
         <div class="nf-card-body">
           <div class="nf-card-date">Ongoing</div>
           <div class="nf-card-tag">Programme</div>
           <h3>Diversion Programme Expansion</h3>
           <p>The national Diversion Programme continues expanding to new districts across Zambia.</p>
-          <span class="nf-card-link" style="margin-top:auto;display:block">Read more →</span>
+          <span class="nf-card-link">Read more →</span>
         </div>
-      </div>
+      </a>
     </div>
     <div style="text-align:center;margin-top:40px">
       <a href="news.html" class="btn-blue" style="background:rgba(255,255,255,.1);color:white;border:1.5px solid rgba(255,255,255,.25);padding:13px 32px;border-radius:50px;font-weight:800;font-size:14px;text-decoration:none;display:inline-block;transition:all .25s;">View All News &amp; Events →</a>
     </div>
   </div>
 </section>
-
-<!-- ══ NEWS ARTICLE MODAL ══ -->
-<div class="news-modal-overlay" id="newsModalOverlay" onclick="if(event.target===this)closeNewsModal()">
-  <div class="news-modal-box">
-    <button class="news-modal-close" onclick="closeNewsModal()">✕</button>
-    <div class="news-modal-hero" id="nmHero"><span class="news-modal-hero-icon" id="nmIcon">📢</span></div>
-    <div class="news-modal-body">
-      <div class="news-modal-meta">
-        <span class="news-modal-date" id="nmDate"></span>
-        <span class="news-modal-tag" id="nmTag"></span>
-      </div>
-      <h2 class="news-modal-title" id="nmTitle"></h2>
-      <div class="news-modal-content" id="nmContent"></div>
-      <!-- Activities Panel (shown only for articles that have activities) -->
-      <div class="activities-panel" id="nmActivitiesPanel" style="display:none">
-        <div class="activities-panel-title">🎯 Activities</div>
-        <div class="act-grid" id="nmActGrid"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ ACTIVITY DETAIL MODAL ══ -->
-<div class="act-modal-overlay" id="actModalOverlay" onclick="if(event.target===this)closeActModal()">
-  <div class="act-modal-box">
-    <button class="act-modal-close" onclick="closeActModal()">✕</button>
-    <div class="act-modal-hero" id="amHero"><span class="act-modal-hero-icon" id="amIcon">🎯</span></div>
-    <div class="act-modal-body">
-      <button class="act-back-btn" onclick="closeActModal()">← Back to article</button>
-      <h2 class="act-modal-title" id="amTitle"></h2>
-      <div class="act-modal-story" id="amStory"></div>
-      <div class="act-photo-grid" id="amPhotos"></div>
-    </div>
-  </div>
-</div>
 
 <!-- ═══ CTA ═══ -->
 <section class="cta-strip">
@@ -1104,113 +1049,6 @@ btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'
   setTimeout(loadWASettings, 1500);
   setTimeout(loadWASettings, 4000);
 })();
-
-  // ══ NEWS DATA ══
-  var NEWS_DATA = {
-    cjw: {
-      id:'cjw', icon:'🏅', date:'March 2026', tag:'Event',
-      title:'Child Justice Week 2026',
-      content:'Child Justice Week 2026 brought together communities, institutions, and young people across Zambia for a week of awareness, education, and action around child justice reform. The week featured a range of activities designed to educate young people about their rights, engage communities, and strengthen partnerships between institutions working in the child justice sector.\n\nThe theme for 2026 was <strong>"Every Child Knows Their Rights"</strong> — reflecting CJF\'s commitment to ensuring that information reaches every child, in every corner of Zambia.',
-      activities: [
-        {
-          id:'debates', icon:'🎤',
-          title:'School Debates',
-          story:'Inter-school debates were held across selected districts, with students arguing key child justice topics such as "Diversion is better than detention for children in conflict with the law." Hundreds of students participated, with judges drawn from the legal profession, magistracy, and civil society.\n\nThe debates sharpened students\' understanding of the Children\'s Code Act and gave them a platform to articulate their rights with confidence.',
-          photos:['🎤','📋','👩‍⚖️']
-        },
-        {
-          id:'sport', icon:'⚽',
-          title:'Sport Tournaments',
-          story:'Football and netball tournaments were organised in participating districts, bringing together youth from different schools and communities. Each match was preceded by a five-minute rights awareness session delivered by CJF representatives.\n\nThe tournaments drew large crowds and created a festive atmosphere that reinforced the week\'s message that child justice is a community concern.',
-          photos:['⚽','🏃','🏆']
-        },
-        {
-          id:'info', icon:'📣',
-          title:'Information Desks',
-          story:'CJF set up information desks at community centres, markets, and schools across participating districts. Trained volunteers and officers distributed materials including the Children\'s Code Act summary, the CJF website card (cjf.judiciaryzambia.com), and the Children\'s Rights booklet.\n\nThe desks also served as a point of contact for families seeking guidance on child justice matters, with referrals made to appropriate institutions where needed.',
-          photos:['📣','📚','🤝']
-        }
-      ]
-    },
-    magi: {
-      id:'magi', icon:'🏛️', date:'February 2026', tag:'Training',
-      title:'Magistrates Training Workshop',
-      content:'The Child Justice Forum, in partnership with the Judiciary of Zambia, conducted a specialised training workshop for magistrates from across the country. The workshop focused on child-sensitive court procedures, the practical application of the Children\'s Code Act 2022, and best practices for handling cases involving children as defendants, witnesses, or victims.\n\nParticipants covered topics including the conduct of child-friendly hearings, the role of Social Welfare Officers in court proceedings, diversion assessment, and the documentation of child justice cases. The training was designed to ensure consistent and rights-based judicial practice across all districts.',
-      activities: null
-    },
-    div: {
-      id:'div', icon:'🔄', date:'Ongoing', tag:'Programme',
-      title:'Diversion Programme Expansion',
-      content:'The national Post-Trial Diversion Programme, launched in 2018 in four pilot districts — Lusaka, Ndola, Kitwe, and Kapiri Mposhi — is being expanded to additional districts across all ten provinces of Zambia.\n\nThe Diversion Programme offers eligible children in conflict with the law an alternative to formal prosecution and detention. Children who qualify are assessed by Social Welfare Officers and, if approved, participate in structured community-based interventions that focus on rehabilitation, accountability, and reintegration.\n\nThe expansion is supported by UNICEF and the Ministry of Community Development and Social Services, with CJF coordinating multi-agency implementation at district level.',
-      activities: null
-    }
-  };
-
-  function openNewsModal(id, section) {
-    var art = NEWS_DATA[id];
-    if (!art) return;
-    document.getElementById('nmIcon').textContent = art.icon;
-    document.getElementById('nmDate').textContent = art.date;
-    document.getElementById('nmTag').textContent = art.tag;
-    document.getElementById('nmTitle').textContent = art.title;
-    document.getElementById('nmContent').innerHTML = art.content.replace(/\n/g,'<br>');
-    // Activities
-    var panel = document.getElementById('nmActivitiesPanel');
-    var grid = document.getElementById('nmActGrid');
-    if (art.activities && art.activities.length) {
-      grid.innerHTML = '';
-      art.activities.forEach(function(act) {
-        var photos = act.photos.map(function(p){ return '<div class="act-photo">'+p+'</div>'; }).join('');
-        grid.innerHTML += '<div class="act-card" onclick="openActModal(\''+id+'\',\''+act.id+'\')">' +
-          '<div class="act-card-img">'+act.icon+'</div>' +
-          '<div class="act-card-body">' +
-            '<div class="act-card-title">'+act.title+'</div>' +
-            '<div class="act-card-desc">Tap to read full story &amp; photos</div>' +
-            '<span class="act-detail-btn">View →</span>' +
-          '</div></div>';
-      });
-      panel.style.display = 'block';
-    } else {
-      panel.style.display = 'none';
-    }
-    var overlay = document.getElementById('newsModalOverlay');
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    if (section === 'activities') {
-      setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'start'}); }, 350);
-    }
-  }
-
-  function closeNewsModal() {
-    document.getElementById('newsModalOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function openActModal(newsId, actId) {
-    var art = NEWS_DATA[newsId];
-    if (!art || !art.activities) return;
-    var act = art.activities.find(function(a){ return a.id === actId; });
-    if (!act) return;
-    document.getElementById('amIcon').textContent = act.icon;
-    document.getElementById('amTitle').textContent = act.title;
-    document.getElementById('amStory').innerHTML = act.story.replace(/\n/g,'<br>');
-    var photos = document.getElementById('amPhotos');
-    photos.innerHTML = act.photos.map(function(p){ return '<div class="act-photo">'+p+'</div>'; }).join('');
-    document.getElementById('actModalOverlay').classList.add('open');
-  }
-
-  function closeActModal() {
-    document.getElementById('actModalOverlay').classList.remove('open');
-  }
-
-  // Close modals on Escape
-  document.addEventListener('keydown', function(e){
-    if(e.key==='Escape'){
-      closeActModal();
-      closeNewsModal();
-    }
-  });
-
 </script>
 </body>
 </html>
