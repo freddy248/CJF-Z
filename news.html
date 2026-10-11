@@ -341,6 +341,10 @@
         });
       }
     } catch(e){ console.warn('Firebase news load:', e.message); }
+
+    // ── Auto-open article from URL hash (e.g. news.html#article-id) ──
+    var hashId = (location.hash||'').replace('#','').trim();
+    if(hashId){ openArticle(hashId); }
   })();
   </script>
 <script src="js/announcement.js"></script>
