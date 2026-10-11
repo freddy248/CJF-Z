@@ -2884,12 +2884,12 @@ async function deleteAllVoices() {
 
 <!-- ══ MILESTONE MODAL ══ -->
 <div class="ov" id="mile-ov" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;overflow-y:auto;align-items:flex-start;justify-content:center;padding:40px 16px">
-  <div class="dw" style="max-width:520px">
-    <div class="dw-head">
-      <h3 id="mile-modal-title">Add Milestone</h3>
-      <button class="dw-close" onclick="closeMileModal()">✕</button>
+  <div style="background:#fff;width:100%;max-width:520px;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,0.18);overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #e8edf3;background:#fff">
+      <h3 id="mile-modal-title" style="margin:0;font-size:18px;font-weight:700;color:#0e1f3f">Add Milestone</h3>
+      <button onclick="closeMileModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6b7a99;line-height:1;padding:4px 8px;border-radius:6px">✕</button>
     </div>
-    <div class="dw-body">
+    <div style="padding:24px;background:#fff">
       <input type="hidden" id="mile-edit-id"/>
       <div class="field">
         <label>Year / Date Label <span style="color:var(--red)">*</span></label>
@@ -2909,7 +2909,7 @@ async function deleteAllVoices() {
         <input id="mile-icon" placeholder="🏛️" maxlength="4" style="width:80px"/>
         <small style="color:var(--mid)">One emoji shown on the timeline dot.</small>
       </div>
-      <div style="display:flex;gap:10px;margin-top:8px">
+      <div style="display:flex;gap:10px;margin-top:16px">
         <button class="btn bp" onclick="saveMilestone()" style="flex:1">💾 Save</button>
         <button class="btn bd" id="mile-del-btn" onclick="deleteMilestone()" style="display:none">🗑️ Delete</button>
       </div>
