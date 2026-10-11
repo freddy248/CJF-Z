@@ -9,15 +9,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   <style>
-/* ── News Ticker ── */
-.news-ticker-wrap{background:#FFD54F;overflow:hidden;padding:11px 0;position:relative;border-bottom:2px solid #e6b800;}
-.ticker-label{position:absolute;left:0;top:0;bottom:0;z-index:3;background:#0a193a;color:#FFD54F;padding:0 18px;display:flex;align-items:center;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
-.ticker-track{display:flex;gap:0;animation:tickerScroll 40s linear infinite;width:max-content;padding-left:160px;}
-.ticker-track:hover{animation-play-state:paused;}
-.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-size:14px;font-weight:600;color:#0a193a;cursor:pointer;white-space:nowrap;}
-.ticker-item:hover{color:#c47a00;text-decoration:underline;}
-.ticker-dot{width:6px;height:6px;border-radius:50%;background:#0a193a;flex-shrink:0;}
-@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+/* ── News Carousel ── */
+.news-carousel{position:relative;width:100%;height:480px;overflow:hidden;background:#0a193a;}
+@media(max-width:600px){.news-carousel{height:300px;}}
+.nc-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.nc-slide{min-width:100%;height:100%;position:relative;cursor:pointer;flex-shrink:0;}
+.nc-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.nc-slide-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,#1e3a6e 0%,#0a193a 100%);}
+.nc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,15,40,.92) 0%,rgba(5,15,40,.35) 55%,transparent 100%);}
+.nc-caption{position:absolute;bottom:0;left:0;right:0;padding:32px 40px;color:#fff;}
+@media(max-width:600px){.nc-caption{padding:20px 20px;}}
+.nc-tag{display:inline-block;background:#FFD54F;color:#0a193a;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+.nc-title{font-size:clamp(18px,3vw,28px);font-weight:800;line-height:1.25;margin:0 0 8px;text-shadow:0 2px 8px rgba(0,0,0,.4);}
+.nc-summary{font-size:14px;opacity:.85;line-height:1.5;max-width:620px;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.nc-read{display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;font-size:13px;font-weight:700;padding:7px 16px;border-radius:8px;backdrop-filter:blur(4px);}
+.nc-read:hover{background:rgba(255,255,255,.28);}
+/* arrows */
+.nc-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10;backdrop-filter:blur(4px);}
+.nc-arrow:hover{background:rgba(255,255,255,.38);}
+.nc-arrow.prev{left:16px;}
+.nc-arrow.next{right:16px;}
+/* dots */
+.nc-dots{position:absolute;bottom:14px;right:40px;display:flex;gap:6px;z-index:10;}
+.nc-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45);border:none;cursor:pointer;transition:all .2s;padding:0;}
+.nc-dot.active{background:#FFD54F;width:22px;border-radius:4px;}
+/* loading skeleton */
+.nc-loading{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:rgba(255,255,255,.5);font-size:15px;}
 
 /* ── News Article Cards ── */
 .news-art-card{background:#fff;border-radius:16px;cursor:pointer;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;}
@@ -118,95 +135,35 @@
     <p>Stay informed on the latest developments, training workshops, and campaigns from the Child Justice Forum.</p>
   </section>
 
-  <!-- ══ SCROLLING TICKER ══ -->
-  <div class="news-ticker-wrap">
-    <div class="ticker-label">📰 Latest</div>
-    <div class="ticker-track" id="newsTicker">
-      <span class="ticker-item" onclick="openNM('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNM('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNM('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across all 10 provinces</span>
-      <span class="ticker-item" onclick="openNM('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNM('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNM('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across all 10 provinces</span>
+  <!-- ══ NEWS CAROUSEL ══ -->
+  <div class="news-carousel" id="newsCarousel">
+    <div class="nc-track" id="ncTrack">
+      <!-- slides injected by JS after Firebase loads -->
+      <div class="nc-slide">
+        <div class="nc-loading">
+          <div style="font-size:36px">📰</div>
+          <span>Loading latest news…</span>
+        </div>
+      </div>
     </div>
+    <button class="nc-arrow prev" id="ncPrev" onclick="ncMove(-1)" aria-label="Previous">&#8249;</button>
+    <button class="nc-arrow next" id="ncNext" onclick="ncMove(1)" aria-label="Next">&#8250;</button>
+    <div class="nc-dots" id="ncDots"></div>
   </div>
 
   <section class="content-section">
     <div class="section-tag" style="margin-bottom:20px">Latest News</div>
     <h2 class="section-title" style="margin-bottom:40px">Recent Updates</h2>
 
-    <!-- Static cards — Firebase loader below appends real articles on top -->
-    <div id="news-main-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:60px">
-
-      <!-- Child Justice Week — HAS ACTIVITIES -->
-      <div class="news-art-card" onclick="openNM('cjw')">
-        <div class="nac-img"><div class="nac-img-placeholder">🏅</div></div>
-        <div class="nac-body">
-          <div class="nac-meta"><span class="nac-date">Mar 2026</span><span class="nac-tag">Event</span></div>
-          <div class="nac-title">Child Justice Week 2026</div>
-          <div class="nac-summary">A national awareness week bringing communities and institutions together around child justice reform.</div>
-          <div class="nac-footer">
-            <span class="nac-read">Read more →</span>
-            <span class="nac-act-btn" onclick="event.stopPropagation();openNM('cjw','activities')">🎯 Activities</span>
-          </div>
-        </div>
+    <!-- Cards populated dynamically by Firebase below -->
+    <div id="news-main-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:60px">
+      <div id="news-loading" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted,#7a8fa8)">
+        <div style="font-size:40px;margin-bottom:16px">📰</div>
+        <p>Loading articles…</p>
       </div>
-
-      <!-- Magistrates Training -->
-      <div class="news-art-card" onclick="openNM('magi')">
-        <div class="nac-img"><div class="nac-img-placeholder">🏛️</div></div>
-        <div class="nac-body">
-          <div class="nac-meta"><span class="nac-date">Feb 2026</span><span class="nac-tag">Training</span></div>
-          <div class="nac-title">Magistrates Training Workshop</div>
-          <div class="nac-summary">CJF conducts specialised training for magistrates on child-sensitive court procedures and the Children's Code Act.</div>
-          <div class="nac-footer"><span class="nac-read">Read more →</span></div>
-        </div>
-      </div>
-
-      <!-- Diversion Programme -->
-      <div class="news-art-card" onclick="openNM('div')">
-        <div class="nac-img"><div class="nac-img-placeholder">🔄</div></div>
-        <div class="nac-body">
-          <div class="nac-meta"><span class="nac-date">Ongoing</span><span class="nac-tag">Programme</span></div>
-          <div class="nac-title">Diversion Programme Expansion</div>
-          <div class="nac-summary">The national Post-Trial Diversion Programme continues expanding to new districts across all 10 provinces of Zambia.</div>
-          <div class="nac-footer"><span class="nac-read">Read more →</span></div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ══ ARTICLE MODAL ══ -->
-  <div class="nm-overlay" id="nmOverlay" onclick="if(event.target===this)closeNM()">
-    <div class="nm-box">
-      <button class="nm-close" onclick="closeNM()">✕</button>
-      <div class="nm-hero" id="nmHero"><span class="nm-hero-icon" id="nmIcon">📢</span></div>
-      <div class="nm-body">
-        <div class="nm-meta"><span class="nm-date" id="nmDate"></span><span class="nm-tag" id="nmTag"></span></div>
-        <h2 class="nm-title" id="nmTitle"></h2>
-        <div class="nm-content" id="nmContent"></div>
-        <div class="act-panel" id="nmActPanel" style="display:none">
-          <div class="act-panel-title">🎯 Activities</div>
-          <div class="act-grid" id="nmActGrid"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ ACTIVITY DETAIL MODAL ══ -->
-  <div class="am-overlay" id="amOverlay" onclick="if(event.target===this)closeAM()">
-    <div class="am-box">
-      <button class="am-close" onclick="closeAM()">✕</button>
-      <div class="am-hero" id="amHero"><span id="amIcon">🎯</span></div>
-      <div class="am-body">
-        <button class="am-back" onclick="closeAM()">← Back to article</button>
-        <h2 class="am-title" id="amTitle"></h2>
-        <div class="am-story" id="amStory"></div>
-        <div class="am-photos" id="amPhotos"></div>
-      </div>
-    </div>
-  </div>
 
   <footer class="footer">
     <div class="footer-inner">
@@ -324,17 +281,60 @@
         return;
       }
       allNewsArticles = articles;
+
+      // ── Build carousel from Firestore articles ──
+      (function buildCarousel(arts){
+        var track = document.getElementById('ncTrack');
+        var dotsEl = document.getElementById('ncDots');
+        if(!track || !arts.length) return;
+        var cur = 0, timer;
+        track.innerHTML = arts.map(function(a){
+          var img = a.imageUrl
+            ? '<img src="'+a.imageUrl+'" alt="'+a.title+'" loading="lazy">'
+            : '<div class="nc-slide-placeholder">📰</div>';
+          return '<div class="nc-slide" data-id="'+a.id+'">'
+            + img
+            + '<div class="nc-overlay"></div>'
+            + '<div class="nc-caption">'
+            + '<div class="nc-tag">'+(a.category||'News')+'</div>'
+            + '<h2 class="nc-title">'+a.title+'</h2>'
+            + '<p class="nc-summary">'+(a.summary||'')+'</p>'
+            + '<span class="nc-read">Read full article →</span>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+        dotsEl.innerHTML = arts.map(function(_,i){
+          return '<button class="nc-dot'+(i===0?' active':'')+'"></button>';
+        }).join('');
+        var dots = dotsEl.querySelectorAll('.nc-dot');
+        function goTo(n){
+          cur = (n + arts.length) % arts.length;
+          track.style.transform = 'translateX(-'+cur+'00%)';
+          dots.forEach(function(d,i){ d.classList.toggle('active', i===cur); });
+        }
+        window.ncMove = function(dir){ goTo(cur+dir); resetTimer(); };
+        function resetTimer(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
+        resetTimer();
+        track.addEventListener('click', function(e){
+          var slide = e.target.closest('.nc-slide');
+          if(slide){ openArticle(slide.getAttribute('data-id')); }
+        });
+        if(arts.length < 2){
+          var p=document.getElementById('ncPrev'), n=document.getElementById('ncNext');
+          if(p) p.style.display='none';
+          if(n) n.style.display='none';
+        }
+      })(articles);
+
+      // ── Build article card grid ──
       const grid = document.getElementById('news-main-grid');
       if(grid){
-        // Clear loading state
         var loader = document.getElementById('news-loading');
         if(loader) loader.style.display='none';
         grid.innerHTML = articles.map(buildNewsCard).join('');
-        // Event delegation — listen on grid, find which card was clicked
         grid.addEventListener('click', function(e){
           var card = e.target.closest('.news-card');
           if(!card) return;
-          // Don't open modal if clicking a source link
           if(e.target.closest('a[target="_blank"]')) return;
           var id = card.getAttribute('data-article-id');
           if(id) openArticle(id);
