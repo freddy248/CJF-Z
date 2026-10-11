@@ -733,19 +733,6 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 
 <!-- ═══ NEWS & EVENTS — pulsing dark section with Firestore images ═══ -->
 <section class="news-flash-section" id="newsFlash">
-  <!-- Scrolling Ticker -->
-  <div class="news-ticker-wrap">
-    <div class="ticker-label">📰 Latest</div>
-    <div class="ticker-track" id="newsTicker">
-      <span class="ticker-item" onclick="openNewsModal('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNewsModal('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNewsModal('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across Zambia</span>
-      <!-- duplicated for seamless loop -->
-      <span class="ticker-item" onclick="openNewsModal('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
-      <span class="ticker-item" onclick="openNewsModal('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
-      <span class="ticker-item" onclick="openNewsModal('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across Zambia</span>
-    </div>
-  </div>
 
   <div class="nf-bg-pulses">
     <div class="nf-pulse nf-pulse-1"></div>
@@ -803,7 +790,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 </section>
 
 <!-- ══ NEWS ARTICLE MODAL ══ -->
-<div class="news-modal-overlay" id="newsModalOverlay" onclick="if(event.target===this)closeNewsModal()">
+<div class="news-modal-overlay" id="newsModalOverlay" style="display:none" onclick="if(event.target===this)closeNewsModal()">
   <div class="news-modal-box">
     <button class="news-modal-close" onclick="closeNewsModal()">✕</button>
     <div class="news-modal-hero" id="nmHero"><span class="news-modal-hero-icon" id="nmIcon">📢</span></div>
@@ -824,7 +811,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 </div>
 
 <!-- ══ ACTIVITY DETAIL MODAL ══ -->
-<div class="act-modal-overlay" id="actModalOverlay" onclick="if(event.target===this)closeActModal()">
+<div class="act-modal-overlay" id="actModalOverlay" style="display:none" onclick="if(event.target===this)closeActModal()">
   <div class="act-modal-box">
     <button class="act-modal-close" onclick="closeActModal()">✕</button>
     <div class="act-modal-hero" id="amHero"><span class="act-modal-hero-icon" id="amIcon">🎯</span></div>
