@@ -230,6 +230,8 @@
   function closeArticle(){
     document.getElementById('art-overlay').style.display='none';
     document.body.style.overflow='';
+    // Clear URL hash so refresh doesn't re-open this article
+    if(location.hash) history.replaceState(null, '', location.pathname);
   }
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeArticle(); });
 
@@ -387,23 +389,23 @@ var NM_DATA = {
   cjw:{
     id:'cjw',icon:'🏅',date:'March 2026',tag:'Event',
     title:'Child Justice Week 2026',
-    content:'Child Justice Week 2026 brought together communities, institutions, and young people across Zambia for a week of awareness, education, and action around child justice reform.<br><br>The theme for 2026 was <strong>"Every Child Knows Their Rights"</strong> — reflecting CJF's commitment to ensuring that information reaches every child, in every corner of Zambia.',
+    content:'Child Justice Week 2026 brought together communities, institutions, and young people across Zambia for a week of awareness, education, and action around child justice reform.<br><br>The theme for 2026 was <strong>"Every Child Knows Their Rights"</strong> — reflecting CJF\'s commitment to ensuring that information reaches every child, in every corner of Zambia.',
     activities:[
       {id:'debates',icon:'🎤',title:'School Debates',
-       story:'Inter-school debates were held across selected districts, with students arguing key child justice topics such as "Diversion is better than detention for children in conflict with the law."<br><br>Hundreds of students participated, with judges drawn from the legal profession, magistracy, and civil society. The debates sharpened students' understanding of the Children's Code Act.',
+       story:'Inter-school debates were held across selected districts, with students arguing key child justice topics such as "Diversion is better than detention for children in conflict with the law."<br><br>Hundreds of students participated, with judges drawn from the legal profession, magistracy, and civil society. The debates sharpened students\' understanding of the Children\'s Code Act.',
        photos:['🎤','📋','👩‍⚖️']},
       {id:'sport',icon:'⚽',title:'Sport Tournaments',
        story:'Football and netball tournaments were organised in participating districts, bringing together youth from different schools and communities. Each match was preceded by a five-minute rights awareness session.<br><br>The tournaments drew large crowds and created a festive atmosphere reinforcing that child justice is a community concern.',
        photos:['⚽','🏃','🏆']},
       {id:'info',icon:'📣',title:'Information Desks',
-       story:'CJF set up information desks at community centres, markets, and schools across participating districts. Trained volunteers distributed materials including the Children's Code Act summary and the CJF website card.<br><br>The desks also served as a point of contact for families seeking guidance on child justice matters.',
+       story:'CJF set up information desks at community centres, markets, and schools across participating districts. Trained volunteers distributed materials including the Children\'s Code Act summary and the CJF website card.<br><br>The desks also served as a point of contact for families seeking guidance on child justice matters.',
        photos:['📣','📚','🤝']}
     ]
   },
   magi:{
     id:'magi',icon:'🏛️',date:'February 2026',tag:'Training',
     title:'Magistrates Training Workshop',
-    content:'The Child Justice Forum, in partnership with the Judiciary of Zambia, conducted a specialised training workshop for magistrates from across the country.<br><br>Topics covered included child-sensitive court procedures, the practical application of the Children's Code Act 2022, best practices for handling cases involving children as defendants, witnesses, or victims, and the role of Social Welfare Officers in court proceedings.',
+    content:'The Child Justice Forum, in partnership with the Judiciary of Zambia, conducted a specialised training workshop for magistrates from across the country.<br><br>Topics covered included child-sensitive court procedures, the practical application of the Children\'s Code Act 2022, best practices for handling cases involving children as defendants, witnesses, or victims, and the role of Social Welfare Officers in court proceedings.',
     activities:null
   },
   div:{
@@ -424,16 +426,21 @@ function openNM(id, section){
   var panel=document.getElementById('nmActPanel');
   var grid=document.getElementById('nmActGrid');
   if(a.activities&&a.activities.length){
-    grid.innerHTML='';
-    a.activities.forEach(function(act){
-      grid.innerHTML+='<div class="act-card" onclick="openAM(''+id+'',''+act.id+'')">'+
-        '<div class="act-card-img">'+act.icon+'</div>'+
-        '<div class="act-card-body">'+
-          '<div class="act-card-title">'+act.title+'</div>'+
-          '<div class="act-card-desc">Tap to read full story & photos</div>'+
-          '<span class="act-view">View →</span>'+
-        '</div></div>';
-    });
+     grid.innerHTML='';
+     a.activities.forEach(function(act){
+       var card=document.createElement('div');
+       card.className='act-card';
+       card.setAttribute('data-news-id',id);
+       card.setAttribute('data-act-id',act.id);
+       card.innerHTML='<div class="act-card-img">'+act.icon+'</div>'
+         +'<div class="act-card-body">'
+         +'<div class="act-card-title">'+act.title+'</div>'
+         +'<div class="act-card-desc">Tap to read full story &amp; photos</div>'
+         +'<span class="act-view">View →</span>'
+         +'</div>';
+       card.addEventListener('click',function(){ openAM(this.getAttribute('data-news-id'),this.getAttribute('data-act-id')); });
+       grid.appendChild(card);
+     });
     panel.style.display='block';
   } else { panel.style.display='none'; }
   document.getElementById('nmOverlay').classList.add('open');
