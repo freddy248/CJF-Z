@@ -8,6 +8,64 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <style>
+/* ── News Ticker ── */
+.news-ticker-wrap{background:#FFD54F;overflow:hidden;padding:11px 0;position:relative;border-bottom:2px solid #e6b800;}
+.ticker-label{position:absolute;left:0;top:0;bottom:0;z-index:3;background:#0a193a;color:#FFD54F;padding:0 18px;display:flex;align-items:center;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+.ticker-track{display:flex;gap:0;animation:tickerScroll 40s linear infinite;width:max-content;padding-left:160px;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-size:14px;font-weight:600;color:#0a193a;cursor:pointer;white-space:nowrap;}
+.ticker-item:hover{color:#c47a00;text-decoration:underline;}
+.ticker-dot{width:6px;height:6px;border-radius:50%;background:#0a193a;flex-shrink:0;}
+@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── News Article Cards ── */
+.news-art-card{background:#fff;border-radius:16px;cursor:pointer;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;}
+.news-art-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.14);}
+.nac-hero{height:180px;display:flex;align-items:center;justify-content:center;font-size:60px;background:linear-gradient(135deg,#e8f0fe,#c2d4f8);}
+.nac-body{padding:20px;}
+.nac-tag{display:inline-block;background:#e8f0fe;color:#1a3a6b;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+.nac-date{font-size:12px;color:#888;margin-bottom:6px;}
+.nac-title{font-size:17px;font-weight:700;color:#0a193a;margin:0 0 10px;}
+.nac-excerpt{font-size:14px;color:#555;line-height:1.5;margin:0 0 14px;}
+.nac-act-btn{background:#FFF8E1;color:#b8860b;border:1.5px solid #FFD54F;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;}
+.nac-act-btn:hover{background:#FFD54F;}
+
+/* ── Article Modal ── */
+.nm-overlay{position:fixed;inset:0;z-index:9000;background:rgba(5,15,35,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.nm-overlay.open{opacity:1;pointer-events:all;}
+.nm-box{background:#fff;border-radius:20px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.nm-hero{height:220px;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,#e8f0fe,#c2d4f8);border-radius:20px 20px 0 0;}
+.nm-meta{padding:24px 28px 0;}
+.nm-tag{display:inline-block;background:#e8f0fe;color:#1a3a6b;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:8px;}
+.nm-date{font-size:13px;color:#888;margin-bottom:6px;}
+.nm-title{font-size:22px;font-weight:800;color:#0a193a;margin:0 0 16px;}
+.nm-body{padding:0 28px 20px;font-size:15px;color:#444;line-height:1.7;}
+.nm-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;background:#f0f0f0;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
+.nm-close:hover{background:#ddd;}
+.nm-act-panel{padding:0 28px 28px;}
+.nm-act-heading{font-size:15px;font-weight:700;color:#0a193a;margin:0 0 12px;padding-top:12px;border-top:1px solid #eee;}
+.nm-act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.nm-act-item{background:#FFF8E1;border:1.5px solid #FFD54F;border-radius:12px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;}
+.nm-act-item:hover{background:#FFD54F;transform:translateY(-2px);}
+.nm-act-icon{font-size:28px;margin-bottom:6px;}
+.nm-act-name{font-size:13px;font-weight:700;color:#0a193a;}
+
+/* ── Activity Detail Modal ── */
+.am-overlay{position:fixed;inset:0;z-index:9100;background:rgba(5,15,35,.92);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.am-overlay.open{opacity:1;pointer-events:all;}
+.am-box{background:#fff;border-radius:20px;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 70px rgba(0,0,0,.5);}
+.am-head{background:linear-gradient(135deg,#0a193a,#1e3f80);padding:28px;border-radius:20px 20px 0 0;color:#fff;}
+.am-back{background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:14px;}
+.am-back:hover{background:rgba(255,255,255,.25);}
+.am-title{font-size:20px;font-weight:800;margin:0;}
+.am-body{padding:24px 28px;}
+.am-story{font-size:15px;color:#444;line-height:1.7;margin-bottom:20px;}
+.am-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.am-photo{height:100px;border-radius:12px;background:linear-gradient(135deg,#e8f0fe,#c2d4f8);display:flex;align-items:center;justify-content:center;font-size:36px;}
+.am-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;background:rgba(255,255,255,.2);border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+.am-close:hover{background:rgba(255,255,255,.35);}
+  </style>
 </head>
 <body>
 
@@ -60,19 +118,95 @@
     <p>Stay informed on the latest developments, training workshops, and campaigns from the Child Justice Forum.</p>
   </section>
 
+  <!-- ══ SCROLLING TICKER ══ -->
+  <div class="news-ticker-wrap">
+    <div class="ticker-label">📰 Latest</div>
+    <div class="ticker-track" id="newsTicker">
+      <span class="ticker-item" onclick="openNM('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
+      <span class="ticker-item" onclick="openNM('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
+      <span class="ticker-item" onclick="openNM('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across all 10 provinces</span>
+      <span class="ticker-item" onclick="openNM('cjw')"><span class="ticker-dot"></span>Child Justice Week 2026 — School debates, sport tournaments and information desks across Zambia</span>
+      <span class="ticker-item" onclick="openNM('magi')"><span class="ticker-dot"></span>Magistrates Training Workshop — Specialised training on child-sensitive court procedures</span>
+      <span class="ticker-item" onclick="openNM('div')"><span class="ticker-dot"></span>Diversion Programme Expansion — Expanding to new districts across all 10 provinces</span>
+    </div>
+  </div>
+
   <section class="content-section">
-    <!-- NEWS GRID — populated from Firebase -->
     <div class="section-tag" style="margin-bottom:20px">Latest News</div>
     <h2 class="section-title" style="margin-bottom:40px">Recent Updates</h2>
-    <div id="news-main-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:60px">
-      <!-- Loading state — replaced by Firebase loader below -->
-      <div id="news-loading" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted)">
-        <div style="font-size:40px;margin-bottom:16px">📰</div>
-        <p>Loading latest news…</p>
-      </div></div>
 
-    
+    <!-- Static cards — Firebase loader below appends real articles on top -->
+    <div id="news-main-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:60px">
+
+      <!-- Child Justice Week — HAS ACTIVITIES -->
+      <div class="news-art-card" onclick="openNM('cjw')">
+        <div class="nac-img"><div class="nac-img-placeholder">🏅</div></div>
+        <div class="nac-body">
+          <div class="nac-meta"><span class="nac-date">Mar 2026</span><span class="nac-tag">Event</span></div>
+          <div class="nac-title">Child Justice Week 2026</div>
+          <div class="nac-summary">A national awareness week bringing communities and institutions together around child justice reform.</div>
+          <div class="nac-footer">
+            <span class="nac-read">Read more →</span>
+            <span class="nac-act-btn" onclick="event.stopPropagation();openNM('cjw','activities')">🎯 Activities</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Magistrates Training -->
+      <div class="news-art-card" onclick="openNM('magi')">
+        <div class="nac-img"><div class="nac-img-placeholder">🏛️</div></div>
+        <div class="nac-body">
+          <div class="nac-meta"><span class="nac-date">Feb 2026</span><span class="nac-tag">Training</span></div>
+          <div class="nac-title">Magistrates Training Workshop</div>
+          <div class="nac-summary">CJF conducts specialised training for magistrates on child-sensitive court procedures and the Children's Code Act.</div>
+          <div class="nac-footer"><span class="nac-read">Read more →</span></div>
+        </div>
+      </div>
+
+      <!-- Diversion Programme -->
+      <div class="news-art-card" onclick="openNM('div')">
+        <div class="nac-img"><div class="nac-img-placeholder">🔄</div></div>
+        <div class="nac-body">
+          <div class="nac-meta"><span class="nac-date">Ongoing</span><span class="nac-tag">Programme</span></div>
+          <div class="nac-title">Diversion Programme Expansion</div>
+          <div class="nac-summary">The national Post-Trial Diversion Programme continues expanding to new districts across all 10 provinces of Zambia.</div>
+          <div class="nac-footer"><span class="nac-read">Read more →</span></div>
+        </div>
+      </div>
+
+    </div>
   </section>
+
+  <!-- ══ ARTICLE MODAL ══ -->
+  <div class="nm-overlay" id="nmOverlay" onclick="if(event.target===this)closeNM()">
+    <div class="nm-box">
+      <button class="nm-close" onclick="closeNM()">✕</button>
+      <div class="nm-hero" id="nmHero"><span class="nm-hero-icon" id="nmIcon">📢</span></div>
+      <div class="nm-body">
+        <div class="nm-meta"><span class="nm-date" id="nmDate"></span><span class="nm-tag" id="nmTag"></span></div>
+        <h2 class="nm-title" id="nmTitle"></h2>
+        <div class="nm-content" id="nmContent"></div>
+        <div class="act-panel" id="nmActPanel" style="display:none">
+          <div class="act-panel-title">🎯 Activities</div>
+          <div class="act-grid" id="nmActGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ACTIVITY DETAIL MODAL ══ -->
+  <div class="am-overlay" id="amOverlay" onclick="if(event.target===this)closeAM()">
+    <div class="am-box">
+      <button class="am-close" onclick="closeAM()">✕</button>
+      <div class="am-hero" id="amHero"><span id="amIcon">🎯</span></div>
+      <div class="am-body">
+        <button class="am-back" onclick="closeAM()">← Back to article</button>
+        <h2 class="am-title" id="amTitle"></h2>
+        <div class="am-story" id="amStory"></div>
+        <div class="am-photos" id="amPhotos"></div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="footer-inner">
@@ -242,6 +376,83 @@
   setTimeout(loadWASettings, 1500);
   setTimeout(loadWASettings, 4000);
 })();
+</script>
+
+<script>
+var NM_DATA = {
+  cjw:{
+    id:'cjw',icon:'🏅',date:'March 2026',tag:'Event',
+    title:'Child Justice Week 2026',
+    content:'Child Justice Week 2026 brought together communities, institutions, and young people across Zambia for a week of awareness, education, and action around child justice reform.<br><br>The theme for 2026 was <strong>"Every Child Knows Their Rights"</strong> — reflecting CJF's commitment to ensuring that information reaches every child, in every corner of Zambia.',
+    activities:[
+      {id:'debates',icon:'🎤',title:'School Debates',
+       story:'Inter-school debates were held across selected districts, with students arguing key child justice topics such as "Diversion is better than detention for children in conflict with the law."<br><br>Hundreds of students participated, with judges drawn from the legal profession, magistracy, and civil society. The debates sharpened students' understanding of the Children's Code Act.',
+       photos:['🎤','📋','👩‍⚖️']},
+      {id:'sport',icon:'⚽',title:'Sport Tournaments',
+       story:'Football and netball tournaments were organised in participating districts, bringing together youth from different schools and communities. Each match was preceded by a five-minute rights awareness session.<br><br>The tournaments drew large crowds and created a festive atmosphere reinforcing that child justice is a community concern.',
+       photos:['⚽','🏃','🏆']},
+      {id:'info',icon:'📣',title:'Information Desks',
+       story:'CJF set up information desks at community centres, markets, and schools across participating districts. Trained volunteers distributed materials including the Children's Code Act summary and the CJF website card.<br><br>The desks also served as a point of contact for families seeking guidance on child justice matters.',
+       photos:['📣','📚','🤝']}
+    ]
+  },
+  magi:{
+    id:'magi',icon:'🏛️',date:'February 2026',tag:'Training',
+    title:'Magistrates Training Workshop',
+    content:'The Child Justice Forum, in partnership with the Judiciary of Zambia, conducted a specialised training workshop for magistrates from across the country.<br><br>Topics covered included child-sensitive court procedures, the practical application of the Children's Code Act 2022, best practices for handling cases involving children as defendants, witnesses, or victims, and the role of Social Welfare Officers in court proceedings.',
+    activities:null
+  },
+  div:{
+    id:'div',icon:'🔄',date:'Ongoing',tag:'Programme',
+    title:'Diversion Programme Expansion',
+    content:'The national Post-Trial Diversion Programme, launched in 2018 in four pilot districts — Lusaka, Ndola, Kitwe, and Kapiri Mposhi — is being expanded to additional districts across all ten provinces of Zambia.<br><br>Children who qualify are assessed by Social Welfare Officers and, if approved, participate in structured community-based interventions focusing on rehabilitation, accountability, and reintegration.<br><br>The expansion is supported by UNICEF and the Ministry of Community Development and Social Services.',
+    activities:null
+  }
+};
+
+function openNM(id, section){
+  var a=NM_DATA[id]; if(!a) return;
+  document.getElementById('nmIcon').textContent=a.icon;
+  document.getElementById('nmDate').textContent=a.date;
+  document.getElementById('nmTag').textContent=a.tag;
+  document.getElementById('nmTitle').textContent=a.title;
+  document.getElementById('nmContent').innerHTML=a.content;
+  var panel=document.getElementById('nmActPanel');
+  var grid=document.getElementById('nmActGrid');
+  if(a.activities&&a.activities.length){
+    grid.innerHTML='';
+    a.activities.forEach(function(act){
+      grid.innerHTML+='<div class="act-card" onclick="openAM(''+id+'',''+act.id+'')">'+
+        '<div class="act-card-img">'+act.icon+'</div>'+
+        '<div class="act-card-body">'+
+          '<div class="act-card-title">'+act.title+'</div>'+
+          '<div class="act-card-desc">Tap to read full story & photos</div>'+
+          '<span class="act-view">View →</span>'+
+        '</div></div>';
+    });
+    panel.style.display='block';
+  } else { panel.style.display='none'; }
+  document.getElementById('nmOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(section==='activities'){
+    setTimeout(function(){ panel.scrollIntoView({behavior:'smooth',block:'start'}); },350);
+  }
+}
+function closeNM(){
+  document.getElementById('nmOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function openAM(newsId,actId){
+  var a=NM_DATA[newsId]; if(!a||!a.activities) return;
+  var act=a.activities.find(function(x){return x.id===actId;}); if(!act) return;
+  document.getElementById('amIcon').textContent=act.icon;
+  document.getElementById('amTitle').textContent=act.title;
+  document.getElementById('amStory').innerHTML=act.story;
+  document.getElementById('amPhotos').innerHTML=act.photos.map(function(p){return '<div class="am-photo">'+p+'</div>';}).join('');
+  document.getElementById('amOverlay').classList.add('open');
+}
+function closeAM(){ document.getElementById('amOverlay').classList.remove('open'); }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){closeAM();closeNM();} });
 </script>
 </body>
 </html>
