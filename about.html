@@ -137,7 +137,8 @@
         <div class="section-tag">Our Journey</div>
         <h2 class="section-title">Key Milestones</h2>
       </div>
-      <div class="anim-timeline">
+      <div class="anim-timeline" id="milestones-timeline">
+        <!-- Milestones loaded dynamically from Firestore -->
         <div class="at-item">
           <div class="at-content"><span class="at-year">2000</span><h4>Situational Analysis Conducted</h4><p>Ministry of Home Affairs, UNICEF, Danish/Swedish Embassies, and DFID conduct a national situational analysis revealing critical gaps in how Zambia's justice system treated children.</p></div>
           <div class="at-node"><div class="at-dot">📋</div></div>
@@ -166,43 +167,7 @@
         <div class="at-item">
           <div class="at-empty"></div>
           <div class="at-node"><div class="at-dot">🌍</div></div>
-          <div class="at-content"><span class="at-year">2026 — Present</span><h4>40+ District Forums Nationwide</h4><p>The CJF now operates through over 40 Local Child Justice Forums across all 10 provinces of Zambia, with support from UNICEF, GIZ, CIDRZ, and Save The Children.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div style="display:none">
-      </div>
-      <div class="anim-timeline">
-        <div class="at-item">
-          <div class="at-content"><span class="at-year">2000</span><h4>Situational Analysis Conducted</h4><p>Ministry of Home Affairs, UNICEF, Danish/Swedish Embassies, and DFID conduct a national situational analysis revealing critical gaps in how Zambia's justice system treated children.</p></div>
-          <div class="at-node"><div class="at-dot">📋</div></div>
-          <div class="at-empty"></div>
-        </div>
-        <div class="at-item">
-          <div class="at-empty"></div>
-          <div class="at-node"><div class="at-dot">⚖️</div></div>
-          <div class="at-content"><span class="at-year">May 2001</span><h4>CJF Established</h4><p>The Child Justice Forum is officially established as a multi-sectoral platform under the Judiciary of Zambia, bringing together all key justice institutions.</p></div>
-        </div>
-        <div class="at-item">
-          <div class="at-content"><span class="at-year">2001–2010</span><h4>Building the National Network</h4><p>Local Child Justice Forums established across districts. Training programmes introduced for police, magistrates, and social welfare officers. Child-friendly court rooms piloted in Lusaka.</p></div>
-          <div class="at-node"><div class="at-dot">🏛️</div></div>
-          <div class="at-empty"></div>
-        </div>
-        <div class="at-item">
-          <div class="at-empty"></div>
-          <div class="at-node"><div class="at-dot">🔄</div></div>
-          <div class="at-content"><span class="at-year">December 2018</span><h4>Diversion Programme Launched</h4><p>Ministry of Community Development and Social Services, supported by UNICEF, officially launches the Diversion Programme in four pilot districts: Lusaka, Ndola, Kitwe, and Kapiri Mposhi.</p></div>
-        </div>
-        <div class="at-item">
-          <div class="at-content"><span class="at-year">2019</span><h4>Trainer of Trainers Programme</h4><p>Training of Trainers for the Diversion Project conducted across all four pilot districts, building sustainable local capacity for child justice reform.</p></div>
-          <div class="at-node"><div class="at-dot">👩‍🏫</div></div>
-          <div class="at-empty"></div>
-        </div>
-        <div class="at-item">
-          <div class="at-empty"></div>
-          <div class="at-node"><div class="at-dot">🌍</div></div>
-          <div class="at-content"><span class="at-year">2026 — Present</span><h4>40+ District Forums Nationwide</h4><p>The CJF now operates through over 40 Local Child Justice Forums across all 10 provinces of Zambia, with support from UNICEF, GIZ, CIDRZ, and Save The Children.</p></div>
+          <div class="at-content"><span class="at-year">2026</span><h4>40+ District Forums Nationwide</h4><p>The CJF now operates through over 40 Local Child Justice Forums across all 10 provinces of Zambia, with support from UNICEF, GIZ, CIDRZ, and Save The Children.</p></div>
         </div>
       </div>
     </div>
@@ -253,6 +218,68 @@
 <script src="js/firebase-config.js"></script>
 <script src="js/announcement.js"></script>
 <script>
+/* ── Milestones: load from Firestore, replace hardcoded timeline ── */
+(function(){
+  var FALLBACK_HTML = document.getElementById('milestones-timeline') ? document.getElementById('milestones-timeline').innerHTML : '';
+
+  function buildItem(data, index){
+    var icon = data.icon || '🏛️';
+    var year = data.year || '';
+    var title = data.title || '';
+    var desc = data.description || '';
+    var isLeft = (index % 2 === 0);
+    if(isLeft){
+      return '<div class="at-item">'
+        +'<div class="at-content"><span class="at-year">'+escH(year)+'</span><h4>'+escH(title)+'</h4>'+(desc?'<p>'+escH(desc)+'</p>':'')+'</div>'
+        +'<div class="at-node"><div class="at-dot">'+icon+'</div></div>'
+        +'<div class="at-empty"></div>'
+        +'</div>';
+    } else {
+      return '<div class="at-item">'
+        +'<div class="at-empty"></div>'
+        +'<div class="at-node"><div class="at-dot">'+icon+'</div></div>'
+        +'<div class="at-content"><span class="at-year">'+escH(year)+'</span><h4>'+escH(title)+'</h4>'+(desc?'<p>'+escH(desc)+'</p>':'')+'</div>'
+        +'</div>';
+    }
+  }
+
+  function escH(str){
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function loadMilestonesTimeline(){
+    try{
+      if(!window.firebase || !firebase.apps || !firebase.apps.length) return;
+      firebase.firestore().collection('milestones').orderBy('sortYear','asc').get()
+        .then(function(snap){
+          if(snap.empty) return; // keep fallback hardcoded HTML
+          var html = '';
+          var idx = 0;
+          snap.forEach(function(doc){
+            html += buildItem(doc.data(), idx++);
+          });
+          var el = document.getElementById('milestones-timeline');
+          if(el && html) el.innerHTML = html;
+        })
+        .catch(function(e){ console.warn('CJF milestones load:', e.message); });
+    } catch(e){}
+  }
+
+  var attempts = 0;
+  function tryLoad(){
+    if(window.CJF_FIREBASE_READY && typeof firebase !== 'undefined'){
+      loadMilestonesTimeline();
+    } else if(++attempts < 30){
+      setTimeout(tryLoad, 300);
+    }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', tryLoad);
+  } else {
+    tryLoad();
+  }
+})();
+
 /* ── CJF WhatsApp: load number from Firebase settings (set by Super Admin) ── */
 (function(){
   function loadWASettings(){

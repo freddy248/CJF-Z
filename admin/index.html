@@ -207,6 +207,7 @@
       <button class="ni" onclick="go('ast')" id="nav-ast"><span class="ic">🎙️</span>Audio Stories</button>
       <button class="ni" onclick="go('ist')" id="nav-ist"><span class="ic">📖</span>Impact Stories</button>
       <button class="ni" onclick="go('set')" id="nav-set"><span class="ic">⚙️</span>Site Settings</button>
+      <button class="ni" onclick="go('mile')" id="nav-mile"><span class="ic">🏛️</span>Milestones</button>
       <button class="ni" onclick="go('users')" id="nav-users"><span class="ic">👥</span>User Management</button>
       <button class="ni" onclick="go('log')" id="nav-log"><span class="ic">📋</span>Activity Log</button>
       <a href="../index.html" style="text-decoration:none"><button class="ni" style="margin-top:18px"><span class="ic">🌐</span>View Website</button></a>
@@ -715,7 +716,19 @@
         <button class="btn bp" onclick="saveSets()" style="margin-top:4px">💾 Save Settings</button>
       </div>
 
-      <!-- USER MANAGEMENT SECTION -->
+      <!-- MILESTONES SECTION -->
+      <div id="p-mile" style="display:none">
+        <div class="tc">
+          <div class="th">
+            <h3>🏛️ Key Milestones</h3>
+            <button class="btn bp" onclick="openMileModal()">+ Add Milestone</button>
+          </div>
+          <p style="font-size:13px;color:var(--mid);margin-bottom:16px">These appear on the <strong>About</strong> page timeline. Add a new entry for each significant year or achievement. Drag to reorder is not available — milestones are sorted by year automatically.</p>
+          <div id="mile-list"><div class="empty"><div class="ei">🏛️</div><h4>Loading milestones…</h4></div></div>
+        </div>
+      </div><!-- /p-mile -->
+
+<!-- USER MANAGEMENT SECTION -->
       <div id="p-users" style="display:none;padding:0">
         <div id="sec-users">
           <div class="th">
@@ -1332,15 +1345,16 @@ async function saveSets(){
 
 // UI
 function go(p){
-  ['dash','news','res','ann','mem','rep','ast','ist','set','users','log'].forEach(x=>{var el=document.getElementById('p-'+x);if(el)el.style.display=x===p?'block':'none';var nav=document.getElementById('nav-'+x);if(nav)nav.classList.toggle('active',x===p);});
-  const T={dash:'Dashboard',news:'News & Events',res:'Resources & Downloads',ann:'Announcements',mem:'Memories & Photos',rep:'📥 Incident Reports',ast:'🎙️ Audio Stories',ist:'📖 Impact Stories',set:'Site Settings',users:'User Management',log:'Activity Log'};
+  ['dash','news','res','ann','mem','rep','ast','ist','set','mile','users','log'].forEach(x=>{var el=document.getElementById('p-'+x);if(el)el.style.display=x===p?'block':'none';var nav=document.getElementById('nav-'+x);if(nav)nav.classList.toggle('active',x===p);});
+  const T={dash:'Dashboard',news:'News & Events',res:'Resources & Downloads',ann:'Announcements',mem:'Memories & Photos',rep:'📥 Incident Reports',ast:'🎙️ Audio Stories',ist:'📖 Impact Stories',set:'Site Settings',mile:'Key Milestones',users:'User Management',log:'Activity Log'};
   document.getElementById('ptitle').textContent=T[p]||p;
-  const A={news:'<button class="btn bp bsm" onclick="openND()">+ New Article</button>',res:'<button class="btn bp bsm" onclick="openRD()">+ Add Resource</button>',ast:'<button class="btn bp bsm" onclick="openAstModal()">+ Add Story</button>',ist:'<button class="btn bp bsm" onclick="openIstModal()">+ Add Story</button>'};
+  const A={news:'<button class="btn bp bsm" onclick="openND()">+ New Article</button>',res:'<button class="btn bp bsm" onclick="openRD()">+ Add Resource</button>',ast:'<button class="btn bp bsm" onclick="openAstModal()">+ Add Story</button>',ist:'<button class="btn bp bsm" onclick="openIstModal()">+ Add Story</button>',mile:'<button class="btn bp bsm" onclick="openMileModal()">+ Add Milestone</button>'};
   document.getElementById('tact').innerHTML=A[p]||'';
   // Load data for panels that need it
   if(p==='rep' && typeof loadReports === 'function') setTimeout(loadReports, 100);
   if(p==='ast' && typeof loadAudioStories === 'function') setTimeout(loadAudioStories, 100);
   if(p==='ist' && typeof loadImpactStories === 'function') setTimeout(loadImpactStories, 100);
+  if(p==='mile' && typeof loadMilestones === 'function') setTimeout(loadMilestones, 100);
 }
 function closeDr(id){document.getElementById(id).classList.remove('open');}
 function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast on '+(t==='ok'?'ok':t==='err'?'err':'');clearTimeout(el._t);el._t=setTimeout(()=>el.className='toast',3000);}
@@ -2867,6 +2881,155 @@ async function deleteAllVoices() {
     </div>
   </div>
 </div>
+
+<!-- ══ MILESTONE MODAL ══ -->
+<div class="ov" id="mile-ov" style="display:none">
+  <div class="dw" style="max-width:520px">
+    <div class="dw-head">
+      <h3 id="mile-modal-title">Add Milestone</h3>
+      <button class="dw-close" onclick="closeMileModal()">✕</button>
+    </div>
+    <div class="dw-body">
+      <input type="hidden" id="mile-edit-id"/>
+      <div class="field">
+        <label>Year / Date Label <span style="color:var(--red)">*</span></label>
+        <input id="mile-year" placeholder="e.g. 2027 or May 2027" maxlength="30"/>
+        <small style="color:var(--mid)">This shows on the timeline exactly as typed.</small>
+      </div>
+      <div class="field">
+        <label>Milestone Title <span style="color:var(--red)">*</span></label>
+        <input id="mile-title" placeholder="e.g. New Child Justice Act Enacted"/>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="mile-desc" rows="3" placeholder="Brief description of what happened…"></textarea>
+      </div>
+      <div class="field">
+        <label>Icon (emoji)</label>
+        <input id="mile-icon" placeholder="🏛️" maxlength="4" style="width:80px"/>
+        <small style="color:var(--mid)">One emoji shown on the timeline dot.</small>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn bp" onclick="saveMilestone()" style="flex:1">💾 Save</button>
+        <button class="btn bd" id="mile-del-btn" onclick="deleteMilestone()" style="display:none">🗑️ Delete</button>
+      </div>
+      <div id="mile-err" style="display:none;color:var(--red);font-size:13px;margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  MILESTONES  — reads/writes Firestore 'milestones' collection
+//  about.html reads the same collection and renders the timeline dynamically
+// ══════════════════════════════════════════════
+var allMilestones = [];
+var editMileId = null;
+
+async function loadMilestones(){
+  var el = document.getElementById('mile-list');
+  if(!el) return;
+  if(!db){ el.innerHTML='<div class="empty"><div class="ei">⚠️</div><h4>Firebase not connected</h4></div>'; return; }
+  try{
+    var snap = await db.collection('milestones').orderBy('sortYear','asc').get();
+    allMilestones = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+    renderMilestones();
+  }catch(e){
+    el.innerHTML='<div class="empty"><div class="ei">⚠️</div><h4>Error loading: '+e.message+'</h4></div>';
+  }
+}
+
+function renderMilestones(){
+  var el = document.getElementById('mile-list');
+  if(!allMilestones.length){
+    el.innerHTML='<div class="empty"><div class="ei">🏛️</div><h4>No milestones yet</h4><p>Click "+ Add Milestone" to add the first one.</p></div>';
+    return;
+  }
+  el.innerHTML='<table class="tbl"><thead><tr><th>Year</th><th>Icon</th><th>Title</th><th>Description</th><th>Actions</th></tr></thead><tbody>'
+    + allMilestones.map(function(m){
+        return '<tr>'
+          +'<td style="white-space:nowrap;font-weight:700;color:var(--blue)">'+m.year+'</td>'
+          +'<td style="font-size:22px">'+( m.icon||'🏛️')+'</td>'
+          +'<td style="font-weight:600">'+m.title+'</td>'
+          +'<td style="color:var(--mid);font-size:13px;max-width:260px">'+( m.description||'—')+'</td>'
+          +'<td><button class="btn bs bsm" onclick="editMilestone(\''+m.id+'\')">✏️ Edit</button></td>'
+          +'</tr>';
+      }).join('')
+    +'</tbody></table>';
+}
+
+function openMileModal(){
+  editMileId = null;
+  document.getElementById('mile-modal-title').textContent = 'Add Milestone';
+  document.getElementById('mile-edit-id').value = '';
+  document.getElementById('mile-year').value = '';
+  document.getElementById('mile-title').value = '';
+  document.getElementById('mile-desc').value = '';
+  document.getElementById('mile-icon').value = '🏛️';
+  document.getElementById('mile-del-btn').style.display = 'none';
+  document.getElementById('mile-err').style.display = 'none';
+  document.getElementById('mile-ov').style.display = 'flex';
+}
+
+function editMilestone(id){
+  var m = allMilestones.find(function(x){ return x.id===id; });
+  if(!m) return;
+  editMileId = id;
+  document.getElementById('mile-modal-title').textContent = 'Edit Milestone';
+  document.getElementById('mile-edit-id').value = id;
+  document.getElementById('mile-year').value = m.year||'';
+  document.getElementById('mile-title').value = m.title||'';
+  document.getElementById('mile-desc').value = m.description||'';
+  document.getElementById('mile-icon').value = m.icon||'🏛️';
+  document.getElementById('mile-del-btn').style.display = 'inline-flex';
+  document.getElementById('mile-err').style.display = 'none';
+  document.getElementById('mile-ov').style.display = 'flex';
+}
+
+function closeMileModal(){
+  document.getElementById('mile-ov').style.display = 'none';
+}
+
+async function saveMilestone(){
+  var year  = document.getElementById('mile-year').value.trim();
+  var title = document.getElementById('mile-title').value.trim();
+  var desc  = document.getElementById('mile-desc').value.trim();
+  var icon  = document.getElementById('mile-icon').value.trim() || '🏛️';
+  var errEl = document.getElementById('mile-err');
+  if(!year || !title){ errEl.textContent='Year and Title are required.'; errEl.style.display='block'; return; }
+  // Extract a numeric sort year (first 4 digits found)
+  var numYear = parseInt((year.match(/\d{4}/)||['9999'])[0], 10);
+  var data = { year:year, title:title, description:desc, icon:icon, sortYear:numYear, updatedAt:new Date().toISOString() };
+  if(!db){ toast('Firebase not connected','err'); return; }
+  try{
+    if(editMileId){
+      await db.collection('milestones').doc(editMileId).update(data);
+      toast('Milestone updated!','ok');
+    } else {
+      data.createdAt = new Date().toISOString();
+      await db.collection('milestones').add(data);
+      toast('Milestone added!','ok');
+    }
+    closeMileModal();
+    await loadMilestones();
+  }catch(e){ errEl.textContent='Save failed: '+e.message; errEl.style.display='block'; }
+}
+
+async function deleteMilestone(){
+  if(!editMileId) return;
+  if(!confirm('Delete this milestone? This cannot be undone.')) return;
+  try{
+    await db.collection('milestones').doc(editMileId).delete();
+    toast('Deleted','ok');
+    closeMileModal();
+    await loadMilestones();
+  }catch(e){ toast('Delete failed: '+e.message,'err'); }
+}
+
+document.addEventListener('click', function(e){
+  if(e.target === document.getElementById('mile-ov')) closeMileModal();
+});
+</script>
 
 </body>
 </html>
