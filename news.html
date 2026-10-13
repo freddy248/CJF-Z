@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>News &amp; Events – Child Justice Forum Zambia</title>
+  <meta property="og:title" content="News &amp; Events – Child Justice Forum Zambia" />
+  <meta property="og:description" content="Latest news and events from the Child Justice Forum Zambia." />
+  <meta property="og:url" content="https://cjf.judiciaryzambia.com/news.html" />
+  <meta property="og:site_name" content="Child Justice Forum Zambia" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="News &amp; Events – Child Justice Forum Zambia" />
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="stylesheet" href="css/enhancements.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -230,6 +236,17 @@
     else { sw.style.display='none'; }
     // Set URL hash so this article has a shareable link
     history.replaceState(null, '', location.pathname + '#' + id);
+    // Update page title and OG tags so shared links show the article title
+    var articlePageTitle = (a.title||'News') + ' – Child Justice Forum Zambia';
+    document.title = articlePageTitle;
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    var ogDesc  = document.querySelector('meta[property="og:description"]');
+    var ogUrl   = document.querySelector('meta[property="og:url"]');
+    var twTitle = document.querySelector('meta[name="twitter:title"]');
+    if(ogTitle) ogTitle.setAttribute('content', articlePageTitle);
+    if(ogDesc)  ogDesc.setAttribute('content', (a.summary||'').substring(0,200));
+    if(ogUrl)   ogUrl.setAttribute('content', 'https://cjf.judiciaryzambia.com/news.html#'+id);
+    if(twTitle) twTitle.setAttribute('content', articlePageTitle);
     // Reset copy button label
     var cb = document.getElementById('art-copy-btn');
     if(cb) cb.innerHTML = '🔗 Copy Link';
@@ -256,6 +273,13 @@
   function closeArticle(){
     document.getElementById('art-overlay').style.display='none';
     document.body.style.overflow='';
+    // Restore page title and OG tags
+    var defaultTitle = 'News & Events – Child Justice Forum Zambia';
+    document.title = defaultTitle;
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    var twTitle = document.querySelector('meta[name="twitter:title"]');
+    if(ogTitle) ogTitle.setAttribute('content', defaultTitle);
+    if(twTitle) twTitle.setAttribute('content', defaultTitle);
     // Clear URL hash so refresh doesn't re-open this article
     if(location.hash) history.replaceState(null, '', location.pathname);
   }
