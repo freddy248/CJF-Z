@@ -196,10 +196,15 @@
         </div>
         <h2 id="art-title" style="font-size:26px;font-weight:800;color:#0e1f3f;line-height:1.3;margin-bottom:16px"></h2>
         <div id="art-body" style="font-size:15px;line-height:1.85;color:#3a4a60;white-space:pre-wrap"></div>
-        <div id="art-src-wrap" style="display:none;margin-top:28px;padding-top:20px;border-top:1px solid #e5e9f0">
-          <a id="art-src-link" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#2d59a8;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13.5px;font-weight:700">
-            🔗 <span id="art-src-label">View Source</span>
-          </a>
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e5e9f0;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div id="art-src-wrap" style="display:none">
+            <a id="art-src-link" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#2d59a8;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13.5px;font-weight:700">
+              🔗 <span id="art-src-label">View Source</span>
+            </a>
+          </div>
+          <button id="art-copy-btn" onclick="copyArticleLink()" style="display:inline-flex;align-items:center;gap:7px;background:#f0f4fb;border:1.5px solid #dde4f0;color:#2d59a8;padding:9px 18px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s">
+            🔗 Copy Link
+          </button>
         </div>
       </div>
     </div>
@@ -223,9 +228,30 @@
     var sw = document.getElementById('art-src-wrap');
     if(a.sourceUrl){ document.getElementById('art-src-link').href=a.sourceUrl; document.getElementById('art-src-label').textContent=a.sourceLabel||'View Source'; sw.style.display='block'; }
     else { sw.style.display='none'; }
+    // Set URL hash so this article has a shareable link
+    history.replaceState(null, '', location.pathname + '#' + id);
+    // Reset copy button label
+    var cb = document.getElementById('art-copy-btn');
+    if(cb) cb.innerHTML = '🔗 Copy Link';
     var ov = document.getElementById('art-overlay');
     ov.style.display='flex';
     document.body.style.overflow='hidden';
+  }
+  function copyArticleLink(){
+    var url = location.href.split('#')[0] + location.hash;
+    var btn = document.getElementById('art-copy-btn');
+    try{
+      navigator.clipboard.writeText(url).then(function(){
+        if(btn){ btn.innerHTML = '✅ Copied!'; setTimeout(function(){ btn.innerHTML = '🔗 Copy Link'; }, 2500); }
+      });
+    } catch(e){
+      // Fallback for browsers without clipboard API
+      var ta = document.createElement('textarea');
+      ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); if(btn){ btn.innerHTML = '✅ Copied!'; setTimeout(function(){ btn.innerHTML = '🔗 Copy Link'; }, 2500); } }catch(e2){}
+      document.body.removeChild(ta);
+    }
   }
   function closeArticle(){
     document.getElementById('art-overlay').style.display='none';
