@@ -9,8 +9,8 @@
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com;
     img-src 'self' data: https:;
-    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://firestore.googleapis.com https://firebasestorage.googleapis.com https://wa.me;
-    media-src 'self' blob: https://firebasestorage.googleapis.com;
+    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://firestore.googleapis.com https://firebasestorage.googleapis.com https://*.firebasestorage.app https://wa.me;
+    media-src 'self' blob: https://firebasestorage.googleapis.com https://*.firebasestorage.app;
     frame-ancestors 'none';
   "/>
   <meta name="referrer" content="strict-origin-when-cross-origin"/>
@@ -2488,17 +2488,12 @@ async function submitReport() {
     try {
       if (typeof firebase !== 'undefined' && typeof CJF_FIREBASE_CONFIG !== 'undefined') {
         try { firebase.app(); } catch(e2) { firebase.initializeApp(CJF_FIREBASE_CONFIG); }
-        // Get storage with explicit bucket if configured
-        const bucketUrl = CJF_FIREBASE_CONFIG.storageBucket
-          ? 'gs://' + CJF_FIREBASE_CONFIG.storageBucket
-          : undefined;
-        const storage = bucketUrl ? firebase.storage(firebase.app(), bucketUrl) : firebase.storage();
         const ext = _recBlob.type.includes('wav') ? 'wav'
                   : _recBlob.type.includes('ogg') ? 'ogg'
                   : _recBlob.type.includes('mp4') ? 'mp4'
                   : 'webm';
         const path = 'incident_voices/' + Date.now() + '.' + ext;
-        const ref  = storage.ref(path);
+        const ref  = firebase.storage().ref(path);
         console.log('[CJF Voice] Uploading recording...');
         const snap = await ref.put(_recBlob, { contentType: _recBlob.type || 'audio/webm' });
         console.log('[CJF Voice] Put complete, bytes:', snap.bytesTransferred);
@@ -3166,10 +3161,7 @@ async function submitCtaReport() {
         const ext = _ctaRecBlob.type.includes('wav') ? 'wav'
                   : _ctaRecBlob.type.includes('ogg') ? 'ogg'
                   : _ctaRecBlob.type.includes('mp4') ? 'mp4' : 'webm';
-        const bucketUrl = (typeof CJF_FIREBASE_CONFIG !== 'undefined' && CJF_FIREBASE_CONFIG.storageBucket)
-          ? 'gs://' + CJF_FIREBASE_CONFIG.storageBucket : undefined;
-        const storage = bucketUrl ? firebase.storage(firebase.app(), bucketUrl) : firebase.storage();
-        const ref = storage.ref('incident_voices/' + Date.now() + '.' + ext);
+        const ref = firebase.storage().ref('incident_voices/' + Date.now() + '.' + ext);
         const snap = await ref.put(_ctaRecBlob, { contentType: _ctaRecBlob.type || 'audio/webm' });
         console.log('[CJF CTA Voice] Uploaded', snap.bytesTransferred, 'bytes');
         voiceUrl = await ref.getDownloadURL();
