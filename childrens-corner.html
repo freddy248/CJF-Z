@@ -1473,6 +1473,8 @@
           <h4 style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1e3f7a;margin-bottom:8px">Your message has been sent.</h4>
           <p style="font-size:14px;color:#4a5f80">The CJF Secretariat will read your message. In an emergency call <strong style="color:#C62828">116</strong> — free, any time.</p>
           <a href="tel:116" style="display:inline-block;margin-top:12px;background:#C62828;color:white;padding:10px 24px;border-radius:30px;text-decoration:none;font-weight:800;font-size:14px">📞 Call 116</a>
+          <br/>
+          <button onclick="resetCtaForm()" style="margin-top:14px;background:none;border:2px solid #2E59A8;color:#2E59A8;padding:10px 24px;border-radius:30px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer">✉️ Send Another Message</button>
         </div>
       </div>
     </div>
@@ -3235,6 +3237,39 @@ async function submitCtaReport() {
   }
 }
 
+function resetCtaForm() {
+  // Hide success screen
+  const successDiv = document.getElementById('cta-success');
+  if (successDiv) {
+    successDiv.style.display = 'none';
+    // Remove injected WhatsApp button so it doesn't duplicate next time
+    const waBtn = document.getElementById('cta-wa-send-btn');
+    if (waBtn) waBtn.remove();
+  }
+  // Reset dropdowns and textarea
+  const sitEl  = document.getElementById('cta-situation');
+  const msgEl  = document.getElementById('cta-message');
+  if (sitEl) sitEl.value = '';
+  if (msgEl) msgEl.value = '';
+  // Reset voice state
+  _ctaRecBlob = null;
+  _ctaRecording = false;
+  const recBtn  = document.getElementById('cta-rec-btn');
+  const recStat = document.getElementById('cta-rec-status');
+  if (recBtn)  { recBtn.textContent = '🎙️ Start Recording'; recBtn.style.background = '#2E59A8'; }
+  if (recStat) recStat.textContent = '';
+  // Show tabs and panels again
+  document.querySelectorAll('.tab-btn-cta').forEach(b => b.style.display = '');
+  document.getElementById('cta-type-panel').style.display  = 'block';
+  document.getElementById('cta-voice-panel').style.display = 'none';
+  // Reset to text tab
+  document.querySelectorAll('.tab-btn-cta').forEach(b => b.classList.remove('active'));
+  const textTab = document.querySelector('.tab-btn-cta[data-tab="text"]');
+  if (textTab) textTab.classList.add('active');
+  // Re-enable submit button
+  const subBtn = document.getElementById('cta-submit');
+  if (subBtn) { subBtn.disabled = false; subBtn.textContent = 'Send Message 💌'; }
+}
 
 // GAME 1: RIGHTS MATCH — Memory card matching game
 const MATCH_PAIRS = [
