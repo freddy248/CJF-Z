@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.firebasestorage.googleapis.com;
-    script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net;
+    script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net https://www.googletagmanager.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com;
     img-src 'self' data: https:;
@@ -3164,22 +3164,35 @@ async function submitCtaReport() {
       if (typeof firebase !== 'undefined') {
         try { firebase.app(); } catch(e) { firebase.initializeApp(CJF_FIREBASE_CONFIG); }
         const ext = _ctaRecBlob.type.includes('wav') ? 'wav'
-                  : _ctaRecBlob.type.includes('ogg') ? 'ogg' : 'webm';
-        const ref = firebase.storage().ref('incident_voices/' + Date.now() + '.' + ext);
-        await ref.put(_ctaRecBlob, { contentType: _ctaRecBlob.type });
+                  : _ctaRecBlob.type.includes('ogg') ? 'ogg'
+                  : _ctaRecBlob.type.includes('mp4') ? 'mp4' : 'webm';
+        const bucketUrl = (typeof CJF_FIREBASE_CONFIG !== 'undefined' && CJF_FIREBASE_CONFIG.storageBucket)
+          ? 'gs://' + CJF_FIREBASE_CONFIG.storageBucket : undefined;
+        const storage = bucketUrl ? firebase.storage(firebase.app(), bucketUrl) : firebase.storage();
+        const ref = storage.ref('incident_voices/' + Date.now() + '.' + ext);
+        const snap = await ref.put(_ctaRecBlob, { contentType: _ctaRecBlob.type || 'audio/webm' });
+        console.log('[CJF CTA Voice] Uploaded', snap.bytesTransferred, 'bytes');
         voiceUrl = await ref.getDownloadURL();
       }
-    } catch(e) { console.warn('[CJF CTA Voice]', e.message); }
+    } catch(e) {
+      console.warn('[CJF CTA Voice] Upload failed:', e.message);
+      // Fallback: note the recording size so secretariat knows a voice was sent
+      const sizekb = Math.round(_ctaRecBlob.size / 1024);
+      voiceUrl = '[Voice recording: ' + sizekb + 'KB — contact admin to check Storage rules]';
+    }
   }
 
   const payload = {
     situation: sitEl.value || 'other',
-    extra:     msgEl.value.trim() || (isVoice ? '' : ''),
+    province:  'Not specified',
+    ageGroup:  'Not specified',
+    extra:     isVoice ? '[voice recording attached]' : (msgEl.value.trim() || ''),
     voiceUrl:  voiceUrl,
     hasVoice:  isVoice && !!_ctaRecBlob,
     language:  document.documentElement.lang || 'en',
     timestamp: new Date().toISOString(),
-    status:    'new', source: 'cta-button'
+    status:    'new',
+    source:    'cta-button'
   };
 
   // Save to Firestore
