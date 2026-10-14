@@ -1423,49 +1423,52 @@
         </div>
         <p style="font-size:13px;color:#4a5f80;margin-bottom:16px">No name needed. No login. Type or record your voice — your message goes directly to the CJF Secretariat.</p>
 
-        <!-- Reuse the same step structure but simplified inline -->
-        <div style="display:flex;gap:10px;margin-bottom:14px">
-          <button class="tab-btn-cta active" onclick="ctaInputTab('type',this)" style="flex:1;padding:9px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:none;background:#2E59A8;color:white;border-radius:10px;cursor:pointer">✏️ Type</button>
-          <button class="tab-btn-cta" onclick="ctaInputTab('voice',this)" style="flex:1;padding:9px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:2px solid #dde4f0;background:#EBF1FA;color:#2E59A8;border-radius:10px;cursor:pointer">🎙️ Record Voice</button>
-        </div>
+        <!-- Form body — hidden when success screen shows, restored on reset -->
+        <div id="cta-form-body">
+          <!-- Reuse the same step structure but simplified inline -->
+          <div style="display:flex;gap:10px;margin-bottom:14px">
+            <button class="tab-btn-cta active" onclick="ctaInputTab('type',this)" style="flex:1;padding:9px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:none;background:#2E59A8;color:white;border-radius:10px;cursor:pointer">✏️ Type</button>
+            <button class="tab-btn-cta" onclick="ctaInputTab('voice',this)" style="flex:1;padding:9px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:2px solid #dde4f0;background:#EBF1FA;color:#2E59A8;border-radius:10px;cursor:pointer">🎙️ Record Voice</button>
+          </div>
 
-        <!-- Type panel -->
-        <div id="cta-type-panel">
-          <select id="cta-situation" style="width:100%;padding:11px 14px;border:1.5px solid #dde4f0;border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:10px;background:white">
-            <option value="">— What happened? —</option>
-            <option value="arrested">🚔 I was arrested</option>
-            <option value="detained">🔒 I am being held somewhere</option>
-            <option value="rights-violated">⚖️ My rights were violated</option>
-            <option value="court">🏛️ I have to go to court</option>
-            <option value="danger">🆘 I am in danger</option>
-            <option value="other">💬 Something else</option>
-          </select>
-          <textarea id="cta-message" rows="4" placeholder="Tell us what's happening (no name needed)…" style="width:100%;padding:12px 14px;border:1.5px solid #dde4f0;border-radius:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box"></textarea>
-        </div>
+          <!-- Type panel -->
+          <div id="cta-type-panel">
+            <select id="cta-situation" style="width:100%;padding:11px 14px;border:1.5px solid #dde4f0;border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:10px;background:white">
+              <option value="">— What happened? —</option>
+              <option value="arrested">🚔 I was arrested</option>
+              <option value="detained">🔒 I am being held somewhere</option>
+              <option value="rights-violated">⚖️ My rights were violated</option>
+              <option value="court">🏛️ I have to go to court</option>
+              <option value="danger">🆘 I am in danger</option>
+              <option value="other">💬 Something else</option>
+            </select>
+            <textarea id="cta-message" rows="4" placeholder="Tell us what's happening (no name needed)…" style="width:100%;padding:12px 14px;border:1.5px solid #dde4f0;border-radius:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box"></textarea>
+          </div>
 
-        <!-- Voice panel -->
-        <div id="cta-voice-panel" style="display:none">
-          <div style="background:#EBF1FA;border-radius:14px;padding:18px;text-align:center">
-            <p style="font-size:13px;color:#4a5f80;margin-bottom:10px;font-weight:600">Tap to start recording. Speak in English, Ichibemba, or Chinyanja.</p>
-            <button id="cta-rec-btn" onclick="toggleCtaRec()" style="background:#2E59A8;color:white;border:none;border-radius:30px;padding:11px 24px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer">🎙️ Tap to Record</button>
-            <div id="cta-rec-timer" style="display:none;font-size:13px;font-weight:700;color:#C62828;margin-top:8px">⏺ <span id="cta-rec-secs">0</span>s</div>
-            <div id="cta-rec-playback" style="display:none;margin-top:12px">
-              <audio id="cta-rec-audio" controls style="width:100%;border-radius:8px"></audio>
-              <button onclick="clearCtaRec()" style="background:none;border:1.5px solid #dde4f0;color:#4a5f80;border-radius:20px;padding:4px 14px;font-size:12px;cursor:pointer;margin-top:6px;font-family:inherit;font-weight:700">✕ Record again</button>
+          <!-- Voice panel -->
+          <div id="cta-voice-panel" style="display:none">
+            <div style="background:#EBF1FA;border-radius:14px;padding:18px;text-align:center">
+              <p style="font-size:13px;color:#4a5f80;margin-bottom:10px;font-weight:600">Tap to start recording. Speak in English, Ichibemba, or Chinyanja.</p>
+              <button id="cta-rec-btn" onclick="toggleCtaRec()" style="background:#2E59A8;color:white;border:none;border-radius:30px;padding:11px 24px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer">🎙️ Tap to Record</button>
+              <div id="cta-rec-timer" style="display:none;font-size:13px;font-weight:700;color:#C62828;margin-top:8px">⏺ <span id="cta-rec-secs">0</span>s</div>
+              <div id="cta-rec-playback" style="display:none;margin-top:12px">
+                <audio id="cta-rec-audio" controls style="width:100%;border-radius:8px"></audio>
+                <button onclick="clearCtaRec()" style="background:none;border:1.5px solid #dde4f0;color:#4a5f80;border-radius:20px;padding:4px 14px;font-size:12px;cursor:pointer;margin-top:6px;font-family:inherit;font-weight:700">✕ Record again</button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div style="margin-top:12px;background:#FFF8E1;border-left:3px solid #f0a500;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#7d4e00;font-weight:600">
-          🔒 Your message goes directly to the CJF Secretariat. No names required. Completely private.
-        </div>
+          <div style="margin-top:12px;background:#FFF8E1;border-left:3px solid #f0a500;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#7d4e00;font-weight:600">
+            🔒 Your message goes directly to the CJF Secretariat. No names required. Completely private.
+          </div>
 
-        <div id="cta-err" style="display:none;background:#FFEBEE;border-left:3px solid #C62828;padding:9px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#C62828;margin-top:10px"></div>
+          <div id="cta-err" style="display:none;background:#FFEBEE;border-left:3px solid #C62828;padding:9px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#C62828;margin-top:10px"></div>
 
-        <div style="display:flex;gap:10px;margin-top:14px">
-          <button onclick="closeReportForm()" style="background:none;border:2px solid #dde4f0;color:#4a5f80;border-radius:30px;padding:11px 20px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:14px">Cancel</button>
-          <button id="cta-submit-btn" onclick="submitCtaReport()" style="flex:1;background:linear-gradient(135deg,#2E59A8,#1e3f7a);color:white;border:none;border-radius:30px;padding:11px 20px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:14px">Send Message 💌</button>
-        </div>
+          <div style="display:flex;gap:10px;margin-top:14px">
+            <button onclick="closeReportForm()" style="background:none;border:2px solid #dde4f0;color:#4a5f80;border-radius:30px;padding:11px 20px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;font-size:14px">Cancel</button>
+            <button id="cta-submit-btn" onclick="submitCtaReport()" style="flex:1;background:linear-gradient(135deg,#2E59A8,#1e3f7a);color:white;border:none;border-radius:30px;padding:11px 20px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:14px">Send Message 💌</button>
+          </div>
+        </div><!-- /cta-form-body -->
 
         <!-- Success state -->
         <div id="cta-success" style="display:none;text-align:center;padding:16px 0">
@@ -3212,12 +3215,7 @@ async function submitCtaReport() {
 
   // Show success + WhatsApp button (must be a direct user click — window.open after await is blocked)
   subBtn.disabled = false; subBtn.textContent = 'Send Message 💌';
-  document.getElementById('cta-type-panel').style.display  = 'none';
-  document.getElementById('cta-voice-panel').style.display = 'none';
-  document.querySelectorAll('.tab-btn-cta').forEach(b => b.style.display = 'none');
-  document.querySelectorAll('#cta-report-panel > div:not(#cta-success):not(:first-child)').forEach(b => {
-    if (!b.id?.includes('success')) b.style.display = 'none';
-  });
+  document.getElementById('cta-form-body').style.display = 'none';
   const successDiv = document.getElementById('cta-success');
   successDiv.style.display = 'block';
 
@@ -3238,37 +3236,46 @@ async function submitCtaReport() {
 }
 
 function resetCtaForm() {
-  // Hide success screen
+  // Hide success screen; remove injected WA button so it doesn't duplicate
   const successDiv = document.getElementById('cta-success');
-  if (successDiv) {
-    successDiv.style.display = 'none';
-    // Remove injected WhatsApp button so it doesn't duplicate next time
-    const waBtn = document.getElementById('cta-wa-send-btn');
-    if (waBtn) waBtn.remove();
-  }
-  // Reset dropdowns and textarea
-  const sitEl  = document.getElementById('cta-situation');
-  const msgEl  = document.getElementById('cta-message');
+  if (successDiv) successDiv.style.display = 'none';
+  const waBtn = document.getElementById('cta-wa-send-btn');
+  if (waBtn) waBtn.remove();
+
+  // Show the form body again
+  document.getElementById('cta-form-body').style.display = 'block';
+
+  // Clear inputs
+  const sitEl = document.getElementById('cta-situation');
+  const msgEl = document.getElementById('cta-message');
   if (sitEl) sitEl.value = '';
   if (msgEl) msgEl.value = '';
+
   // Reset voice state
   _ctaRecBlob = null;
   _ctaRecording = false;
-  const recBtn  = document.getElementById('cta-rec-btn');
-  const recStat = document.getElementById('cta-rec-status');
-  if (recBtn)  { recBtn.textContent = '🎙️ Start Recording'; recBtn.style.background = '#2E59A8'; }
-  if (recStat) recStat.textContent = '';
-  // Show tabs and panels again
-  document.querySelectorAll('.tab-btn-cta').forEach(b => b.style.display = '');
+  const recBtn      = document.getElementById('cta-rec-btn');
+  const recTimer    = document.getElementById('cta-rec-timer');
+  const recPlayback = document.getElementById('cta-rec-playback');
+  if (recBtn)      { recBtn.textContent = '🎙️ Tap to Record'; recBtn.style.background = '#2E59A8'; }
+  if (recTimer)    recTimer.style.display   = 'none';
+  if (recPlayback) recPlayback.style.display = 'none';
+
+  // Switch back to Type tab
   document.getElementById('cta-type-panel').style.display  = 'block';
   document.getElementById('cta-voice-panel').style.display = 'none';
-  // Reset to text tab
-  document.querySelectorAll('.tab-btn-cta').forEach(b => b.classList.remove('active'));
-  const textTab = document.querySelector('.tab-btn-cta[data-tab="text"]');
-  if (textTab) textTab.classList.add('active');
+  document.querySelectorAll('.tab-btn-cta').forEach((b, i) => {
+    if (i === 0) { b.classList.add('active');    b.style.background = '#2E59A8'; b.style.color = 'white'; b.style.border = 'none'; }
+    else         { b.classList.remove('active'); b.style.background = '#EBF1FA'; b.style.color = '#2E59A8'; b.style.border = '2px solid #dde4f0'; }
+  });
+
   // Re-enable submit button
-  const subBtn = document.getElementById('cta-submit');
+  const subBtn = document.getElementById('cta-submit-btn');
   if (subBtn) { subBtn.disabled = false; subBtn.textContent = 'Send Message 💌'; }
+
+  // Clear any error
+  const errEl = document.getElementById('cta-err');
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
 }
 
 // GAME 1: RIGHTS MATCH — Memory card matching game
