@@ -199,6 +199,13 @@
         </div>
         <h2 id="art-title" style="font-size:26px;font-weight:800;color:#0e1f3f;line-height:1.3;margin-bottom:16px"></h2>
         <div id="art-body" style="font-size:15px;line-height:1.85;color:#3a4a60;white-space:pre-wrap"></div>
+        <!-- Activities section — shown when article has sub-activities -->
+        <div id="art-activities-panel" style="display:none;margin-top:28px">
+          <div style="border-top:2px solid #e8f0fe;padding-top:24px">
+            <h3 id="art-activities-heading" style="font-size:16px;font-weight:800;color:#1e3f7a;margin:0 0 16px;display:flex;align-items:center;gap:8px">🗂️ Activities</h3>
+            <div id="art-activities-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px"></div>
+          </div>
+        </div>
         <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e5e9f0;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <div id="art-src-wrap" style="display:none">
             <a id="art-src-link" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#2d59a8;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13.5px;font-weight:700">
@@ -244,12 +251,58 @@
     if(ogDesc)  ogDesc.setAttribute('content', (a.summary||'').substring(0,200));
     if(ogUrl)   ogUrl.setAttribute('content', 'https://cjf.judiciaryzambia.com/news.html#'+id);
     if(twTitle) twTitle.setAttribute('content', articlePageTitle);
+    // ── Activities (multi-activity articles) ──
+    var actPanel = document.getElementById('art-activities-panel');
+    var actGrid  = document.getElementById('art-activities-grid');
+    var actHead  = document.getElementById('art-activities-heading');
+    if(a.activities && a.activities.length){
+      actGrid.innerHTML = '';
+      actHead.textContent = '🗂️ ' + a.activities.length + ' Activit' + (a.activities.length===1?'y':'ies');
+      a.activities.forEach(function(act){
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#f0f5ff;border:1.5px solid #dde4f0;border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px';
+        card.onmouseenter = function(){ this.style.background='#e0eaff';this.style.boxShadow='0 4px 16px rgba(45,89,168,.15)'; };
+        card.onmouseleave = function(){ this.style.background='#f0f5ff';this.style.boxShadow='none'; };
+        card.innerHTML = '<div style="font-size:36px;margin-bottom:4px">'+(act.icon||'📌')+'</div>'
+          +'<div style="font-size:14px;font-weight:800;color:#0e1f3f">'+(act.title||'Activity')+'</div>'
+          +'<div style="font-size:12px;color:#7a8fa8">Tap to read full story'+(act.imageUrls&&act.imageUrls.length?' &amp; photos':'')+'</div>'
+          +'<span style="font-size:12px;font-weight:700;color:#2d59a8;margin-top:4px">View →</span>';
+        card.addEventListener('click', function(){ openArtAct(id, act); });
+        actGrid.appendChild(card);
+      });
+      actPanel.style.display = 'block';
+    } else {
+      actPanel.style.display = 'none';
+    }
     // Reset copy button label
     var cb = document.getElementById('art-copy-btn');
     if(cb) cb.innerHTML = '🔗 Copy Link';
     var ov = document.getElementById('art-overlay');
     ov.style.display='flex';
     document.body.style.overflow='hidden';
+  }
+  // ── Open activity detail sub-modal ──
+  var _artActArticleId = null;
+  function openArtAct(articleId, act){
+    _artActArticleId = articleId;
+    document.getElementById('art-act-icon').textContent  = act.icon  || '📌';
+    document.getElementById('art-act-title').textContent = act.title || 'Activity';
+    document.getElementById('art-act-story').innerHTML   = (act.story || '').replace(/\n/g,'<br>');
+    var imgContainer = document.getElementById('art-act-images');
+    imgContainer.innerHTML = '';
+    if(act.imageUrls && act.imageUrls.length){
+      act.imageUrls.forEach(function(url){
+        var img = document.createElement('img');
+        img.src = url;
+        img.alt = act.title||'';
+        img.style.cssText = 'width:100%;height:160px;object-fit:cover;border-radius:10px';
+        imgContainer.appendChild(img);
+      });
+    }
+    document.getElementById('art-act-overlay').style.display = 'flex';
+  }
+  function closeArtAct(){
+    document.getElementById('art-act-overlay').style.display = 'none';
   }
   function copyArticleLink(){
     var url = location.href.split('#')[0] + location.hash;
@@ -268,6 +321,7 @@
     }
   }
   function closeArticle(){
+    closeArtAct();
     document.getElementById('art-overlay').style.display='none';
     document.body.style.overflow='';
     // Restore page title and OG tags
@@ -280,7 +334,13 @@
     // Clear URL hash so refresh doesn't re-open this article
     if(location.hash) history.replaceState(null, '', location.pathname);
   }
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeArticle(); });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      var actOv = document.getElementById('art-act-overlay');
+      if(actOv && actOv.style.display==='flex'){ closeArtAct(); return; }
+      closeArticle();
+    }
+  });
 
   function buildNewsCard(a){
     var div = document.createElement('div');
@@ -293,7 +353,12 @@
       html += '<div style="margin:-20px -20px 16px -20px;height:190px;overflow:hidden;border-radius:var(--radius-lg) var(--radius-lg) 0 0">'
              +'<img src="'+a.imageUrl+'" alt="" style="width:100%;height:100%;object-fit:cover"/></div>';
     }
+    html += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">';
     html += '<div class="news-tag">'+(a.category||'Update')+'</div>';
+    if(a.activities && a.activities.length){
+      html += '<span style="background:#FFF8E1;color:#b8860b;border:1.5px solid #FFD54F;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.04em">🗂️ '+a.activities.length+' Activit'+(a.activities.length===1?'y':'ies')+'</span>';
+    }
+    html += '</div>';
     html += '<span class="news-date">'+formatDate(a.date)+'</span>';
     html += '<h3 style="margin:8px 0 10px">'+a.title+'</h3>';
     html += '<p style="flex:1">'+(a.summary||'')+'</p>';
@@ -431,6 +496,21 @@
   setTimeout(loadWASettings, 4000);
 })();
 </script>
+
+<!-- ── Activity Detail Sub-Modal (for Firestore articles) ── -->
+<div id="art-act-overlay" onclick="closeArtAct()" style="display:none;position:fixed;inset:0;background:rgba(5,15,35,0.92);z-index:9100;align-items:flex-start;justify-content:center;padding:40px 16px;backdrop-filter:blur(6px);overflow-y:auto">
+  <div onclick="event.stopPropagation()" style="background:#fff;border-radius:20px;max-width:640px;width:100%;position:relative;box-shadow:0 24px 70px rgba(0,0,0,.5);overflow:hidden">
+    <div id="art-act-head" style="background:linear-gradient(135deg,#0a193a,#1e3f80);padding:28px 28px 24px;color:#fff;position:relative">
+      <button onclick="closeArtAct()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;color:#fff;display:flex;align-items:center;justify-content:center">✕</button>
+      <div id="art-act-icon" style="font-size:48px;margin-bottom:10px">📌</div>
+      <h3 id="art-act-title" style="font-size:20px;font-weight:800;margin:0;color:#fff"></h3>
+    </div>
+    <div style="padding:24px 28px">
+      <div id="art-act-story" style="font-size:15px;color:#3a4a60;line-height:1.75;margin-bottom:20px"></div>
+      <div id="art-act-images" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px"></div>
+    </div>
+  </div>
+</div>
 
 <script>
 var NM_DATA = {

@@ -860,6 +860,19 @@
         <input id="nd-srclabel" placeholder="e.g. Read on Judiciary Zambia"/>
       </div>
 
+      <!-- ── Activities (multi-activity articles) ── -->
+      <div class="field" style="margin-top:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <label style="font-size:14px;font-weight:700;color:var(--dark)">🗂️ Activities <span style="font-size:11px;font-weight:400;color:var(--mid)">(optional — for events with multiple sub-activities)</span></label>
+            <div style="font-size:12px;color:var(--mid);margin-top:2px">e.g. Child Justice Week → Debates, Football Tournament, Handball Tournament</div>
+          </div>
+          <button type="button" onclick="ndAddActivity()" class="btn bp bsm" style="white-space:nowrap;flex-shrink:0">+ Add Activity</button>
+        </div>
+        <div id="nd-activities-list" style="display:flex;flex-direction:column;gap:12px"></div>
+        <div id="nd-activities-empty" style="font-size:13px;color:var(--mid);padding:10px 0">No activities added. This article will show as a standard single article.</div>
+      </div>
+
       <div style="margin-top:8px">
         <div class="trow"><div><div class="trlabel">Published</div><div class="trsub">Visible on website</div></div><label class="tog"><input type="checkbox" id="nd-pub" checked/><span class="tsl"></span></label></div>
         <div class="trow"><div><div class="trlabel">Featured on Homepage</div><div class="trsub">Show in homepage news section</div></div><label class="tog"><input type="checkbox" id="nd-feat"/><span class="tsl"></span></label></div>
@@ -1118,6 +1131,7 @@ function openND(){
   document.getElementById('nd-feat').checked=false;
   document.getElementById('nd-imgres').style.display='none';
   document.getElementById('nd-imgpreview').style.display='none';
+  ndClearActivities();
   document.getElementById('ndov').classList.add('open');
 }
 function editN(id){
@@ -1139,6 +1153,9 @@ function editN(id){
   if(n.imageUrl){ document.getElementById('nd-imgprevimg').src=n.imageUrl; document.getElementById('nd-imgpreview').style.display='block'; }
   else { document.getElementById('nd-imgpreview').style.display='none'; }
   document.getElementById('nd-imgres').style.display='none';
+  // Load activities
+  ndClearActivities();
+  if(n.activities&&n.activities.length){ n.activities.forEach(function(act){ ndAddActivity(act); }); }
   document.getElementById('ndov').classList.add('open');
 }
 // News image upload
@@ -1190,9 +1207,74 @@ async function uploadNewsImg(file){
   }
 }
 
+// ── Activities helpers ──
+var _ndActCounter = 0;
+function ndSyncActivitiesEmpty(){
+  var list=document.getElementById('nd-activities-list');
+  var empty=document.getElementById('nd-activities-empty');
+  if(!list||!empty) return;
+  empty.style.display = list.children.length ? 'none' : 'block';
+}
+function ndAddActivity(act){
+  var list=document.getElementById('nd-activities-list');
+  if(!list) return;
+  var idx = _ndActCounter++;
+  var id_prefix = 'nda-'+idx+'-';
+  var row = document.createElement('div');
+  row.id = 'nda-row-'+idx;
+  row.style.cssText = 'background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:16px;position:relative';
+  row.innerHTML =
+    '<button type="button" onclick="ndRemoveActivity(\'nda-row-'+idx+'\')" title="Remove activity" style="position:absolute;top:10px;right:10px;background:#fdecea;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;color:#c62828;display:flex;align-items:center;justify-content:center">✕</button>'
+    +'<div style="display:grid;grid-template-columns:80px 1fr;gap:10px;margin-bottom:10px">'
+    +'<div class="field" style="margin:0"><label style="font-size:12px">Icon / Emoji</label><input id="'+id_prefix+'icon" placeholder="🎤" style="font-size:20px;text-align:center" value="'+(act&&act.icon?act.icon:'')+'"/></div>'
+    +'<div class="field" style="margin:0"><label style="font-size:12px">Activity Title *</label><input id="'+id_prefix+'title" placeholder="e.g. School Debates" value="'+(act&&act.title?escHtml(act.title):'')+'"/></div>'
+    +'</div>'
+    +'<div class="field" style="margin-bottom:10px"><label style="font-size:12px">Story / Description *</label><textarea id="'+id_prefix+'story" rows="4" placeholder="Full description of this activity…" style="resize:vertical">'+(act&&act.story?escHtml(act.story):'')+'</textarea></div>'
+    +'<div class="field" style="margin:0"><label style="font-size:12px">Photo URLs <span style="font-weight:400;color:var(--mid)">(one per line — paste uploaded image URLs)</span></label><textarea id="'+id_prefix+'imgs" rows="2" placeholder="https://firebasestorage…&#10;https://firebasestorage…" style="resize:vertical;font-size:12px">'+(act&&act.imageUrls?act.imageUrls.join('\n'):'')+'</textarea></div>'
+    +'<input type="hidden" id="'+id_prefix+'idx" value="'+idx+'"/>';
+  list.appendChild(row);
+  ndSyncActivitiesEmpty();
+}
+function ndRemoveActivity(rowId){
+  var el=document.getElementById(rowId);
+  if(el){ el.remove(); ndSyncActivitiesEmpty(); }
+}
+function ndClearActivities(){
+  var list=document.getElementById('nd-activities-list');
+  if(list) list.innerHTML='';
+  ndSyncActivitiesEmpty();
+}
+function ndCollectActivities(){
+  var list=document.getElementById('nd-activities-list');
+  if(!list||!list.children.length) return [];
+  var acts=[];
+  Array.from(list.children).forEach(function(row){
+    var idxEl=row.querySelector('input[id$="-idx"]');
+    if(!idxEl) return;
+    var p='nda-'+idxEl.value+'-';
+    var titleEl=document.getElementById(p+'title');
+    var title=(titleEl?titleEl.value.trim():'');
+    if(!title) return; // skip blank rows
+    var iconEl=document.getElementById(p+'icon');
+    var storyEl=document.getElementById(p+'story');
+    var imgsEl=document.getElementById(p+'imgs');
+    var imgUrls=(imgsEl?imgsEl.value.split('\n').map(function(u){return u.trim();}).filter(Boolean):[]);
+    acts.push({
+      id: title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
+      icon: iconEl?iconEl.value.trim():'📌',
+      title: title,
+      story: storyEl?storyEl.value.trim():'',
+      imageUrls: imgUrls
+    });
+  });
+  return acts;
+}
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 async function saveNews(){
   const ti=document.getElementById('nd-ti').value.trim(),su=document.getElementById('nd-sum').value.trim();
   if(!ti||!su){toast('Title and Summary required.','err');return;}
+  const acts = ndCollectActivities();
   const d={
     title:ti, summary:su,
     date:document.getElementById('nd-dt').value,
@@ -1203,9 +1285,11 @@ async function saveNews(){
     sourceLabel:document.getElementById('nd-srclabel').value.trim(),
     published:document.getElementById('nd-pub').checked,
     featured:document.getElementById('nd-feat').checked,
+    activities: acts.length ? acts : firebase.firestore.FieldValue.delete(),
     updatedAt:new Date().toISOString()
   };
-  if(!db){if(eNid){const i=allN.findIndex(x=>x.id===eNid);if(i>-1)allN[i]={...allN[i],...d};}else allN.unshift({id:'d'+Date.now(),...d});renderAll();closeDr('ndov');toast('Saved! (demo mode)','ok');return;}
+  // In demo mode firebase isn't available, so remove FieldValue sentinel
+  if(!db){ if(acts.length) d.activities=acts; else delete d.activities; if(eNid){const i=allN.findIndex(x=>x.id===eNid);if(i>-1)allN[i]={...allN[i],...d};}else allN.unshift({id:'d'+Date.now(),...d});renderAll();closeDr('ndov');toast('Saved! (demo mode)','ok');return;}
   try{if(eNid){await db.collection('news').doc(eNid).update(d);toast('Updated!','ok');}else{d.createdAt=new Date().toISOString();await db.collection('news').add(d);toast('Published!','ok');}notifySection('news');closeDr('ndov');await loadN();renderDash();}
   catch(e){toast('Failed: '+e.message,'err');}
 }
