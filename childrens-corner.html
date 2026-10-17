@@ -1311,7 +1311,7 @@
         <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap">
           <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Pairs: <span id="match-pairs">0</span>/8</div>
           <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Moves: <span id="match-moves">0</span></div>
-          <button onclick="initMatchGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ New Game</button>
+          <button onclick="initMatchGame(true)" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ New Game</button>
         </div>
       </div>
       <div id="match-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:720px;margin:0 auto"></div>
@@ -1319,7 +1319,7 @@
         <div style="font-size:56px;margin-bottom:10px">🏆</div>
         <h3 style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;color:#FFD54F;margin:0 0 8px">You Did It!</h3>
         <p style="color:white;font-size:15px;margin:0 0 16px">You matched all 8 rights in <span id="match-final-moves">0</span> moves!</p>
-        <button onclick="initMatchGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
+        <button onclick="initMatchGame(true)" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
       </div>
     </div>
 
@@ -1345,7 +1345,7 @@
         <h3 style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;color:#FFD54F;margin:0 0 8px">Well Done!</h3>
         <p style="color:white;font-size:15px;margin:0 0 6px">Your score: <strong id="maze-score-display" style="color:#FFD54F;font-size:22px">0/8</strong></p>
         <p id="maze-rank" style="color:rgba(255,255,255,.8);font-size:14px;margin:0 0 18px"></p>
-        <button onclick="initMazeGame()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
+        <button onclick="initMazeGame(true)" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:12px 28px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer">Play Again 🎉</button>
       </div>
     </div>
   </div>
@@ -1394,11 +1394,21 @@
           <span>Found: <span id="ws-found">0</span>/<span id="ws-total">0</span></span>
           <button onclick="wsInit()" style="background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer">New Grid 🔄</button>
         </div>
+        <!-- Stage progress bar -->
+        <div id="ws-stage-bar" style="display:flex;align-items:center;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.6);font-family:Nunito,sans-serif">Stage:</span>
+          <div id="ws-stage-dots" style="display:flex;gap:5px"></div>
+          <span id="ws-stage-label" style="font-size:12px;font-weight:900;color:#FFD54F;font-family:Nunito,sans-serif"></span>
+        </div>
+
         <div id="ws-complete" style="display:none;text-align:center;margin-top:16px;padding:16px;background:rgba(255,213,79,.15);border-radius:12px;border:2px solid #FFD54F">
-          <div style="font-size:40px">🏆</div>
-          <p style="color:#FFD54F;font-weight:900;font-size:18px;margin:8px 0">You found them all!</p>
-          <p style="color:rgba(255,255,255,.75);font-size:13px">You know your rights — keep learning!</p>
-          <button onclick="wsInit()" style="margin-top:10px;background:#FFD54F;color:#1a1a2e;border:none;border-radius:30px;padding:10px 24px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Play Again 🎉</button>
+          <div id="ws-complete-icon" style="font-size:40px">🏆</div>
+          <p id="ws-complete-title" style="color:#FFD54F;font-weight:900;font-size:18px;margin:8px 0">You found them all!</p>
+          <p id="ws-complete-sub" style="color:rgba(255,255,255,.75);font-size:13px">You know your rights — keep learning!</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+            <button id="ws-btn-next" onclick="wsNextStage()" style="display:none;background:#81D4FA;color:#0d2a4e;border:none;border-radius:30px;padding:10px 24px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Next Stage ➡️</button>
+            <button onclick="wsRestart()" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:30px;padding:10px 24px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer" id="ws-btn-again">Play Again 🎉</button>
+          </div>
         </div>
       </div>
     </div>
@@ -3298,9 +3308,20 @@ const MATCH_PAIRS = [
   { icon: '🚫', right: 'No Child Marriage', meaning: 'Marriage under 18 is illegal in Zambia' },
 ];
 
-let matchFlipped = [], matchMatched = 0, matchMoves = 0, matchLocked = false;
+// ══════════════════════════════════════════════════════════════
+//  GAME PROGRESS PERSISTENCE — saves/restores via localStorage
+// ══════════════════════════════════════════════════════════════
+var CJF_GS = 'cjf_game_';
+function gsSave(key, val) { try { localStorage.setItem(CJF_GS + key, JSON.stringify(val)); } catch(e){} }
+function gsLoad(key, def)  { try { var v = localStorage.getItem(CJF_GS + key); return v !== null ? JSON.parse(v) : def; } catch(e){ return def; } }
+function gsClear(key)      { try { localStorage.removeItem(CJF_GS + key); } catch(e){} }
 
-function initMatchGame() {
+// ── Rights Match persistence ──────────────────────────────────
+// Saved: { moves, matchedIds: [pairId,...], order: [{pairId,type},...] }
+let matchFlipped = [], matchMatched = 0, matchMoves = 0, matchLocked = false;
+let _matchOrder = []; // card order for the current game (saved so we can restore)
+
+function initMatchGame(fresh) {
   matchFlipped = []; matchMatched = 0; matchMoves = 0; matchLocked = false;
   const pEl = document.getElementById('match-pairs');
   const mEl = document.getElementById('match-moves');
@@ -3309,28 +3330,55 @@ function initMatchGame() {
   if(mEl) mEl.textContent = '0';
   if(wEl) wEl.style.display = 'none';
 
-  const cards = [];
-  MATCH_PAIRS.forEach((pair, idx) => {
-    cards.push({ type: 'icon',    display: pair.icon + '<br>' + pair.right, pairId: idx });
-    cards.push({ type: 'meaning', display: pair.meaning,                     pairId: idx });
-  });
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
+  // Try to restore saved state unless explicitly starting fresh
+  var saved = fresh ? null : gsLoad('match', null);
+  var matchedIds = [];
+
+  if (saved && saved.order && saved.order.length) {
+    _matchOrder = saved.order;
+    matchMoves   = saved.moves    || 0;
+    matchedIds   = saved.matchedIds || [];
+    matchMatched = matchedIds.length;
+    if(mEl) mEl.textContent = matchMoves;
+    if(pEl) pEl.textContent = matchMatched;
+  } else {
+    // Build fresh shuffled order
+    var cards = [];
+    MATCH_PAIRS.forEach((pair, idx) => {
+      cards.push({ type: 'icon',    display: pair.icon + '<br>' + pair.right, pairId: idx });
+      cards.push({ type: 'meaning', display: pair.meaning,                     pairId: idx });
+    });
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+    }
+    _matchOrder = cards;
+    gsSave('match', { moves: 0, matchedIds: [], order: _matchOrder });
   }
 
-  const grid = document.getElementById('match-grid');
+  var grid = document.getElementById('match-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  cards.forEach((card) => {
-    const div = document.createElement('div');
+  _matchOrder.forEach((card) => {
+    var div = document.createElement('div');
     div.className = 'match-card';
     div.dataset.pairId = card.pairId;
     div.dataset.type = card.type;
     div.innerHTML = '<div class="match-card-inner"><div class="match-card-front">❓</div><div class="match-card-back">' + card.display + '</div></div>';
+    // Restore matched state
+    if (matchedIds.includes(card.pairId)) {
+      div.classList.add('flipped', 'matched');
+    }
     div.addEventListener('click', () => matchFlip(div));
     grid.appendChild(div);
   });
+
+  // If was already won, show win screen again
+  if (matchMatched === 8 && wEl) {
+    var fEl = document.getElementById('match-final-moves');
+    if(fEl) fEl.textContent = matchMoves;
+    wEl.style.display = 'block';
+  }
 }
 
 function matchFlip(card) {
@@ -3340,25 +3388,30 @@ function matchFlip(card) {
   if (matchFlipped.length === 2) {
     matchLocked = true;
     matchMoves++;
-    const mEl = document.getElementById('match-moves');
+    var mEl = document.getElementById('match-moves');
     if(mEl) mEl.textContent = matchMoves;
-    const [a, b] = matchFlipped;
+    var a = matchFlipped[0], b = matchFlipped[1];
     if (a.dataset.pairId === b.dataset.pairId && a.dataset.type !== b.dataset.type) {
-      setTimeout(() => {
+      setTimeout(function() {
         a.classList.add('matched'); b.classList.add('matched');
         matchFlipped = []; matchLocked = false;
         matchMatched++;
-        const pEl = document.getElementById('match-pairs');
+        var pEl = document.getElementById('match-pairs');
         if(pEl) pEl.textContent = matchMatched;
+        // Save progress
+        var matchedIds = Array.from(document.querySelectorAll('.match-card.matched'))
+          .map(function(el){ return parseInt(el.dataset.pairId); })
+          .filter(function(v,i,a){ return a.indexOf(v)===i; }); // unique pairIds
+        gsSave('match', { moves: matchMoves, matchedIds: matchedIds, order: _matchOrder });
         if (matchMatched === 8) {
-          const fEl = document.getElementById('match-final-moves');
-          const wEl = document.getElementById('match-win');
+          var fEl = document.getElementById('match-final-moves');
+          var wEl = document.getElementById('match-win');
           if(fEl) fEl.textContent = matchMoves;
           if(wEl) wEl.style.display = 'block';
         }
       }, 500);
     } else {
-      setTimeout(() => {
+      setTimeout(function() {
         a.classList.remove('flipped'); b.classList.remove('flipped');
         matchFlipped = []; matchLocked = false;
       }, 1000);
@@ -3428,10 +3481,40 @@ const MAZE_SCENARIOS = [
 
 let mazeStep = 0, mazeScore = 0, mazeAnswered = false;
 
-function initMazeGame() {
+function initMazeGame(fresh) {
+  var comp = document.getElementById('maze-complete');
+  var card = document.getElementById('maze-card');
+  if (!fresh) {
+    var saved = gsLoad('maze', null);
+    if (saved) {
+      mazeStep  = saved.step  || 0;
+      mazeScore = saved.score || 0;
+      mazeAnswered = false;
+      if (saved.complete) {
+        // Restore completed state
+        if(comp) comp.style.display = 'block';
+        if(card) card.style.display = 'none';
+        var sd = document.getElementById('maze-score-display');
+        var rk = document.getElementById('maze-rank');
+        if(sd) sd.textContent = mazeScore + '/' + MAZE_SCENARIOS.length;
+        var ranks = [
+          'Keep learning! Review the materials and try again.',
+          'Good effort! You know some rights. Keep learning!',
+          'Great job! You know your rights well.',
+          'Outstanding! You are a Child Rights Champion! 🏆'
+        ];
+        if(rk) rk.textContent = ranks[mazeScore <= 2 ? 0 : mazeScore <= 4 ? 1 : mazeScore <= 6 ? 2 : 3];
+        return;
+      }
+      if(comp) comp.style.display = 'none';
+      if(card) card.style.display = 'block';
+      renderMazeStep();
+      return;
+    }
+  }
+  // Fresh start
   mazeStep = 0; mazeScore = 0; mazeAnswered = false;
-  const comp = document.getElementById('maze-complete');
-  const card = document.getElementById('maze-card');
+  gsSave('maze', { step: 0, score: 0, complete: false });
   if(comp) comp.style.display = 'none';
   if(card) card.style.display = 'block';
   renderMazeStep();
@@ -3486,11 +3569,13 @@ function mazePick(btn, choice, allChoices) {
   if(fb)   { fb.style.display = 'block'; fb.style.background = choice.correct ? '#E8F5E9' : '#FFF3E0'; }
   if(fbTx) { fbTx.style.color = choice.correct ? '#2e7d32' : '#e65100'; fbTx.textContent = choice.feedback; }
   if(nbtn)   nbtn.textContent = mazeStep >= MAZE_SCENARIOS.length - 1 ? '🏆 See My Score' : 'Next Scenario →';
+  gsSave('maze', { step: mazeStep, score: mazeScore, complete: false });
 }
 
 function mazeNext() {
   mazeStep++;
   if (mazeStep >= MAZE_SCENARIOS.length) {
+    gsSave('maze', { step: mazeStep, score: mazeScore, complete: true });
     const card = document.getElementById('maze-card');
     const comp = document.getElementById('maze-complete');
     const sd   = document.getElementById('maze-score-display');
@@ -3505,7 +3590,10 @@ function mazeNext() {
       'Outstanding! You are a Child Rights Champion! 🏆'
     ];
     if(rk) rk.textContent = ranks[mazeScore <= 2 ? 0 : mazeScore <= 4 ? 1 : mazeScore <= 6 ? 2 : 3];
-  } else { renderMazeStep(); }
+  } else {
+    gsSave('maze', { step: mazeStep, score: mazeScore, complete: false });
+    renderMazeStep();
+  }
 }
 
 function showGame(game) {
@@ -3518,11 +3606,17 @@ function showGame(game) {
   if (tab) tab.classList.add('active-tab');
   if (game === 'witness'    && !_wgInit) wgInit();
   if (game === 'wordsearch' && !_wsInit) wsInit();
+  gsSave('lastgame', game); // remember which tab was open
 }
 
 window.addEventListener('load', () => setTimeout(() => {
-  initMatchGame();
-  initMazeGame();
+  initMatchGame();  // restores match progress
+  initMazeGame();   // restores maze progress
+  // Restore last open game tab
+  var lastGame = gsLoad('lastgame', 'match');
+  if (['match','maze','witness','wordsearch'].includes(lastGame)) {
+    showGame(lastGame);
+  }
 }, 600));
 
 
@@ -3642,10 +3736,33 @@ const WG_ROUNDS = [
 
 let _wgInit = false, _wgRound = 0, _wgScore = 0, _wgAnswered = false;
 
-function wgInit() {
-  _wgInit = true; _wgRound = 0; _wgScore = 0;
-  document.getElementById('witness-result').style.display = 'none';
-  document.getElementById('witness-card').style.display = 'block';
+function wgInit(fresh) {
+  _wgInit = true;
+  var resEl  = document.getElementById('witness-result');
+  var cardEl = document.getElementById('witness-card');
+  if (!fresh) {
+    var saved = gsLoad('witness', null);
+    if (saved) {
+      _wgRound = saved.round || 0;
+      _wgScore = saved.score || 0;
+      if (saved.complete) {
+        // Restore result screen
+        if(resEl)  resEl.style.display  = 'block';
+        if(cardEl) cardEl.style.display = 'none';
+        wgShowResult();
+        return;
+      }
+      if(resEl)  resEl.style.display  = 'none';
+      if(cardEl) cardEl.style.display = 'block';
+      wgRender();
+      return;
+    }
+  }
+  // Fresh start
+  _wgRound = 0; _wgScore = 0;
+  gsSave('witness', { round: 0, score: 0, complete: false });
+  if(resEl)  resEl.style.display  = 'none';
+  if(cardEl) cardEl.style.display = 'block';
   wgRender();
 }
 
@@ -3692,6 +3809,7 @@ function wgRender() {
         });
       }
       document.getElementById('wg-score').textContent = _wgScore;
+      gsSave('witness', { round: _wgRound, score: _wgScore, complete: false });
       fb.style.display = 'block';
       document.getElementById('wg-next').style.display = 'block';
       document.getElementById('wg-next').textContent = _wgRound < WG_ROUNDS.length - 1 ? 'Next Situation →' : '🏆 See My Result';
@@ -3703,8 +3821,10 @@ function wgRender() {
 function wgNext() {
   _wgRound++;
   if (_wgRound >= WG_ROUNDS.length) {
+    gsSave('witness', { round: _wgRound, score: _wgScore, complete: true });
     wgShowResult(); return;
   }
+  gsSave('witness', { round: _wgRound, score: _wgScore, complete: false });
   wgRender();
 }
 
@@ -3728,10 +3848,8 @@ function wgShowResult() {
 }
 
 function wgRestart() {
-  document.getElementById('witness-result').style.display = 'none';
-  document.getElementById('witness-card').style.display = 'block';
-  _wgRound = 0; _wgScore = 0;
-  wgRender();
+  gsClear('witness');
+  wgInit(true);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -3739,39 +3857,167 @@ function wgRestart() {
 //  Words from Children Code Act and Rights materials
 // ══════════════════════════════════════════════════════════════
 
-const WS_WORDS = [
-  { word: 'DIVERSION',  clue: 'Second chance instead of court' },
-  { word: 'RIGHTS',     clue: 'Things the law protects for you' },
-  { word: 'WITNESS',    clue: 'Someone who tells what they saw' },
-  { word: 'COURT',      clue: 'Where justice is decided' },
-  { word: 'LAWYER',     clue: 'Helps you in legal matters' },
-  { word: 'CHILD',      clue: 'Anyone under 18 years old' },
-  { word: 'JUSTICE',    clue: 'Fairness under the law' },
-  { word: 'EDUCATION',  clue: 'Right to go to school' },
-  { word: 'POLICE',     clue: 'Keep law and order' },
-  { word: 'TRUTH',      clue: 'What a witness must tell' },
-  { word: 'WELFARE',    clue: 'Social ___ Officer helps children' },
-  { word: 'BAIL',       clue: 'Release while awaiting trial' },
+// ── Rights Word Hunt — 11 stages (stage 0 = original, stages 1-10 = new) ──
+const WS_STAGES = [
+  { // Stage 1 — Justice Basics
+    label: 'Justice Basics', emoji: '⚖️',
+    words: [
+      { word: 'DIVERSION',  clue: 'Second chance instead of court' },
+      { word: 'RIGHTS',     clue: 'Things the law protects for you' },
+      { word: 'WITNESS',    clue: 'Someone who tells what they saw' },
+      { word: 'COURT',      clue: 'Where justice is decided' },
+      { word: 'LAWYER',     clue: 'Helps you in legal matters' },
+      { word: 'CHILD',      clue: 'Anyone under 18 years old' },
+      { word: 'JUSTICE',    clue: 'Fairness under the law' },
+    ]
+  },
+  { // Stage 2 — In the Courtroom
+    label: 'In the Courtroom', emoji: '🏛️',
+    words: [
+      { word: 'JUDGE',      clue: 'Person who decides the case' },
+      { word: 'VERDICT',    clue: 'The final decision of a case' },
+      { word: 'EVIDENCE',   clue: 'Proof used in a case' },
+      { word: 'PLEA',       clue: 'What you say when accused — guilty or not' },
+      { word: 'TRIAL',      clue: 'Hearing where both sides speak' },
+      { word: 'APPEAL',     clue: 'Ask a higher court to review' },
+      { word: 'SENTENCE',   clue: 'Punishment decided by the court' },
+    ]
+  },
+  { // Stage 3 — Your Basic Rights
+    label: 'Your Basic Rights', emoji: '🌟',
+    words: [
+      { word: 'EDUCATION',  clue: 'Right to go to school' },
+      { word: 'HEALTH',     clue: 'Right to medical care' },
+      { word: 'SHELTER',    clue: 'Right to a safe home' },
+      { word: 'FOOD',       clue: 'Right to proper nutrition' },
+      { word: 'PLAY',       clue: 'Right to rest and leisure' },
+      { word: 'SAFETY',     clue: 'Right to be protected from harm' },
+      { word: 'VOICE',      clue: 'Right to express your opinion' },
+    ]
+  },
+  { // Stage 4 — Who Helps Children
+    label: 'Who Helps Children', emoji: '🤝',
+    words: [
+      { word: 'POLICE',     clue: 'Keep law and order' },
+      { word: 'WELFARE',    clue: 'Social ___ Officer helps children' },
+      { word: 'PROBATION',  clue: 'Officer who supervises young offenders' },
+      { word: 'GUARDIAN',   clue: 'Adult responsible for a child' },
+      { word: 'UNICEF',     clue: 'UN body protecting children worldwide' },
+      { word: 'SOCIAL',     clue: '___ worker supports families in need' },
+      { word: 'NURSE',      clue: 'Cares for sick children at hospital' },
+    ]
+  },
+  { // Stage 5 — Court Process
+    label: 'Court Process', emoji: '📋',
+    words: [
+      { word: 'BAIL',       clue: 'Release while awaiting trial' },
+      { word: 'SUMMONS',    clue: 'Official notice to appear in court' },
+      { word: 'CHARGE',     clue: 'Formal accusation against someone' },
+      { word: 'REMAND',     clue: 'Kept in custody before trial' },
+      { word: 'PROBATION',  clue: 'Supervised freedom instead of prison' },
+      { word: 'RECORD',     clue: 'Written account of court proceedings' },
+      { word: 'HEARING',    clue: 'Court session to listen to a case' },
+    ]
+  },
+  { // Stage 6 — Child Protection
+    label: 'Child Protection', emoji: '🛡️',
+    words: [
+      { word: 'ABUSE',      clue: 'Harm caused to a child' },
+      { word: 'NEGLECT',    clue: 'Failing to care for a child's needs' },
+      { word: 'PROTECTION', clue: 'Keeping children from harm' },
+      { word: 'REPORT',     clue: 'Tell an adult or authority about abuse' },
+      { word: 'CONSENT',    clue: 'Saying yes with understanding' },
+      { word: 'HELPLINE',   clue: 'Phone service for children in danger' },
+      { word: 'RESCUE',     clue: 'Save someone from a dangerous situation' },
+    ]
+  },
+  { // Stage 7 — Zambia & the Law
+    label: 'Zambia & the Law', emoji: '🇿🇲',
+    words: [
+      { word: 'JUDICIARY',  clue: 'Zambia's system of courts and judges' },
+      { word: 'LUSAKA',     clue: 'Capital city where High Court sits' },
+      { word: 'MAGISTRATE', clue: 'Judge who handles less serious cases' },
+      { word: 'PARLIAMENT', clue: 'Makes laws in Zambia' },
+      { word: 'ZAMBIA',     clue: 'Our country, a republic in Africa' },
+      { word: 'CITIZEN',    clue: 'Member of a country with rights and duties' },
+      { word: 'POLICE',     clue: 'Enforce the law and protect people' },
+    ]
+  },
+  { // Stage 8 — Restorative Justice
+    label: 'Restorative Justice', emoji: '🔄',
+    words: [
+      { word: 'RESTORE',    clue: 'Bring things back to how they should be' },
+      { word: 'MEDIATION',  clue: 'Peaceful way to solve a dispute' },
+      { word: 'COMMUNITY',  clue: 'The people around you who work together' },
+      { word: 'APOLOGY',    clue: 'Saying sorry and meaning it' },
+      { word: 'REPAIR',     clue: 'Fix the harm that was done' },
+      { word: 'RESPECT',    clue: 'Treating others with dignity' },
+      { word: 'HEALING',    clue: 'Getting better after being hurt' },
+    ]
+  },
+  { // Stage 9 — Online Safety
+    label: 'Online Safety', emoji: '💻',
+    words: [
+      { word: 'PRIVACY',    clue: 'Keeping your personal info safe' },
+      { word: 'BULLY',      clue: 'Someone who repeatedly hurts others' },
+      { word: 'REPORT',     clue: 'Flag harmful content online' },
+      { word: 'PASSWORD',   clue: 'Secret code to protect your account' },
+      { word: 'BLOCK',      clue: 'Stop someone from contacting you online' },
+      { word: 'TRUST',      clue: 'Only share info with people you can rely on' },
+      { word: 'SCREEN',     clue: 'The display on a phone or computer' },
+    ]
+  },
+  { // Stage 10 — Children's Rights Champions
+    label: 'Rights Champions', emoji: '🏅',
+    words: [
+      { word: 'ADVOCATE',   clue: 'Speaks up for others' rights' },
+      { word: 'DIGNITY',    clue: 'Being treated with worth and respect' },
+      { word: 'EQUALITY',   clue: 'Everyone deserves the same rights' },
+      { word: 'FREEDOM',    clue: 'Right to live without oppression' },
+      { word: 'FAIRNESS',   clue: 'Treating people justly' },
+      { word: 'CHAMPION',   clue: 'Someone who fights for others' },
+      { word: 'HOPE',       clue: 'Belief that things can get better' },
+    ]
+  },
+  { // Stage 11 — Grand Finale
+    label: 'Grand Finale', emoji: '🎓',
+    words: [
+      { word: 'CONVENTION', clue: 'International agreement on rights (CRC)' },
+      { word: 'PROTOCOL',   clue: 'Rules added to an agreement' },
+      { word: 'RATIFY',     clue: 'Officially sign and accept a treaty' },
+      { word: 'TREATY',     clue: 'Agreement between countries' },
+      { word: 'MANDATE',    clue: 'Official authority to do something' },
+      { word: 'PREAMBLE',   clue: 'Introduction to a legal document' },
+      { word: 'ARTICLE',    clue: 'One section of a legal document' },
+    ]
+  },
 ];
 
 const WS_COLS = 14, WS_ROWS = 14;
-const WS_COLOURS = ['#FFD54F','#81D4FA','#A5D6A7','#F48FB1','#CE93D8','#FFAB91','#80CBC4','#FFF59D'];
+const WS_COLOURS = ['#FFD54F','#81D4FA','#A5D6A7','#F48FB1','#CE93D8','#FFAB91','#80CBC4'];
 let _wsGrid = [], _wsPlaced = [], _wsFound = [], _wsSelStart = null, _wsInit = false;
+let _wsStage = 0; // current stage index (0–10)
 
-function wsInit() {
+function wsInit(stage) {
+  // If no stage given, try to restore from localStorage
+  if (stage === undefined) {
+    var saved = gsLoad('wordhunt', null);
+    stage = (saved && saved.stage !== undefined) ? saved.stage : 0;
+  }
+  _wsStage  = stage;
+  gsSave('wordhunt', { stage: _wsStage });
   _wsInit   = true;
   _wsFound  = [];
   _wsSelStart = null;
-  // Pick 7 random words
-  const picked = [...WS_WORDS].sort(() => Math.random() - 0.5).slice(0, 7);
+  const stageData = WS_STAGES[_wsStage];
+  const picked = [...stageData.words]; // all 7 words for the stage
   _wsPlaced = [];
   _wsGrid   = Array.from({length: WS_ROWS}, () => Array(WS_COLS).fill(''));
-  // Try to place each word
-  const dirs = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+  const dirs = [[0,1],[1,0],[0,-1],[-1,0]]; // horizontal & vertical only
   picked.forEach((w, wi) => {
     let placed = false;
-    for (let tries = 0; tries < 200 && !placed; tries++) {
-      const [dr, dc] = dirs[Math.floor(Math.random() * 4)]; // horizontal or vertical only
+    for (let tries = 0; tries < 300 && !placed; tries++) {
+      const [dr, dc] = dirs[Math.floor(Math.random() * dirs.length)];
       const r0 = Math.floor(Math.random() * WS_ROWS);
       const c0 = Math.floor(Math.random() * WS_COLS);
       const cells = [];
@@ -3784,7 +4030,7 @@ function wsInit() {
       }
       if (ok) {
         cells.forEach(([r,c],i) => _wsGrid[r][c] = w.word[i]);
-        _wsPlaced.push({ word: w.word, clue: w.clue, cells, colour: WS_COLOURS[wi] });
+        _wsPlaced.push({ word: w.word, clue: w.clue, cells, colour: WS_COLOURS[wi % WS_COLOURS.length] });
         placed = true;
       }
     }
@@ -3793,11 +4039,33 @@ function wsInit() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   for (let r=0;r<WS_ROWS;r++) for (let c=0;c<WS_COLS;c++)
     if (!_wsGrid[r][c]) _wsGrid[r][c] = letters[Math.floor(Math.random()*26)];
+  wsRenderStageBar();
   wsRender();
 }
 
+function wsRestart() { gsSave('wordhunt', { stage: 0 }); wsInit(0); }
+
+function wsNextStage() {
+  const next = _wsStage + 1;
+  if (next < WS_STAGES.length) { gsSave('wordhunt', { stage: next }); wsInit(next); }
+}
+
+function wsRenderStageBar() {
+  const dotsEl = document.getElementById('ws-stage-dots');
+  const labelEl = document.getElementById('ws-stage-label');
+  if (!dotsEl) return;
+  dotsEl.innerHTML = WS_STAGES.map((s, i) =>
+    '<div title="'+s.label+'" style="width:10px;height:10px;border-radius:50%;background:'
+    + (i < _wsStage ? '#A5D6A7' : i === _wsStage ? '#FFD54F' : 'rgba(255,255,255,.2)')
+    + ';transition:background .3s;cursor:'+(i<=_wsStage?'pointer':'default')+'"'
+    + (i <= _wsStage ? ' onclick="wsInit('+i+')"' : '')
+    + '></div>'
+  ).join('');
+  const s = WS_STAGES[_wsStage];
+  if (labelEl) labelEl.textContent = s.emoji + ' ' + (_wsStage + 1) + '/' + WS_STAGES.length + ' — ' + s.label;
+}
+
 function wsRender() {
-  // Render word list
   const wl = document.getElementById('ws-word-list') || document.getElementById('ws-words-left');
   if (wl) {
     wl.innerHTML = _wsPlaced.map(p =>
@@ -3828,16 +4096,35 @@ function wsRender() {
   }
 }
 
+function wsShowComplete() {
+  const comp    = document.getElementById('ws-complete');
+  const icon    = document.getElementById('ws-complete-icon');
+  const title   = document.getElementById('ws-complete-title');
+  const sub     = document.getElementById('ws-complete-sub');
+  const btnNext = document.getElementById('ws-btn-next');
+  const btnAgain= document.getElementById('ws-btn-again');
+  const isLast  = _wsStage >= WS_STAGES.length - 1;
+  const s = WS_STAGES[_wsStage];
+
+  if (icon)  icon.textContent  = isLast ? '🎓' : '🏆';
+  if (title) title.textContent = isLast ? 'You\'re a Rights Champion!' : 'Stage ' + (_wsStage+1) + ' Complete!';
+  if (sub)   sub.textContent   = isLast
+    ? 'Incredible! You finished all 11 stages. You truly know your rights!'
+    : 'Great job on "' + s.label + '"! Ready for Stage ' + (_wsStage+2) + ': ' + WS_STAGES[_wsStage+1].emoji + ' ' + WS_STAGES[_wsStage+1].label + '?';
+  if (btnNext)  btnNext.style.display  = isLast ? 'none' : 'inline-block';
+  if (btnAgain) btnAgain.textContent   = isLast ? 'Start Over 🔄' : 'Replay Stage 🔄';
+  if (comp)  comp.style.display = 'block';
+  wsRenderStageBar();
+}
+
 function wsSelect(r, c, cell) {
   if (_wsSelStart === null) {
     _wsSelStart = {r, c, cell};
     cell.style.background = 'rgba(255,255,255,.35)';
   } else {
-    // Check if this forms a straight line from start
     const dr = r - _wsSelStart.r, dc = c - _wsSelStart.c;
     const len = Math.max(Math.abs(dr), Math.abs(dc));
     if (len === 0) { _wsSelStart = null; return; }
-    // Only horizontal or vertical
     if (dr !== 0 && dc !== 0) {
       _wsSelStart.cell.style.background = 'rgba(255,255,255,.08)';
       _wsSelStart = null; return;
@@ -3848,25 +4135,21 @@ function wsSelect(r, c, cell) {
     for (let i=0; i<=len; i++) selected.push([_wsSelStart.r + stepR*i, _wsSelStart.c + stepC*i]);
     const word = selected.map(([rr,cc]) => _wsGrid[rr][cc]).join('');
     const revWord = word.split('').reverse().join('');
-    // Check against placed words
     let match = _wsPlaced.find(p => p.word === word || p.word === revWord);
     if (match && !_wsFound.includes(match.word)) {
       _wsFound.push(match.word);
-      // Colour the cells
       selected.forEach(([rr,cc]) => {
         const el = document.querySelector('[data-r="'+rr+'"][data-c="'+cc+'"]');
         if (el) { el.style.background = match.colour; el.style.color = '#1a1a2e'; }
       });
-      // Strike through word in list
       const ww = document.getElementById('ww-'+match.word);
       if (ww) { ww.style.textDecoration = 'line-through'; ww.style.opacity = '.5'; ww.style.background = match.colour + '33'; }
       const foundEl = document.getElementById('ws-found');
       if (foundEl) foundEl.textContent = _wsFound.length;
       if (_wsFound.length === _wsPlaced.length) {
-        setTimeout(() => { const c2 = document.getElementById('ws-complete'); if(c2) c2.style.display='block'; }, 400);
+        setTimeout(wsShowComplete, 400);
       }
     } else {
-      // No match — flash red then reset
       _wsSelStart.cell.style.background = 'rgba(198,40,40,.4)';
       setTimeout(() => { _wsSelStart && (_wsSelStart.cell.style.background = 'rgba(255,255,255,.08)'); }, 300);
     }
