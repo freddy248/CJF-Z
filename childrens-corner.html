@@ -1312,6 +1312,7 @@
           <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Pairs: <span id="match-pairs">0</span>/8</div>
           <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:8px 18px;font-size:14px;color:white;font-weight:700">Moves: <span id="match-moves">0</span></div>
           <button onclick="initMatchGame(true)" style="background:#FFD54F;color:#1a1a2e;border:none;border-radius:20px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ New Game</button>
+          <button onclick="initMatchGame(true)" style="background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.35);border-radius:20px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Start Over</button>
         </div>
       </div>
       <div id="match-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:720px;margin:0 auto"></div>
@@ -1327,13 +1328,21 @@
     <div id="game-maze" style="display:none">
       <div style="text-align:center;margin-bottom:20px">
         <h3 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#FFD54F;margin:0 0 6px">🗺️ Help Me Choose</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,.7);margin:0">Read the situation and choose the right action. What would YOU do?</p>
+        <p style="font-size:14px;color:rgba(255,255,255,.7);margin:0 0 10px">Read the situation and choose the right action. What would YOU do?</p>
+        <div style="display:flex;justify-content:center">
+          <button onclick="initMazeGame(true)" style="background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.35);border-radius:20px;padding:6px 16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Start Over</button>
+        </div>
       </div>
       <div id="maze-card" style="background:white;border-radius:20px;padding:28px;max-width:640px;margin:0 auto">
         <div id="maze-progress" style="display:flex;gap:6px;margin-bottom:18px;justify-content:center"></div>
         <div id="maze-scene" style="font-size:48px;text-align:center;margin-bottom:14px"></div>
         <h4 id="maze-title" style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#1e3f7a;text-align:center;margin:0 0 10px"></h4>
-        <p id="maze-story" style="font-size:14px;color:#3a4a5c;line-height:1.75;margin:0 0 20px;text-align:center"></p>
+        <p id="maze-story" style="font-size:14px;color:#3a4a5c;line-height:1.75;margin:0 0 16px;text-align:center"></p>
+        <!-- Scenario skip dots -->
+        <div id="maze-skip-bar" style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap">
+          <span style="font-size:11px;font-weight:700;color:#6b7a8d;font-family:Nunito,sans-serif">Scenario:</span>
+          <div id="maze-skip-dots" style="display:flex;gap:5px"></div>
+        </div>
         <div id="maze-choices" style="display:flex;flex-direction:column;gap:10px"></div>
         <div id="maze-feedback" style="display:none;margin-top:16px;padding:14px 16px;border-radius:12px">
           <p id="maze-feedback-text" style="margin:0 0 12px;font-size:14px;font-weight:700;line-height:1.65"></p>
@@ -1358,9 +1367,15 @@
         <p style="font-size:14px;color:rgba(255,255,255,.75)">You've been called as a witness. Make the right choices to help the Judge hear the truth!</p>
       </div>
       <div id="witness-game-area" style="max-width:600px;margin:0 auto">
-        <div id="witness-score-bar" style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px;font-weight:700;color:rgba(255,255,255,.8)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:14px;font-weight:700;color:rgba(255,255,255,.8)" id="witness-score-bar">
           <span>⚖️ Round <span id="wg-round">1</span> of 6</span>
           <span>⭐ Score: <span id="wg-score">0</span></span>
+        </div>
+        <!-- Round skip dots -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:14px;flex-wrap:wrap">
+          <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);font-family:Nunito,sans-serif">Round:</span>
+          <div id="wg-skip-dots" style="display:flex;gap:5px"></div>
+          <button onclick="wgRestart()" style="margin-left:8px;background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺ Start Over</button>
         </div>
         <div id="witness-card" style="background:rgba(255,255,255,.1);border-radius:16px;padding:24px;border:2px solid rgba(255,255,255,.2)">
           <div id="wg-scene" style="font-size:40px;text-align:center;margin-bottom:12px"></div>
@@ -3529,6 +3544,12 @@ function renderMazeStep() {
     '<div style="width:10px;height:10px;border-radius:50%;background:' +
     (i < mazeStep ? '#2e7d32' : i === mazeStep ? '#FFD54F' : 'rgba(46,89,168,.3)') + '"></div>'
   ).join('');
+  // Skip-dots bar — all scenarios clickable
+  var skipDots = document.getElementById('maze-skip-dots');
+  if (skipDots) skipDots.innerHTML = MAZE_SCENARIOS.map((_,i) =>
+    '<div title="Scenario '+(i+1)+'" onclick="mazeSkipTo('+i+')" style="width:10px;height:10px;border-radius:50%;cursor:pointer;transition:background .2s;background:'
+    + (i < mazeStep ? '#A5D6A7' : i === mazeStep ? '#FFD54F' : 'rgba(46,89,168,.25)') + '"></div>'
+  ).join('');
   const se = document.getElementById('maze-scene');
   const ti = document.getElementById('maze-title');
   const st = document.getElementById('maze-story');
@@ -3594,6 +3615,17 @@ function mazeNext() {
     gsSave('maze', { step: mazeStep, score: mazeScore, complete: false });
     renderMazeStep();
   }
+}
+
+function mazeSkipTo(step) {
+  if (step < 0 || step >= MAZE_SCENARIOS.length) return;
+  mazeStep = step; mazeScore = 0; mazeAnswered = false;
+  gsSave('maze', { step: mazeStep, score: mazeScore, complete: false });
+  var comp = document.getElementById('maze-complete');
+  var card = document.getElementById('maze-card');
+  if(comp) comp.style.display = 'none';
+  if(card) card.style.display = 'block';
+  renderMazeStep();
 }
 
 function showGame(game) {
@@ -3771,6 +3803,12 @@ function wgRender() {
   _wgAnswered = false;
   document.getElementById('wg-round').textContent  = (_wgRound + 1) + ' of ' + WG_ROUNDS.length;
   document.getElementById('wg-score').textContent  = _wgScore;
+  // Skip-dots — all rounds clickable
+  var wgDots = document.getElementById('wg-skip-dots');
+  if (wgDots) wgDots.innerHTML = WG_ROUNDS.map((_,i) =>
+    '<div title="Round '+(i+1)+'" onclick="wgSkipTo('+i+')" style="width:10px;height:10px;border-radius:50%;cursor:pointer;transition:background .2s;background:'
+    + (i < _wgRound ? '#A5D6A7' : i === _wgRound ? '#FFD54F' : 'rgba(255,255,255,.2)') + '"></div>'
+  ).join('');
   document.getElementById('wg-scene').textContent  = r.scene;
   document.getElementById('wg-situation').textContent = r.situation;
   document.getElementById('wg-question').textContent  = r.question;
@@ -3850,6 +3888,17 @@ function wgShowResult() {
 function wgRestart() {
   gsClear('witness');
   wgInit(true);
+}
+
+function wgSkipTo(round) {
+  if (round < 0 || round >= WG_ROUNDS.length) return;
+  _wgRound = round; _wgScore = 0; _wgAnswered = false;
+  gsSave('witness', { round: _wgRound, score: _wgScore, complete: false });
+  var resEl  = document.getElementById('witness-result');
+  var cardEl = document.getElementById('witness-card');
+  if(resEl)  resEl.style.display  = 'none';
+  if(cardEl) cardEl.style.display = 'block';
+  wgRender();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -4057,8 +4106,8 @@ function wsRenderStageBar() {
   dotsEl.innerHTML = WS_STAGES.map((s, i) =>
     '<div title="'+s.label+'" style="width:10px;height:10px;border-radius:50%;background:'
     + (i < _wsStage ? '#A5D6A7' : i === _wsStage ? '#FFD54F' : 'rgba(255,255,255,.2)')
-    + ';transition:background .3s;cursor:'+(i<=_wsStage?'pointer':'default')+'"'
-    + (i <= _wsStage ? ' onclick="wsInit('+i+')"' : '')
+    + ';transition:background .3s;cursor:pointer"'
+    + ' onclick="wsInit('+i+')"'
     + '></div>'
   ).join('');
   const s = WS_STAGES[_wsStage];
