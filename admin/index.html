@@ -1215,24 +1215,134 @@ function ndSyncActivitiesEmpty(){
   if(!list||!empty) return;
   empty.style.display = list.children.length ? 'none' : 'block';
 }
+// Common emojis for activity icon picker
+var _ndEmojiList = ['🎤','⚽','🏀','🤾','🏐','🏆','🥇','🎓','📚','📢','🤝','👩‍⚖️','⚖️','🏛️','🎨','🎭','🌍','🌱','💡','📋','🔄','📣','🏃','👧','👦','🤸','🎯','🎪','🏅','🎉'];
+
+function ndToggleEmojiPicker(idx){
+  var picker = document.getElementById('nda-'+idx+'-emojipicker');
+  if(!picker) return;
+  picker.style.display = picker.style.display==='none' ? 'flex' : 'none';
+}
+
+function ndPickEmoji(idx, emoji){
+  var inp = document.getElementById('nda-'+idx+'-icon');
+  if(inp) inp.value = emoji;
+  var picker = document.getElementById('nda-'+idx+'-emojipicker');
+  if(picker) picker.style.display = 'none';
+}
+
+async function ndUploadActImg(idx, file){
+  var progWrap = document.getElementById('nda-'+idx+'-imgprog');
+  var bar      = document.getElementById('nda-'+idx+'-imgbar');
+  var resEl    = document.getElementById('nda-'+idx+'-imgres');
+  var imgsEl   = document.getElementById('nda-'+idx+'-imgs');
+  if(progWrap) progWrap.style.display='block';
+  if(bar) bar.style.width='0%';
+  if(resEl) resEl.style.display='none';
+
+  if(!stor){
+    // No Storage — embed as data URL
+    var reader = new FileReader();
+    reader.onload = function(e){
+      if(imgsEl){ var cur=imgsEl.value.trim(); imgsEl.value = cur ? cur+'\n'+e.target.result : e.target.result; }
+      if(progWrap) progWrap.style.display='none';
+      if(resEl){ resEl.textContent='⚠️ Embedded (Storage not configured)'; resEl.style.color='#e65100'; resEl.style.display='block'; }
+    };
+    reader.readAsDataURL(file);
+    return;
+  }
+  try{
+    var ref  = stor.ref('activity-images/'+Date.now()+'_'+file.name);
+    var task = ref.put(file);
+    task.on('state_changed', function(snap){ if(bar) bar.style.width=(snap.bytesTransferred/snap.totalBytes*100)+'%'; });
+    await task;
+    var url = await ref.getDownloadURL();
+    if(imgsEl){ var cur=imgsEl.value.trim(); imgsEl.value = cur ? cur+'\n'+url : url; }
+    if(progWrap) progWrap.style.display='none';
+    if(resEl){ resEl.textContent='✅ Photo added!'; resEl.style.color='var(--green)'; resEl.style.display='block'; setTimeout(function(){ resEl.style.display='none'; },3000); }
+    ndRenderActThumbs(idx);
+  } catch(err){
+    if(progWrap) progWrap.style.display='none';
+    if(resEl){ resEl.textContent='❌ '+err.message; resEl.style.color='var(--red)'; resEl.style.display='block'; }
+  }
+}
+
+function ndRenderActThumbs(idx){
+  var imgsEl   = document.getElementById('nda-'+idx+'-imgs');
+  var thumbsEl = document.getElementById('nda-'+idx+'-thumbs');
+  if(!imgsEl||!thumbsEl) return;
+  var urls = imgsEl.value.split('\n').map(function(u){return u.trim();}).filter(Boolean);
+  if(!urls.length){ thumbsEl.style.display='none'; return; }
+  thumbsEl.innerHTML = urls.map(function(u,i){
+    return '<div style="position:relative;display:inline-block">'
+      +'<img src="'+u+'" style="width:70px;height:55px;object-fit:cover;border-radius:8px;border:1.5px solid var(--border)"/>'
+      +'<button type="button" onclick="ndRemoveActImg('+idx+','+i+')" title="Remove" style="position:absolute;top:-6px;right:-6px;background:#c62828;border:none;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:11px;color:white;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>'
+      +'</div>';
+  }).join('');
+  thumbsEl.style.display='flex';
+}
+
+function ndRemoveActImg(idx, i){
+  var imgsEl = document.getElementById('nda-'+idx+'-imgs');
+  if(!imgsEl) return;
+  var urls = imgsEl.value.split('\n').map(function(u){return u.trim();}).filter(Boolean);
+  urls.splice(i,1);
+  imgsEl.value = urls.join('\n');
+  ndRenderActThumbs(idx);
+}
+
 function ndAddActivity(act){
   var list=document.getElementById('nd-activities-list');
   if(!list) return;
   var idx = _ndActCounter++;
-  var id_prefix = 'nda-'+idx+'-';
+  var p   = 'nda-'+idx+'-';
+  var emojiBtns = _ndEmojiList.map(function(e){ return '<button type="button" onclick="ndPickEmoji('+idx+',\''+e+'\')" style="font-size:22px;background:none;border:none;cursor:pointer;padding:2px;border-radius:6px;transition:background .15s" onmouseenter="this.style.background=\'#e8f0fe\'" onmouseleave="this.style.background=\'none\'">'+e+'</button>'; }).join('');
+
   var row = document.createElement('div');
-  row.id = 'nda-row-'+idx;
+  row.id  = p+'row';
   row.style.cssText = 'background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:16px;position:relative';
   row.innerHTML =
-    '<button type="button" onclick="ndRemoveActivity(\'nda-row-'+idx+'\')" title="Remove activity" style="position:absolute;top:10px;right:10px;background:#fdecea;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;color:#c62828;display:flex;align-items:center;justify-content:center">✕</button>'
-    +'<div style="display:grid;grid-template-columns:80px 1fr;gap:10px;margin-bottom:10px">'
-    +'<div class="field" style="margin:0"><label style="font-size:12px">Icon / Emoji</label><input id="'+id_prefix+'icon" placeholder="🎤" style="font-size:20px;text-align:center" value="'+(act&&act.icon?act.icon:'')+'"/></div>'
-    +'<div class="field" style="margin:0"><label style="font-size:12px">Activity Title *</label><input id="'+id_prefix+'title" placeholder="e.g. School Debates" value="'+(act&&act.title?escHtml(act.title):'')+'"/></div>'
+    // Remove button
+    '<button type="button" onclick="ndRemoveActivity(\''+p+'row\')" title="Remove activity" style="position:absolute;top:10px;right:10px;background:#fdecea;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;color:#c62828;display:flex;align-items:center;justify-content:center">✕</button>'
+
+    // Icon picker + Title
+    +'<div style="display:grid;grid-template-columns:96px 1fr;gap:10px;margin-bottom:12px">'
+      +'<div class="field" style="margin:0">'
+        +'<label style="font-size:12px">Icon</label>'
+        +'<div style="position:relative">'
+          +'<div style="display:flex;gap:6px;align-items:center">'
+            +'<input id="'+p+'icon" placeholder="🎤" style="font-size:22px;text-align:center;width:52px;padding:6px 4px" value="'+(act&&act.icon?act.icon:'')+'" readonly/>'
+            +'<button type="button" onclick="ndToggleEmojiPicker('+idx+')" style="background:var(--light);border:1.5px solid var(--border);border-radius:8px;padding:5px 9px;cursor:pointer;font-size:13px;color:var(--blue);font-weight:700;white-space:nowrap">Pick 😊</button>'
+          +'</div>'
+          +'<div id="'+p+'emojipicker" style="display:none;flex-wrap:wrap;gap:2px;background:white;border:1.5px solid var(--border);border-radius:10px;padding:8px;position:absolute;top:100%;left:0;z-index:200;width:220px;box-shadow:0 8px 24px rgba(0,0,0,.12);margin-top:4px">'
+            +emojiBtns
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="field" style="margin:0"><label style="font-size:12px">Activity Title *</label><input id="'+p+'title" placeholder="e.g. School Debates" value="'+(act&&act.title?escHtml(act.title):'')+'"/></div>'
     +'</div>'
-    +'<div class="field" style="margin-bottom:10px"><label style="font-size:12px">Story / Description *</label><textarea id="'+id_prefix+'story" rows="4" placeholder="Full description of this activity…" style="resize:vertical">'+(act&&act.story?escHtml(act.story):'')+'</textarea></div>'
-    +'<div class="field" style="margin:0"><label style="font-size:12px">Photo URLs <span style="font-weight:400;color:var(--mid)">(one per line — paste uploaded image URLs)</span></label><textarea id="'+id_prefix+'imgs" rows="2" placeholder="https://firebasestorage…&#10;https://firebasestorage…" style="resize:vertical;font-size:12px">'+(act&&act.imageUrls?act.imageUrls.join('\n'):'')+'</textarea></div>'
-    +'<input type="hidden" id="'+id_prefix+'idx" value="'+idx+'"/>';
+
+    // Story
+    +'<div class="field" style="margin-bottom:12px"><label style="font-size:12px">Story / Description *</label><textarea id="'+p+'story" rows="4" placeholder="Full description of this activity…" style="resize:vertical">'+(act&&act.story?escHtml(act.story):'')+'</textarea></div>'
+
+    // Photo uploader
+    +'<div class="field" style="margin:0">'
+      +'<label style="font-size:12px">Photos <span style="font-weight:400;color:var(--mid)">(drag &amp; drop, browse, or paste URLs)</span></label>'
+      +'<div id="'+p+'imgzone" ondragover="event.preventDefault();this.style.borderColor=\'var(--blue)\';this.style.background=\'rgba(45,89,168,.04)\'" ondragleave="this.style.borderColor=\'var(--border)\';this.style.background=\'\'" ondrop="(function(e){e.preventDefault();document.getElementById(\''+p+'imgzone\').style.borderColor=\'var(--border)\';document.getElementById(\''+p+'imgzone\').style.background=\'\';var f=e.dataTransfer.files[0];if(f)ndUploadActImg('+idx+',f);})(event)" style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;font-size:13px;color:var(--mid);transition:all .2s;margin-bottom:8px">'
+        +'🖼️ Drag &amp; drop image here or <label style="color:var(--blue);font-weight:700;cursor:pointer">browse<input type="file" accept="image/*" style="display:none" onchange="ndUploadActImg('+idx+',this.files[0]);this.value=\'\'"/></label>'
+      +'</div>'
+      +'<div id="'+p+'imgprog" style="display:none;background:var(--border);border-radius:20px;height:6px;overflow:hidden;margin-bottom:6px"><div id="'+p+'imgbar" style="height:100%;background:var(--blue);border-radius:20px;transition:width .3s;width:0%"></div></div>'
+      +'<div id="'+p+'imgres" style="display:none;font-size:12px;font-weight:600;margin-bottom:6px"></div>'
+      // Thumbnails strip
+      +'<div id="'+p+'thumbs" style="display:none;flex-wrap:wrap;gap:8px;margin-bottom:8px"></div>'
+      // URL textarea (hidden, used as data store; shown as fallback paste)
+      +'<div style="margin-top:4px"><label style="font-size:11px;color:var(--mid)">Or paste image URL(s) — one per line</label><textarea id="'+p+'imgs" rows="2" placeholder="https://firebasestorage…" style="resize:vertical;font-size:12px;margin-top:4px" oninput="ndRenderActThumbs('+idx+')">'+(act&&act.imageUrls?act.imageUrls.join('\n'):'')+'</textarea></div>'
+    +'</div>'
+    +'<input type="hidden" id="'+p+'idx" value="'+idx+'"/>';
+
   list.appendChild(row);
+  // Render thumbs for existing images (on edit)
+  if(act&&act.imageUrls&&act.imageUrls.length) setTimeout(function(){ ndRenderActThumbs(idx); }, 0);
   ndSyncActivitiesEmpty();
 }
 function ndRemoveActivity(rowId){
