@@ -1,11 +1,15 @@
+//  CJF Website — Service Worker
+//  Strategy: network-first for HTML, cache-first for assets
+//  Safari-safe: never call respondWith with null/undefined
 
-//  CJF Children's Corner — Service Worker (PWA)
-//  Brand: #2E59A8 Primary Blue | #FFD54F Gold
-//  Strategy: Cache-first for shell, network-first for data
-
-const CACHE_NAME = 'cjf-cc-v3';
+const CACHE_NAME = 'cjf-v4';
 const SHELL_URLS = [
-  '/childrens-corner',          // Vercel cleanUrls=true strips .html
+  '/',
+  '/childrens-corner',
+  '/news-and-events',
+  '/resources',
+  '/about',
+  '/contact',
   '/css/styles.css',
   '/css/enhancements.css',
   '/js/main.js',
@@ -14,135 +18,75 @@ const SHELL_URLS = [
   '/images/cjf-logo-colour.png',
   '/images/cjf-logo-nav-colour.png',
   '/favicon.ico',
-  // Google Fonts cached on first load
 ];
 
-// Install: pre-cache the app shell
+// Install: pre-cache shell (non-blocking — failures don't kill SW)
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(SHELL_URLS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache =>
+      Promise.allSettled(SHELL_URLS.map(u => cache.add(u).catch(() => {})))
+    ).then(() => self.skipWaiting())
   );
 });
 
-// Activate: clean old caches
+// Activate: delete old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// ── Fetch: cache-first for shell, network-first for API ─
+// Fetch: ALWAYS respond — never let respondWith receive null
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
+  const req = event.request;
+  const url = new URL(req.url);
 
-  // Skip cross-origin requests (Firebase, Fonts CDN)
-  if (url.origin !== location.origin) {
-    // For Google Fonts: try network, fall back gracefully
-    if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
-      event.respondWith(
-        caches.open(CACHE_NAME).then(cache =>
-          cache.match(event.request).then(cached => {
-            if (cached) return cached;
-            return fetch(event.request).then(response => {
-              cache.put(event.request, response.clone());
-              return response;
-            }).catch(() => new Response('', { status: 200 }));
-          })
-        )
-      );
-    }
-    return;
-  }
+  // ── Only handle GET requests ──────────────────────────
+  if (req.method !== 'GET') return; // let browser handle non-GET natively
 
-  // HTML pages: network-first (fresh content), cache fallback
-  if (event.request.destination === 'document') {
+  // ── Skip cross-origin (Firebase, CDN, Fonts) ─────────
+  // Do NOT call event.respondWith for cross-origin — let browser fetch natively
+  if (url.origin !== self.location.origin) return;
+
+  // ── HTML pages: network-first, cache fallback ─────────
+  if (req.destination === 'document' || req.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request)
+      fetch(req)
         .then(response => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+          if (response && response.ok) {
+            caches.open(CACHE_NAME).then(c => c.put(req, response.clone()));
+          }
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(async () => {
+          const cached = await caches.match(req);
+          if (cached) return cached;
+          // Offline fallback: return a minimal offline message
+          return new Response(
+            '<html><body style="font-family:sans-serif;padding:40px;text-align:center">' +
+            '<h2>You are offline</h2><p>Please check your connection and try again.</p>' +
+            '</body></html>',
+            { status: 503, headers: { 'Content-Type': 'text/html' } }
+          );
+        })
     );
     return;
   }
 
-  // CSS/JS/Images: cache-first
+  // ── CSS / JS / Images / Fonts: cache-first, network fallback ──
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    caches.match(req).then(cached => {
       if (cached) return cached;
-      return fetch(event.request).then(response => {
-        if (response && response.status === 200) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
-        }
-        return response;
-      });
+      return fetch(req)
+        .then(response => {
+          if (response && response.ok) {
+            caches.open(CACHE_NAME).then(c => c.put(req, response.clone()));
+          }
+          return response;
+        })
+        .catch(() => new Response('', { status: 408, statusText: 'Network error' }));
     })
   );
 });
-
-// Background sync for offline report submissions
-self.addEventListener('sync', event => {
-  if (event.tag === 'cjf-offline-report') {
-    event.waitUntil(syncOfflineReports());
-  }
-});
-
-async function syncOfflineReports() {
-  const db = await openReportDB();
-  const tx = db.transaction('pending', 'readwrite');
-  const store = tx.objectStore('pending');
-  const all = await idbGetAll(store);
-  for (const report of all) {
-    try {
-      await submitReportToFirebase(report);
-      const dtx = db.transaction('pending', 'readwrite');
-      dtx.objectStore('pending').delete(report.id);
-    } catch (e) {
-      // Will retry on next sync
-    }
-  }
-}
-
-function openReportDB() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open('cjf-reports', 1);
-    req.onupgradeneeded = e => e.target.result.createObjectStore('pending', { keyPath: 'id', autoIncrement: true });
-    req.onsuccess = e => res(e.target.result);
-    req.onerror = rej;
-  });
-}
-
-function idbGetAll(store) {
-  return new Promise((res, rej) => {
-    const req = store.getAll();
-    req.onsuccess = e => res(e.target.result);
-    req.onerror = rej;
-  });
-}
-
-async function submitReportToFirebase(report) {
-  // This will be called when connectivity is restored
-  // Firebase SDK not available in SW — use REST API
-  const url = `https://firestore.googleapis.com/v1/projects/${report.projectId}/databases/(default)/documents/incident_reports`;
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      fields: {
-        situation: { stringValue: report.situation || '' },
-        location: { stringValue: report.location || '' },
-        ageGroup: { stringValue: report.ageGroup || '' },
-        language: { stringValue: report.language || 'en' },
-        timestamp: { timestampValue: report.timestamp },
-        status: { stringValue: 'pending' }
-      }
-    })
-  });
-}

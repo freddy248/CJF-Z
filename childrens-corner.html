@@ -2053,7 +2053,7 @@ if ('serviceWorker' in navigator &&
     !location.hostname.includes('claudeusercontent.com') &&
     !location.hostname.includes('claude.ai')) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=4')  // absolute path for Vercel cleanUrls
+    navigator.serviceWorker.register('/sw.js?v=5')  // absolute path for Vercel cleanUrls
       .then(reg => console.log('[CJF SW] Registered:', reg.scope))
       .catch(err => {
         // 404 = sw.js not yet uploaded to Vercel — safe to ignore
