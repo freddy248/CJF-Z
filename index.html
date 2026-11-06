@@ -149,9 +149,9 @@
     .who-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:32px}
     .who-pill{background:#EEF3FB;border:1.5px solid #D6E2F5;color:#2d59a8;padding:8px 20px;border-radius:50px;font-size:13px;font-weight:700}
 
-    /* ── PROGRAMS — 3 tight cards, click to learn more ── */
-    .programs-strip{padding:72px 40px;background:#f0f4fb}
-    .programs-strip-inner{max-width:1060px;margin:0 auto}
+    /* ── PROGRAMMES — 3 tight cards, click to learn more ── */
+    .programmes-strip{padding:72px 40px;background:#f0f4fb}
+    .programmes-strip-inner{max-width:1060px;margin:0 auto}
     .prog-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
     .prog-card{
       background:white;border-radius:18px;padding:30px 24px;
@@ -450,7 +450,7 @@
     }
     @media(max-width:600px){
       .hero{padding:60px 20px 90px}
-      .who-strip,.programs-strip,.mem-strip,.cta-strip{padding:52px 20px}
+      .who-strip,.programmes-strip,.mem-strip,.cta-strip{padding:52px 20px}
       .kpi-strip{border-radius:14px}
       .kpi-item{padding:14px 12px}
       .kpi-n{font-size:22px}
@@ -467,7 +467,7 @@
       .prog-cards{grid-template-columns:repeat(3,1fr)!important}
       .mem-inner{grid-template-columns:1fr 1fr!important;gap:24px!important}
       .mem-photo img{height:200px!important}
-      .who-strip,.programs-strip,.mem-strip,.cta-strip{padding:36px 20px!important}
+      .who-strip,.programmes-strip,.mem-strip,.cta-strip{padding:36px 20px!important}
     }
   </style>
 <script>
@@ -509,7 +509,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 <div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(10,20,50,.85);z-index:10000;align-items:flex-start;justify-content:center;padding-top:80px;backdrop-filter:blur(6px)">
   <div onclick="event.stopPropagation()" style="background:white;border-radius:16px;width:min(660px,94vw);padding:28px;box-shadow:0 40px 100px rgba(0,0,0,.4)">
     <div style="display:flex;gap:10px;margin-bottom:16px">
-      <input id="search-input" placeholder="Search — programs, news, partners, resources…" oninput="runSearch(this.value)" style="flex:1;border:2px solid #d0dae8;border-radius:10px;padding:12px 16px;font-size:15px;font-family:'Jost',sans-serif;outline:none" onfocus="this.style.borderColor='#2d59a8'" onblur="this.style.borderColor='#d0dae8'"/>
+      <input id="search-input" placeholder="Search — programmes, news, partners, resources…" oninput="runSearch(this.value)" style="flex:1;border:2px solid #d0dae8;border-radius:10px;padding:12px 16px;font-size:15px;font-family:'Jost',sans-serif;outline:none" onfocus="this.style.borderColor='#2d59a8'" onblur="this.style.borderColor='#d0dae8'"/>
       <button onclick="closeSearch()" style="background:#f0f4fb;border:none;border-radius:10px;width:44px;cursor:pointer;font-size:18px;color:#4a5f80">✕</button>
     </div>
     <div id="search-results" style="max-height:360px;overflow-y:auto">
@@ -610,7 +610,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
     <nav class="nav">
       <a href="index.html" class="nav-link active">Home</a>
       <a href="about.html" class="nav-link">About</a>
-      <a href="programs.html" class="nav-link">Programmes</a>
+      <a href="programmes.html" class="nav-link">Programmes</a>
       <a href="partners.html" class="nav-link">Partners</a>
       <a href="resources.html" class="nav-link">Resources</a>
       <a href="news.html" class="nav-link">News &amp; Events</a>
@@ -625,7 +625,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 <div class="mobile-nav" id="mobileNav">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
-  <a href="programs.html">Programs</a>
+  <a href="programmes.html">Programmes</a>
   <a href="partners.html">Partners</a>
   <a href="resources.html">Resources</a>
   <a href="news.html">News &amp; Events</a>
@@ -654,7 +654,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
     <p class="hero-lead">A multi-sectoral platform bringing together government and quasi-government institutions, civil society organisations, cooperating partners and communities in the justice sector— for the protection and welfare of children in Zambia.</p>
     <div class="hero-actions">
       <a href="about.html" class="btn-gold">✨ Who We Are</a>
-      <a href="programs.html" class="btn-ghost">Our Programs →</a>
+      <a href="programmes.html" class="btn-ghost">Our Programmes →</a>
       <a href="childrens-corner.html" class="btn-ghost">👧 For Children</a>
     </div>
     <!-- Clickable KPI strip -->
@@ -703,28 +703,28 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
   </div>
 </section>
 
-<!-- ═══ PROGRAMS (3 teasers only) ═══ -->
-<section class="programs-strip">
-  <div class="programs-strip-inner">
+<!-- ═══ PROGRAMMES (3 teasers only) ═══ -->
+<section class="programmes-strip">
+  <div class="programmes-strip-inner">
     <div style="text-align:center">
       <div class="section-tag">What We Do</div>
-      <h2 class="section-title reveal">Three Core Programs</h2>
+      <h2 class="section-title reveal">Three Core Programmes</h2>
       <p class="section-sub reveal">Changing how Zambia's justice system works for children.</p>
     </div>
     <div class="prog-cards">
-      <a href="programs.html" class="prog-card reveal">
+      <a href="programmes.html" class="prog-card reveal">
         <span class="prog-card-icon">🔄</span>
-        <h3>Diversion Programs</h3>
+        <h3>Diversion Programmes</h3>
         <p>Steering children away from formal court and criminal records toward community-based rehabilitation and family reintegration.</p>
         <span class="prog-card-link">Learn more →</span>
       </a>
-      <a href="programs.html" class="prog-card reveal">
+      <a href="programmes.html" class="prog-card reveal">
         <span class="prog-card-icon">🏛️</span>
         <h3>Child Friendly Courts</h3>
         <p>Redesigning court environments and procedures so children are heard, understood, and not re-traumatised by the process.</p>
         <span class="prog-card-link">Learn more →</span>
       </a>
-      <a href="programs.html" class="prog-card reveal">
+      <a href="programmes.html" class="prog-card reveal">
         <span class="prog-card-icon">🤝</span>
         <h3>ARRS</h3>
         <p>Arrest Reception Referral Services — ensuring every child gets immediate, appropriate support at first contact with police.</p>
@@ -850,7 +850,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
     <div class="footer-col">
       <h4>Explore</h4>
       <a href="about.html">About CJF</a>
-      <a href="programs.html">Programs</a>
+      <a href="programmes.html">Programmes</a>
       <a href="partners.html">Partners</a>
       <a href="news.html">News &amp; Events</a>
       <a href="district-map.html">District Map</a>
@@ -985,7 +985,7 @@ function closeSearch(){var o=document.getElementById('search-overlay');if(o)o.st
 var SEARCH_INDEX = [
   {title:'Home',url:'index.html',text:'child justice forum zambia home diversion rehabilitation coordination'},
   {title:'About CJF',url:'about.html',text:'about history mission vision mandate members 2001 established'},
-  {title:'Programs',url:'programs.html',text:'diversion programme child friendly courts coordinators training capacity building'},
+  {title:'Programmes',url:'programmes.html',text:'diversion programme child friendly courts coordinators training capacity building'},
   {title:'News & Events',url:'news.html',text:'news events updates announcements engagement meetings training workshops'},
   {title:'Partners',url:'partners.html',text:'partners judiciary legal aid board human rights commission police NPA UNICEF UNDP'},
   {title:'Resources',url:'resources.html',text:'publications reports manuals guidelines childrens code act documents download'},
@@ -1024,7 +1024,7 @@ function runSearch(q){
   if(q.length<2){res.innerHTML='<p style="color:#9aabbc;font-size:13px;text-align:center;padding:16px">Keep typing…</p>';return;}
   var matches=SEARCH_INDEX.filter(function(p){return(p.title+' '+p.text).toLowerCase().indexOf(q)>-1;});
   if(!matches.length){res.innerHTML='<p style="color:#9aabbc;font-size:13px;text-align:center;padding:16px">No results for "'+q+'"</p>';return;}
-  var icons={'Home':'🏠','About CJF':'ℹ️','Programs':'📋','News & Events':'📰','Partners':'🤝','Resources':'📚','Memories & Photos':'📸','Impact Stories':'⭐',"Children's Corner":'👧','Make a Referral':'📝','Contact':'📞','District Map':'🗺️','Childline 116':'🆘','GBV Helpline 944':'🆘','Helpline 933':'🆘'};
+  var icons={'Home':'🏠','About CJF':'ℹ️','Programmes':'📋','News & Events':'📰','Partners':'🤝','Resources':'📚','Memories & Photos':'📸','Impact Stories':'⭐',"Children's Corner":'👧','Make a Referral':'📝','Contact':'📞','District Map':'🗺️','Childline 116':'🆘','GBV Helpline 944':'🆘','Helpline 933':'🆘'};
   res.innerHTML=matches.map(function(m){
     var icon=icons[m.title]||'\uD83D\uDD0D';
     return '<a href="'+m.url+'" onclick="closeSearch()" class="cjf-sr-link">'+
